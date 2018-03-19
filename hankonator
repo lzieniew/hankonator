@@ -1,3 +1,26 @@
 #!/usr/bin/python3
 
-print('hello bazy danych')
+import pyforms
+from docx import Document
+from docx.shared import Inches
+
+from widgets import SimpleExample
+
+
+
+
+
+# Execute the application
+if __name__ == "__main__":
+    document = Document()
+
+    document.add_heading('Document Title', 0)
+
+    p = document.add_paragraph('Czysty paragrag który ma trochę ')
+    p.add_run(u'pogrubień').bold = True
+    p.add_run(u' i trochę ')
+    p.add_run(u'kursywy').italic = True
+
+    document.add_page_break()
+    document.save('demo.docx')
+    # pyforms.start_app(SimpleExample)
