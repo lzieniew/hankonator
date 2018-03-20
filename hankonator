@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 
 import pyforms
-from docx import Document
-from docx.shared import Inches
 
 from widgets import Menu
 from base import Entity
