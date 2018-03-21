@@ -1,12 +1,14 @@
 import pyforms
 from pyforms.controls import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
-from base import Stage1
 from generation import Project
 from .erd_reader import ErdReader
 
-from .stage_1 import Stage1Window
 
+from .stage_1 import Stage1Window
+from .stage_2 import Stage2Window
+
+from base import Stage1
 
 class Menu(pyforms.BaseWidget):
     def __init__(self):
@@ -37,6 +39,7 @@ class Menu(pyforms.BaseWidget):
         self._button_stage_1.value = self.__button_stage_1_action
         self._button_stage_2.value = self.__button_stage_2_action
         self._button_stage_3.value = self.__button_stage_3_action
+        self._button_generate.value = self.__button_generate_action
 
         self.formset = ['_button_erd_reader', ('_button_stage_1', '_button_stage_2', '_button_stage_3',
                          '_button_stage_4', '_button_stage_5', '_button_stage_6',
@@ -45,7 +48,7 @@ class Menu(pyforms.BaseWidget):
                          '_button_stage_13'), '_panel', '_button_generate']
 
         # logic
-        self._project = None
+        self._project = Project([Stage1('a', 'b', 'c', 'd')])
 
     def __button_stage_1_action(self):
         # switch windows
@@ -54,7 +57,9 @@ class Menu(pyforms.BaseWidget):
         self._panel.value = win
 
     def __button_stage_2_action(self):
-        self._button_stage_2.label = 'clicked'
+        win = Stage2Window()
+        win.parent = self
+        self._panel.value = win
 
     def __button_stage_3_action(self):
         self._button_stage_3.label = 'clicked'
@@ -63,3 +68,6 @@ class Menu(pyforms.BaseWidget):
         win = ErdReader()
         win.parent = self
         self._panel.value = win
+
+    def __button_generate_action(self):
+        self._project.generate()

@@ -8,4 +8,8 @@ from base import Entity
 
 # Execute the application
 if __name__ == "__main__":
+    import docx
+    d = docx.Document()
+    d.add_paragraph('a')
+    d.save('aaa.docx')
     pyforms.start_app(Menu)

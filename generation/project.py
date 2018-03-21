@@ -1,4 +1,4 @@
-import docx
+from docx import Document
 
 
 class Project(object):
@@ -7,7 +7,7 @@ class Project(object):
         self.stages = stages
 
     def generate(self):
-        document = docx.Document()
+        document = Document()
 
         for stage in self.stages:
             stage.build(document)

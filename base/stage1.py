@@ -1,4 +1,4 @@
-import docx
+from docx import Document
 
 
 class Stage1:
@@ -10,4 +10,4 @@ class Stage1:
         self.users = []
 
     def build(self, document):
-        document.add_run('dupa 1')
+        document.add_paragraph('dupa 1')
