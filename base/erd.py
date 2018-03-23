@@ -23,4 +23,4 @@ class Attribute(object):
         self.type = type
 
     def __repr__(self):
-        return self.name
+        return self.name + ':' + self.type

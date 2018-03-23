@@ -38,6 +38,9 @@ class ErdReader(pyforms.BaseWidget):
                         '_relationship_editor',
                         '_save_erd_button']
 
+        self._entity_list.readonly = True
+        self._relationship_editor.readonly = True
+
     def __add_entity_action(self):
         entity_editor_win = EntityEditor(self.entities, self._entity_list)
         entity_editor_win.parent = self
