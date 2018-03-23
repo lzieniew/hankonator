@@ -8,7 +8,7 @@ from .erd_reader import ErdReader
 from .stage_1 import Stage1Window
 from .stage_2 import Stage2Window
 
-from base import Stage1
+from base import Stage1, Stage2
 
 class Menu(pyforms.BaseWidget):
     def __init__(self):
@@ -48,7 +48,7 @@ class Menu(pyforms.BaseWidget):
                          '_button_stage_13'), '_panel', '_button_generate']
 
         # logic
-        self._project = Project([Stage1('a', 'b', 'c', 'd')])
+        self._project = Project([Stage1('a', 'b', 'c', 'd'), Stage2('a','b','c','d','e','e','f')])
 
     def __button_stage_1_action(self):
         # switch windows

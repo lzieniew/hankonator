@@ -10,4 +10,5 @@ class Stage1:
         self.users = []
 
     def build(self, document):
-        document.add_paragraph('dupa 1')
+        document.add_paragraph('Etap 1')
+        document.add_page_break()

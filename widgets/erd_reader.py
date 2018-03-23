@@ -1,6 +1,12 @@
 import pyforms
+from pyforms.gui.controls.ControlText import ControlText
 from pyforms.gui.controls.ControlToolBox import ControlToolBox
 from pyforms.gui.controls.ControlButton import ControlButton
+from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
+from pyforms.gui.controls.ControlList import ControlList
+from pyforms.gui.controls.ControlLabel import ControlLabel
+
+from base import Entity, Attribute, Relationship
 
 
 class ErdReader(pyforms.BaseWidget):
@@ -8,11 +14,98 @@ class ErdReader(pyforms.BaseWidget):
     def __init__(self):
         super(ErdReader, self).__init__('ERD reader')
 
-        self._entity_editor = ControlToolBox()
-        self.value = [ControlToolBox('aaa')]
+        self.entities = []
+        self.relationships = []
+
+        self._entity_list = ControlList()
+        self._relationship_list = ControlList()
+
+        self._entity_editor = ControlEmptyWidget()
+        self._relationship_editor = ControlEmptyWidget()
 
         self._add_entity_button = ControlButton(u'Dodaj encję')
+        self._add_relationship_button = ControlButton(u'Dodaj związek')
+        self._save_erd_button = ControlButton('Zapisz diagram ERD')
 
-        self.formset = ['Witam', 'aaa', 'bbb', 'ccc', '_add_entity_button']
-        for i in range(100):
-            self.formset.append('dupa')
+        self._add_entity_button.value = self.__add_entity_action
+        self._add_relationship_button.value = self.__add_relationship_action
+
+        self.formset = ['_entity_list',
+                        '_add_entity_button',
+                        '_entity_editor',
+                        '_relationship_list',
+                        '_add_relationship_button',
+                        '_relationship_editor',
+                        '_save_erd_button']
+
+    def __add_entity_action(self):
+        entity_editor_win = EntityEditor(self.entities, self._entity_list)
+        entity_editor_win.parent = self
+        self._entity_editor.value = entity_editor_win
+
+    def __add_relationship_action(self):
+        relationship_editor_win = EntityEditor(self.entities)
+        relationship_editor_win.parent = self
+        self._relationship_editor.value = relationship_editor_win
+
+
+class AttributeEditor(pyforms.BaseWidget):
+
+    def __init__(self, attributes, label_list):
+        super(AttributeEditor, self).__init__()
+
+        self.attributes = attributes
+        self.label_list = label_list
+
+        self._name_edit_text = ControlText()
+        self._type_edit_text = ControlText()
+        self._save_attribute_button = ControlButton('Zapisz')
+
+        self._save_attribute_button.value = self.__add_attribute_action
+
+        self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_edit_text'), '_save_attribute_button']
+
+
+    def __add_attribute_action(self):
+        self.attributes.append(Attribute(self._name_edit_text.value, self._type_edit_text.value))
+        self.label_list.value = str(self.attributes)
+        self.close()
+
+
+class EntityEditor(pyforms.BaseWidget):
+
+    def __init__(self, entities, entities_list):
+        super(EntityEditor, self).__init__()
+
+        self.entities = entities
+        self.entities_list = entities_list
+
+        self._entity_name_singular = ControlText()
+        self._entity_name_plural = ControlText()
+        self._add_attribute_button = ControlButton(u'Dodaj atrybut')
+        self._attributes_list = ControlLabel()
+        self._save_entity_button = ControlButton(u'Zapisz encję')
+
+        self._add_attribute_button.value = self.__add_attribute_button_action
+        self._save_entity_button.value = self.__save_entity_button_action
+
+        self.formset = [(u'Nazwa encji (liczba pojedyńcza): ', '_entity_name_singular'),
+                        (u'Nazwa encji (liczba mnoga):', '_entity_name_plural'),
+                        ('Atrybuty: ', '_attributes_list' ,'_add_attribute_button'),
+                        '_save_entity_button']
+
+        self.attributes = []
+
+
+    def __add_attribute_button_action(self):
+        editor = AttributeEditor(self.attributes, self._attributes_list)
+        editor.show()
+
+    def __save_entity_button_action(self):
+        # TODO fix program crash when attributes_list is empty
+        attr_list = self._attributes_list.value[1:-1].split(',')
+        self.entities.append(Entity(self._entity_name_singular.value, self._entity_name_plural, attr_list))
+        self.entities_list += [self._entity_name_singular.value]
+        self._entity_name_singular.value = ''
+        self._entity_name_plural.value = ''
+        self._attributes_list.value = ''
