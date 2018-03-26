@@ -14,10 +14,11 @@ from base import Entity, Attribute, Relationship
 
 class ErdReader(pyforms.BaseWidget):
 
-    def __init__(self):
+    def __init__(self, menu):
         super(ErdReader, self).__init__('ERD reader')
 
         self.erd = Erd()
+        self.menu = menu
 
         self._entity_list = ControlList()
         self._relationship_list = ControlList()
@@ -33,6 +34,7 @@ class ErdReader(pyforms.BaseWidget):
         self._add_entity_button.value = self.__add_entity_action
         self._add_relationship_button.value = self.__add_relationship_action
         self._remove_entity_button.value = self.__remove_entity_action
+        self._save_erd_button.value = self.__save_erd_action
 
         self.formset = ['_entity_list',
                         ('_add_entity_button', '_remove_entity_button'),
@@ -56,8 +58,7 @@ class ErdReader(pyforms.BaseWidget):
         self._relationship_editor.value = relationship_editor_win
 
     def __save_erd_action(self):
-        with open('../erd.pickle', 'wb') as handle:
-            pickle.dump()
+        self.menu._erd = self.erd
 
     def __remove_entity_action(self):
         win = RemoveEntityWindow(self.erd.entities, self._entity_list)

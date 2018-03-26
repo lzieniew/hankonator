@@ -5,10 +5,18 @@ class Erd(object):
         self.relationships = []
 
 class Entity(object):
+
+    ID = 1
+
     def __init__(self, name_singular, name_plural, attributes):
         self.name_singular = name_singular
         self.name_plural = name_plural
         self.attributes = attributes
+        self.id = Entity.ID
+        Entity.ID += 1
+
+    def __repr__(self):
+        return self.name_singular + repr(self.attributes)
 
 
 class Relationship(object):

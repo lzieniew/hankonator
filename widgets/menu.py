@@ -7,6 +7,7 @@ from .erd_reader import ErdReader
 
 from .stage_1 import Stage1Window
 from .stage_2 import Stage2Window
+from .stage_3 import Stage3Window
 
 from base import Stage1, Stage2
 
@@ -49,6 +50,7 @@ class Menu(pyforms.BaseWidget):
 
         # logic
         self._project = Project([Stage1('a', 'b', 'c', 'd'), Stage2('a','b','c','d','e','e','f')])
+        self._erd = None
 
     def __button_stage_1_action(self):
         # switch windows
@@ -62,10 +64,12 @@ class Menu(pyforms.BaseWidget):
         self._panel.value = win
 
     def __button_stage_3_action(self):
-        self._button_stage_3.label = 'clicked'
+        win = Stage3Window(self._project, self._erd)
+        win.parent = self
+        self._panel.value = win
 
     def __button_erd_action(self):
-        win = ErdReader()
+        win = ErdReader(self)
         win.parent = self
         self._panel.value = win
 
