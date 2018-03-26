@@ -1,3 +1,9 @@
+class Erd(object):
+
+    def __init__(self):
+        self.entities = []
+        self.relationships = []
+
 class Entity(object):
     def __init__(self, name_singular, name_plural, attributes):
         self.name_singular = name_singular

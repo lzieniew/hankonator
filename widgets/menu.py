@@ -52,12 +52,12 @@ class Menu(pyforms.BaseWidget):
 
     def __button_stage_1_action(self):
         # switch windows
-        win = Stage1Window()
+        win = Stage1Window(self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_2_action(self):
-        win = Stage2Window()
+        win = Stage2Window(self._project)
         win.parent = self
         self._panel.value = win
 
