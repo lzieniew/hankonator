@@ -13,5 +13,14 @@ class Stage3:
         font.size = Pt(18)
 
 
+
+
         for entity in self.erd.entities:
             document.add_paragraph('KAT/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular)
+            description = document.add_paragraph()
+            description.add_run('Opis:').bold = True
+            description.add_run().add_break()
+            description.add_run('   Tutaj krótki opis encji')
+            description.add_run().add_break()
+            description.add_run('Atrybuty:').bold = True
+            description.add_run().add_break()
