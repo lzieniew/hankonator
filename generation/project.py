@@ -13,3 +13,4 @@ class Project(object):
             stage.build(document)
 
         document.save('demo.docx')
+        print('Dokument wygenerowany')

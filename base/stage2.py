@@ -14,3 +14,5 @@ class Stage2:
     def build(self, document):
         document.add_paragraph('Etap2')
         document.add_page_break()
+
+        print('Etap 2 wygenerowany')

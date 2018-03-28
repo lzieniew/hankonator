@@ -4,12 +4,12 @@ from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
 from generation import Project
 from .erd_reader import ErdReader
 
-
 from .stage_1 import Stage1Window
 from .stage_2 import Stage2Window
 from .stage_3 import Stage3Window
 
-from base import Stage1, Stage2
+from base import Stage1, Stage2, Erd, Entity, Attribute
+
 
 class Menu(pyforms.BaseWidget):
     def __init__(self):
@@ -43,14 +43,21 @@ class Menu(pyforms.BaseWidget):
         self._button_generate.value = self.__button_generate_action
 
         self.formset = ['_button_erd_reader', ('_button_stage_1', '_button_stage_2', '_button_stage_3',
-                         '_button_stage_4', '_button_stage_5', '_button_stage_6',
-                         '_button_stage_7', '_button_stage_8','_button_stage_9',
-                         '_button_stage_10', '_button_stage_11','_button_stage_12',
-                         '_button_stage_13'), '_panel', '_button_generate']
+                                               '_button_stage_4', '_button_stage_5', '_button_stage_6',
+                                               '_button_stage_7', '_button_stage_8', '_button_stage_9',
+                                               '_button_stage_10', '_button_stage_11', '_button_stage_12',
+                                               '_button_stage_13'), '_panel', '_button_generate']
 
         # logic
-        self._project = Project([Stage1('a', 'b', 'c', 'd'), Stage2('a','b','c','d','e','e','f')])
+        self._project = Project([Stage1('a', 'b', 'c', 'd'), Stage2('a', 'b', 'c', 'd', 'e', 'e', 'f')])
         self._erd = None
+
+        # Waring, erd object is created only for testing purposes
+        self._erd = Erd()
+        e1 = Entity('Arkusz', 'Arkusze', [Attribute('id', 'int'), Attribute('data', 'date')])
+        e2 = Entity('Użytkownik', 'Użytkownicy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
+        e3 = Entity('Organizator', 'Organizatorzy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
+        self._erd.entities = [e1, e2, e3, e1, e2, e3, e1, e2, e3]
 
     def __button_stage_1_action(self):
         # switch windows
