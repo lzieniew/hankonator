@@ -8,8 +8,9 @@ from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
 from pyforms.gui.controls.ControlList import ControlList
 from pyforms.gui.controls.ControlLabel import ControlLabel
 from pyforms.gui.controls.ControlCheckBoxList import ControlCheckBoxList
+from pyforms.gui.controls.ControlCombo import ControlCombo
 
-from base import Entity, Attribute, Relationship
+from base import Entity, Attribute, Relationship, Domains
 
 
 class ErdReader(pyforms.BaseWidget):
@@ -49,8 +50,9 @@ class ErdReader(pyforms.BaseWidget):
 
     def __add_entity_action(self):
         entity_editor_win = EntityEditor(self.erd.entities, self._entity_list)
-        entity_editor_win.parent = self
-        self._entity_editor.value = entity_editor_win
+        # entity_editor_win.parent = self
+        # self._entity_editor.value = entity_editor_win
+        entity_editor_win.show()
 
     def __add_relationship_action(self):
         relationship_editor_win = EntityEditor(self.erd.entities)
@@ -76,16 +78,26 @@ class AttributeEditor(pyforms.BaseWidget):
         self.label_list = label_list
 
         self._name_edit_text = ControlText()
-        self._type_edit_text = ControlText()
+        self._type_combo = ControlCombo()
         self._save_attribute_button = ControlButton('Zapisz')
 
         self._save_attribute_button.value = self.__add_attribute_action
 
-        self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_edit_text'), '_save_attribute_button']
+        self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_combo'), '_save_attribute_button']
+
+
+        self._type_combo.add_item(Domains.INT.name, 'INT')
+        self._type_combo.add_item(Domains.INT_POSITIVE.name, 'INT_POSITIVE')
+        self._type_combo.add_item(Domains.INT_NEGATIVE.name, 'INT_NEGATIVE')
+        self._type_combo.add_item(Domains.DATE.name, 'DATE')
+        lengths_of_strings = [0, 10, 15, 20, 50, 64, 100, 150, 200, 512, 1024]
+        # for leng in lengths_of_strings:
+        #     dom = Domains.STRING(leng)
+        #     self._type_combo.add_item(dom.name, 'STRING' + str(leng))
 
 
     def __add_attribute_action(self):
-        self.attributes.append(Attribute(self._name_edit_text.value, self._type_edit_text.value))
+        self.attributes.append(Attribute(self._name_edit_text.value, self._type_combo.value))
         self.label_list.value = str(self.attributes)
         self.close()
 
