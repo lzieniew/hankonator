@@ -5,7 +5,7 @@ from pyforms.gui.controls.ControlText import ControlText
 from pyforms.gui.controls.ControlToolBox import ControlToolBox
 from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
-from pyforms.gui.controls.ControlList import ControlList
+from pyforms.gui.controls.ControlCheckBoxList import ControlCheckBoxList
 from pyforms.gui.controls.ControlLabel import ControlLabel
 from pyforms.gui.controls.ControlCheckBoxList import ControlCheckBoxList
 from pyforms.gui.controls.ControlCombo import ControlCombo
@@ -17,12 +17,13 @@ class ErdReader(pyforms.BaseWidget):
 
     def __init__(self, menu):
         super(ErdReader, self).__init__('ERD reader')
+        self.set_margin(20)
 
         self.erd = Erd()
         self.menu = menu
 
-        self._entity_list = ControlList()
-        self._relationship_list = ControlList()
+        self._entity_list = ControlCheckBoxList()
+        self._relationship_list = ControlCheckBoxList()
 
         self._entity_editor = ControlEmptyWidget()
         self._relationship_editor = ControlEmptyWidget()
@@ -55,9 +56,10 @@ class ErdReader(pyforms.BaseWidget):
         entity_editor_win.show()
 
     def __add_relationship_action(self):
-        relationship_editor_win = EntityEditor(self.erd.entities)
-        relationship_editor_win.parent = self
-        self._relationship_editor.value = relationship_editor_win
+        relationship_editor_win = RelationshipEditor(self.erd.relationships, self._relationship_list, self.erd.entities)
+        # relationship_editor_win.parent = self
+        # self._relationship_editor.value = relationship_editor_win
+        relationship_editor_win.show()
 
     def __save_erd_action(self):
         self.menu._erd = self.erd
@@ -73,6 +75,7 @@ class AttributeEditor(pyforms.BaseWidget):
 
     def __init__(self, attributes, label_list):
         super(AttributeEditor, self).__init__()
+        self.set_margin(10)
 
         self.attributes = attributes
         self.label_list = label_list
@@ -106,6 +109,7 @@ class EntityEditor(pyforms.BaseWidget):
 
     def __init__(self, entities, entities_list):
         super(EntityEditor, self).__init__()
+        self.set_margin(10)
 
         self.entities = entities
         self.entities_list = entities_list
@@ -135,15 +139,17 @@ class EntityEditor(pyforms.BaseWidget):
         # TODO fix program crash when attributes_list is empty
         attr_list = self._attributes_list.value[1:-1].split(',')
         self.entities.append(Entity(self._entity_name_singular.value, self._entity_name_plural, attr_list))
-        self.entities_list += [self._entity_name_singular.value]
+        self.entities_list += self._entity_name_singular.value
         self._entity_name_singular.value = ''
         self._entity_name_plural.value = ''
         self._attributes_list.value = ''
+        self.close()
 
 class RemoveEntityWindow(pyforms.BaseWidget):
 
     def __init__(self, entities, entity_list):
         super(RemoveEntityWindow, self).__init__(u'Encje do usunięcia:')
+        self.set_margin(10)
 
         self._entities_to_remove_checkbox = ControlCheckBoxList()
         self._remove_button = ControlButton(u'Usuń zaznaczone')
@@ -151,3 +157,43 @@ class RemoveEntityWindow(pyforms.BaseWidget):
         for entity in entities:
             self._entities_to_remove_checkbox.__add__((repr(entity), False))
 
+
+class RelationshipEditor(pyforms.BaseWidget):
+
+    def __init__(self, relationships, relationship_list, entities):
+        super(RelationshipEditor, self).__init__()
+        self.set_margin(10)
+        self.relationships = relationships
+        self.relationship_list = relationship_list
+        self.entities = entities
+
+        self._left_entity_combo = ControlCombo()
+        self._left_multiplicity_combo = ControlCombo()
+        self._relationship_name_edit_text = ControlText()
+        self._right_multiplicity_combo = ControlCombo()
+        self._right_entity_combo = ControlCombo()
+        self._save_button = ControlButton(u'Zapisz związek')
+
+        self._save_button.value = self.__save_relationship_action
+
+        for entity in entities:
+            self._left_entity_combo.add_item(entity.name_singular)
+            self._right_entity_combo.add_item(entity.name_singular)
+        multiplicities = ['0..1', '1..1', '0..N', '1..N']
+        for mul in multiplicities:
+            self._left_multiplicity_combo.add_item(mul)
+            self._right_multiplicity_combo.add_item(mul)
+
+        self.formset = [('_left_entity_combo', '_left_multiplicity_combo', '_relationship_name_edit_text', '_right_multiplicity_combo', '_right_entity_combo'),
+                        '_save_button']
+
+
+    def __save_relationship_action(self):
+        relationship = Relationship(name=self._relationship_name_edit_text.value, left_entity=self._left_entity_combo.value,
+                                           left_quantity=self._left_multiplicity_combo.value, right_quantity=self._left_multiplicity_combo.value,
+                                           right_entity=self._right_entity_combo.value)
+        self.relationships.append(relationship)
+        self.relationship_list += '[' + relationship.left_entity + ' --- ' + relationship.left_quantity + ' --- '\
+                                  + relationship.name + ' --- ' + relationship.right_quantity + ' --- ' \
+                                  + relationship.right_entity + ']'
+        self.close()
