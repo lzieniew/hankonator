@@ -12,14 +12,14 @@ class Stage3Window(BaseWidget):
         self._save_button = ControlButton('Zapisz etap 3')
 
         self._project = project
-        self._erd = erd
+        self.erd = erd
 
         self._save_button.value = self.__save_action
 
         self._categories_list.readonly = True
 
-        for entity in self._erd.entities:
+        for entity in self.erd.entities:
             self._categories_list += repr(entity)
 
     def __save_action(self):
-        self._project.stages.append(Stage3(self._erd))
+        self._project.stages.append(Stage3(self.erd))

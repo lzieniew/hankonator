@@ -50,14 +50,14 @@ class Menu(pyforms.BaseWidget):
 
         # logic
         self._project = Project([Stage1('a', 'b', 'c', 'd'), Stage2('a', 'b', 'c', 'd', 'e', 'e', 'f')])
-        self._erd = None
+        self.erd = None
 
         # Waring, erd object is created only for testing purposes
-        self._erd = Erd()
+        self.erd = Erd()
         e1 = Entity('Arkusz', 'Arkusze', [Attribute('id', 'int'), Attribute('data', 'date')])
         e2 = Entity('Użytkownik', 'Użytkownicy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
         e3 = Entity('Organizator', 'Organizatorzy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
-        self._erd.entities = [e1, e2, e3, e1, e2, e3, e1, e2, e3]
+        self.erd.entities = [e1, e2, e3, e1, e2, e3, e1, e2, e3]
 
     def __button_stage_1_action(self):
         # switch windows
@@ -71,7 +71,7 @@ class Menu(pyforms.BaseWidget):
         self._panel.value = win
 
     def __button_stage_3_action(self):
-        win = Stage3Window(self._project, self._erd)
+        win = Stage3Window(self._project, self.erd)
         win.parent = self
         self._panel.value = win
 
