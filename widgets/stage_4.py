@@ -2,14 +2,14 @@ from pyforms import BaseWidget
 from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlList import ControlList
 
-from base import Stage3
+from base import Stage4
 
-class Stage3Window(BaseWidget):
+class Stage4Window(BaseWidget):
     def __init__(self, project, erd):
-        super(Stage3Window, self).__init__('Etap 3')
+        super(Stage4Window, self).__init__('Etap 4')
 
         self._categories_list = ControlList()
-        self._save_button = ControlButton('Zapisz etap 3')
+        self._save_button = ControlButton('Zapisz etap 4')
 
         self._project = project
         self.erd = erd
@@ -18,8 +18,8 @@ class Stage3Window(BaseWidget):
 
         self._categories_list.readonly = True
 
-        for entity in self.erd.entities:
-            self._categories_list += [repr(entity)]
+        for relationship in self.erd.relationships:
+            self._categories_list += [repr(relationship)]
 
     def __save_action(self):
-        self._project.stages.append(Stage3(self.erd))
+        self._project.stages.append(Stage4(self.erd))

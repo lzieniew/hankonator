@@ -7,8 +7,9 @@ from .erd_reader import ErdReader
 from .stage_1 import Stage1Window
 from .stage_2 import Stage2Window
 from .stage_3 import Stage3Window
+from .stage_4 import Stage4Window
 
-from base import Stage1, Stage2, Erd, Entity, Attribute
+from base import Stage1, Stage2, Erd, Entity, Attribute, Relationship
 
 
 class Menu(pyforms.BaseWidget):
@@ -40,6 +41,16 @@ class Menu(pyforms.BaseWidget):
         self._button_stage_1.value = self.__button_stage_1_action
         self._button_stage_2.value = self.__button_stage_2_action
         self._button_stage_3.value = self.__button_stage_3_action
+        self._button_stage_4.value = self.__button_stage_4_action
+        self._button_stage_5.value = self.__button_stage_5_action
+        self._button_stage_6.value = self.__button_stage_6_action
+        self._button_stage_7.value = self.__button_stage_7_action
+        self._button_stage_8.value = self.__button_stage_8_action
+        self._button_stage_9.value = self.__button_stage_9_action
+        self._button_stage_10.value = self.__button_stage_10_action
+        self._button_stage_11.value = self.__button_stage_11_action
+        self._button_stage_12.value = self.__button_stage_12_action
+        self._button_stage_13.value = self.__button_stage_13_action
         self._button_generate.value = self.__button_generate_action
 
         self.formset = ['_button_erd_reader', ('_button_stage_1', '_button_stage_2', '_button_stage_3',
@@ -62,7 +73,9 @@ class Menu(pyforms.BaseWidget):
         e1 = Entity('Arkusz', 'Arkusze', [Attribute('id', 'int'), Attribute('data', 'date')])
         e2 = Entity('Użytkownik', 'Użytkownicy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
         e3 = Entity('Organizator', 'Organizatorzy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
-        self.erd.entities = [e1, e2, e3, e1, e2, e3, e1, e2, e3]
+        self.erd.entities = [e1, e2, e3]
+        r1 = Relationship(left_entity='Arkusz', left_quantity='0..N', name='Przydzielony', right_quantity='0..1', right_entity='Użytkownik')
+        self.erd.relationships = [r1]
 
     def __button_stage_1_action(self):
         # switch windows
@@ -79,6 +92,38 @@ class Menu(pyforms.BaseWidget):
         win = Stage3Window(self._project, self.erd)
         win.parent = self
         self._panel.value = win
+
+    def __button_stage_4_action(self):
+        win = Stage4Window(self._project, self.erd)
+        win.parent = self
+        self._panel.value = win
+
+    def __button_stage_5_action(self):
+        pass
+
+    def __button_stage_6_action(self):
+        pass
+
+    def __button_stage_7_action(self):
+        pass
+
+    def __button_stage_8_action(self):
+        pass
+
+    def __button_stage_9_action(self):
+        pass
+
+    def __button_stage_10_action(self):
+        pass
+
+    def __button_stage_11_action(self):
+        pass
+
+    def __button_stage_12_action(self):
+        pass
+
+    def __button_stage_13_action(self):
+        pass
 
     def __button_erd_action(self):
         win = ErdReader(self)

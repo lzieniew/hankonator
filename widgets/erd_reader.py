@@ -152,9 +152,6 @@ class EntityEditor(pyforms.BaseWidget):
         attr_list = self._attributes_list.value[1:-1].split(',')
         self.erd.entities.append(Entity(self._entity_name_singular.value, self._entity_name_plural, attr_list))
         self.erd.save()
-        # self._entity_name_singular.value = ''
-        # self._entity_name_plural.value = ''
-        # self._attributes_list.value = ''
         self.parent._populate()
         self.close()
 

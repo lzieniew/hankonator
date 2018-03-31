@@ -25,5 +25,6 @@ class Stage3:
             for attribute in entity.attributes:
                 entity_paragraph.add_run('\t\t' + repr(attribute.name) + ' - [Opis atrybutu]')
                 entity_paragraph.add_run().add_break()
+        document.add_page_break()
 
         print('Etap 3 wygenerowany')
