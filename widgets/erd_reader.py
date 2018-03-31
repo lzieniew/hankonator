@@ -1,13 +1,14 @@
 import pyforms
 import pickle
+
+from pyforms.gui.controls.ControlList import ControlList
+
 from base import Erd
 from pyforms.gui.controls.ControlText import ControlText
-from pyforms.gui.controls.ControlToolBox import ControlToolBox
 from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
 from pyforms.gui.controls.ControlCheckBoxList import ControlCheckBoxList
 from pyforms.gui.controls.ControlLabel import ControlLabel
-from pyforms.gui.controls.ControlCheckBoxList import ControlCheckBoxList
 from pyforms.gui.controls.ControlCombo import ControlCombo
 
 from base import Entity, Attribute, Relationship, Domains
@@ -22,8 +23,13 @@ class ErdReader(pyforms.BaseWidget):
         self.erd = menu.erd
         self.menu = menu
 
-        self._entity_list = ControlCheckBoxList()
-        self._relationship_list = ControlCheckBoxList()
+        self._entity_list = ControlList('Encje',
+                                        plusFunction = self.__add_entity_action,
+                                        minusFunction = self.__remove_entity_action)
+
+        self._relationship_list = ControlList('Związki',
+                                              plusFunction = self.__add_relationship_action,
+                                              minusFunction = self.__remove_relationship_action)
 
         self._entity_editor = ControlEmptyWidget()
         self._relationship_editor = ControlEmptyWidget()
@@ -32,57 +38,55 @@ class ErdReader(pyforms.BaseWidget):
         self._remove_entity_button = ControlButton(u'Usuń encję')
         self._add_relationship_button = ControlButton(u'Dodaj związek')
         self._remove_relationship_button = ControlButton(u'Usuń związek')
-        self._save_erd_button = ControlButton('Zapisz diagram ERD')
 
         self._add_entity_button.value = self.__add_entity_action
         self._add_relationship_button.value = self.__add_relationship_action
         self._remove_entity_button.value = self.__remove_entity_action
         self._remove_relationship_button.value = self.__remove_relationship_action
-        self._save_erd_button.value = self.__save_erd_action
 
         self.formset = ['_entity_list',
                         ('_add_entity_button', '_remove_entity_button'),
                         '_entity_editor',
                         '_relationship_list',
                         ('_add_relationship_button', '_remove_relationship_button'),
-                        '_relationship_editor',
-                        '_save_erd_button']
+                        '_relationship_editor',]
 
         self._entity_list.readonly = True
-        self._relationship_editor.readonly = True
+        self._relationship_list.readonly = True
 
         self._populate()
 
     def _populate(self):
+        self._entity_list.clear()
+        self._relationship_list.clear()
         for entity in self.erd.entities:
-            self._entity_list += repr(entity)
+            self._entity_list += [repr(entity)]
         for relationship in self.erd.relationships:
-            self._relationship_list += repr(relationship)
+            self._relationship_list += [repr(relationship)]
 
     def __add_entity_action(self):
-        entity_editor_win = EntityEditor(self.erd.entities, self._entity_list)
-        # entity_editor_win.parent = self
-        # self._entity_editor.value = entity_editor_win
+        entity_editor_win = EntityEditor(self.erd)
+        entity_editor_win.parent = self
         entity_editor_win.show()
 
+    def __remove_entity_action(self):
+        indexes = self._entity_list.selected_rows_indexes
+        indexes.sort(reverse=True)
+        for index in indexes:
+            self.erd.remove_entity(index)
+        self._populate()
+
     def __add_relationship_action(self):
-        relationship_editor_win = RelationshipEditor(self.erd.relationships, self._relationship_list, self.erd.entities)
-        # relationship_editor_win.parent = self
-        # self._relationship_editor.value = relationship_editor_win
+        relationship_editor_win = RelationshipEditor(self.erd)
+        relationship_editor_win.parent = self
         relationship_editor_win.show()
 
-    def __save_erd_action(self):
-        self.menu._erd = self.erd
-
-    def __remove_entity_action(self):
-        win = RemoveEntityWindow(self.erd.entities, self._entity_list)
-        win.show()
-
     def __remove_relationship_action(self):
-        win = RemoveRelatioshipWindow(self.erd.relationships, self._relationship_list)
-        win.show()
-
-
+        indexes = self._relationship_list.selected_rows_indexes
+        indexes.sort(reverse=True)
+        for index in indexes:
+            self.erd.remove_relationship(index)
+        self._populate()
 
 
 class AttributeEditor(pyforms.BaseWidget):
@@ -106,10 +110,7 @@ class AttributeEditor(pyforms.BaseWidget):
         self._type_combo.add_item(Domains.INT_POSITIVE.name, 'INT_POSITIVE')
         self._type_combo.add_item(Domains.INT_NEGATIVE.name, 'INT_NEGATIVE')
         self._type_combo.add_item(Domains.DATE.name, 'DATE')
-        lengths_of_strings = [0, 10, 15, 20, 50, 64, 100, 150, 200, 512, 1024]
-        # for leng in lengths_of_strings:
-        #     dom = Domains.STRING(leng)
-        #     self._type_combo.add_item(dom.name, 'STRING' + str(leng))
+        self._type_combo.add_item(Domains.STRING.name, 'STRING')
 
 
     def __add_attribute_action(self):
@@ -120,12 +121,11 @@ class AttributeEditor(pyforms.BaseWidget):
 
 class EntityEditor(pyforms.BaseWidget):
 
-    def __init__(self, entities, entities_list):
+    def __init__(self, erd):
         super(EntityEditor, self).__init__()
         self.set_margin(10)
 
-        self.entities = entities
-        self.entities_list = entities_list
+        self.erd = erd
 
         self._entity_name_singular = ControlText()
         self._entity_name_plural = ControlText()
@@ -143,7 +143,6 @@ class EntityEditor(pyforms.BaseWidget):
 
         self.attributes = []
 
-
     def __add_attribute_button_action(self):
         editor = AttributeEditor(self.attributes, self._attributes_list)
         editor.show()
@@ -151,34 +150,20 @@ class EntityEditor(pyforms.BaseWidget):
     def __save_entity_button_action(self):
         # TODO fix program crash when attributes_list is empty
         attr_list = self._attributes_list.value[1:-1].split(',')
-        self.entities.append(Entity(self._entity_name_singular.value, self._entity_name_plural, attr_list))
-        self.entities_list += self._entity_name_singular.value
-        self._entity_name_singular.value = ''
-        self._entity_name_plural.value = ''
-        self._attributes_list.value = ''
+        self.erd.entities.append(Entity(self._entity_name_singular.value, self._entity_name_plural, attr_list))
+        self.erd.save()
+        # self._entity_name_singular.value = ''
+        # self._entity_name_plural.value = ''
+        # self._attributes_list.value = ''
+        self.parent._populate()
         self.close()
-
-class RemoveEntityWindow(pyforms.BaseWidget):
-
-    def __init__(self, entities, entity_list):
-        super(RemoveEntityWindow, self).__init__(u'Encje do usunięcia:')
-        self.set_margin(10)
-
-        self._entities_to_remove_checkbox = ControlCheckBoxList()
-        self._remove_button = ControlButton(u'Usuń zaznaczone')
-
-        for entity in entities:
-            self._entities_to_remove_checkbox.__add__((repr(entity), False))
-
 
 class RelationshipEditor(pyforms.BaseWidget):
 
-    def __init__(self, relationships, relationship_list, entities):
+    def __init__(self, erd):
         super(RelationshipEditor, self).__init__()
         self.set_margin(10)
-        self.relationships = relationships
-        self.relationship_list = relationship_list
-        self.entities = entities
+        self.erd = erd
 
         self._left_entity_combo = ControlCombo()
         self._left_multiplicity_combo = ControlCombo()
@@ -189,7 +174,7 @@ class RelationshipEditor(pyforms.BaseWidget):
 
         self._save_button.value = self.__save_relationship_action
 
-        for entity in entities:
+        for entity in erd.entities:
             self._left_entity_combo.add_item(entity.name_singular)
             self._right_entity_combo.add_item(entity.name_singular)
         multiplicities = ['0..1', '1..1', '0..N', '1..N']
@@ -205,38 +190,7 @@ class RelationshipEditor(pyforms.BaseWidget):
         relationship = Relationship(name=self._relationship_name_edit_text.value, left_entity=self._left_entity_combo.value,
                                            left_quantity=self._left_multiplicity_combo.value, right_quantity=self._left_multiplicity_combo.value,
                                            right_entity=self._right_entity_combo.value)
-        self.relationships.append(relationship)
-        self.relationship_list += '[' + relationship.left_entity + ' --- ' + relationship.left_quantity + ' --- '\
-                                  + relationship.name + ' --- ' + relationship.right_quantity + ' --- ' \
-                                  + relationship.right_entity + ']'
-        self.close()
-
-
-class RemoveRelatioshipWindow(pyforms.BaseWidget):
-
-    def __init__(self, relationships, relationship_list):
-        super(RemoveRelatioshipWindow, self).__init__()
-        self.relationships = relationships
-        self.relationship_list = relationship_list
-
-        self._relationships_to_remove_list = ControlCheckBoxList()
-
-        for relationship in relationships:
-            self._relationships_to_remove_list += (relationship.name, False)
-
-        self._remove_button = ControlButton('Usuń zaznaczone związki')
-        self._remove_button.value = self.__remove_action
-
-        self.formset = ['_relationships_to_remove_list', '_remove_button']
-
-    # TODO rewrite, so it operates on erd object, not on local lists of relationships
-    def __remove_action(self):
-        relationships_to_remove_indexes = self._relationships_to_remove_list.checked_indexes
-        relationships_to_remove_names = []
-        for index in relationships_to_remove_indexes:
-            relationships_to_remove_names.append(self.relationships[index].name)
-        self.relationships = list(filter(lambda rel: rel.name not in relationships_to_remove_names, self.relationships))
-        self.relationship_list.clear()
-        for relationship in self.relationships:
-            self.relationship_list += relationship.name
+        self.erd.relationships.append(relationship)
+        self.erd.save()
+        self.parent._populate()
         self.close()

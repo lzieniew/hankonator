@@ -19,7 +19,4 @@ class Domains(object):
     INT_POSITIVE = Domain('Liczba naturalna dodatnia', 'Int+')
     INT_NEGATIVE = Domain('Liczba naturalna ujemna', 'Int-')
     DATE = Domain('Data', 'Date')
-
-    @staticmethod
-    def STRING(length):
-        return StringDomain(Domain(u'Łańcuch znaków', 'String[' + repr(length) + ']'), length)
+    STRING = Domain('Łańcuch znaków', 'String')

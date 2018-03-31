@@ -1,8 +1,26 @@
+import pickle
+
 class Erd(object):
 
     def __init__(self):
         self.entities = []
         self.relationships = []
+
+    def remove_entity(self, index):
+        del self.entities[index]
+
+    def remove_relationship(self, index):
+        del self.relationships[index]
+
+    def save(self):
+        output = open('erd.P', 'w')
+        pickle.dump(self, output)
+
+    @staticmethod
+    def load():
+        pkl_file = open('erd.P')
+        return pickle.load(pkl_file)
+
 
 class Entity(object):
 

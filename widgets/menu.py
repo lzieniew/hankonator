@@ -49,8 +49,13 @@ class Menu(pyforms.BaseWidget):
                                                '_button_stage_13'), '_panel', '_button_generate']
 
         # logic
-        self._project = Project([Stage1('a', 'b', 'c', 'd'), Stage2('a', 'b', 'c', 'd', 'e', 'e', 'f')])
+        self._project = Project([])
         self.erd = None
+
+        try:
+            self.erd = Erd.load()
+        except:
+            self.erd = Erd()
 
         # Waring, erd object is created only for testing purposes
         self.erd = Erd()
