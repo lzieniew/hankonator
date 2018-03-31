@@ -16,9 +16,14 @@ class Stage4:
             relationships = self.erd.get_relationships_connected_wit_entity(entity.name_singular)
             for rel in relationships:
                 if rel.get_other_ends_multiplicity(entity.name_singular)[0] == '0':
-                    self.rules[entity.name_singular].append((entity.name_singular + ' nie musi być powiązany z żadnym ' + rel.get_other_entity_name(entity.name_singular)))
+                    self.rules[entity.name_singular].append(entity.name_singular + ' nie musi być powiązany z żadnym ' + rel.get_other_entity_name(entity.name_singular) + '\n')
                 elif rel.get_other_ends_multiplicity(entity.name_singular)[0] == '1':
-                    self.rules[entity.name_singular].append((entity.name_singular + ' musi być powiązany z przynajmniej jednym ' + rel.get_other_entity_name(entity.name_singular)))
+                    self.rules[entity.name_singular].append(entity.name_singular + ' musi być powiązany z przynajmniej jednym ' + rel.get_other_entity_name(entity.name_singular) + '\n')
+
+                if rel.get_other_ends_multiplicity(entity.name_singular)[-1] == '1':
+                    self.rules[entity.name_singular].append(entity.name_singular + ' jest powiązany z maksymalnie jednym ' + rel.get_other_entity_name(entity.name_singular) + '\n')
+                elif rel.get_other_ends_multiplicity(entity.name_singular)[-1] == 'N':
+                    self.rules[entity.name_singular].append(entity.name_singular + ' jest powiązany z wieloma ' + rel.get_other_entity_name(entity.name_singular) + '\n')
         print(self.rules)
 
 
