@@ -5,13 +5,12 @@ from pyforms.gui.controls.ControlList import ControlList
 from base import Stage4
 
 class Stage4Window(BaseWidget):
-    def __init__(self, project, erd):
+    def __init__(self, erd):
         super(Stage4Window, self).__init__('Etap 4')
 
         self._categories_list = ControlList()
         self._save_button = ControlButton('Zapisz etap 4')
 
-        self._project = project
         self.erd = erd
 
         self._save_button.value = self.__save_action

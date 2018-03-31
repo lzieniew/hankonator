@@ -8,6 +8,7 @@ from .stage_1 import Stage1Window
 from .stage_2 import Stage2Window
 from .stage_3 import Stage3Window
 from .stage_4 import Stage4Window
+from .stage_6 import Stage6Window
 
 from base import Stage1, Stage2, Erd, Entity, Attribute, Relationship
 
@@ -62,6 +63,7 @@ class Menu(pyforms.BaseWidget):
         # logic
         self._project = Project([])
         self.erd = None
+        self.transactions = []
 
         try:
             self.erd = Erd.load()
@@ -79,22 +81,22 @@ class Menu(pyforms.BaseWidget):
 
     def __button_stage_1_action(self):
         # switch windows
-        win = Stage1Window(self._project)
+        win = Stage1Window()
         win.parent = self
         self._panel.value = win
 
     def __button_stage_2_action(self):
-        win = Stage2Window(self._project)
+        win = Stage2Window()
         win.parent = self
         self._panel.value = win
 
     def __button_stage_3_action(self):
-        win = Stage3Window(self._project, self.erd)
+        win = Stage3Window(self.erd)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_4_action(self):
-        win = Stage4Window(self._project, self.erd)
+        win = Stage4Window(self.erd)
         win.parent = self
         self._panel.value = win
 
@@ -102,7 +104,9 @@ class Menu(pyforms.BaseWidget):
         pass
 
     def __button_stage_6_action(self):
-        pass
+        win = Stage6Window(self.erd, self.transactions)
+        win.parent = self
+        self._panel.value = win
 
     def __button_stage_7_action(self):
         pass

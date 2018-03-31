@@ -7,7 +7,7 @@ import docx
 
 class Stage1Window(pyforms.BaseWidget):
 
-    def __init__(self, project):
+    def __init__(self):
         super(Stage1Window, self).__init__('Etap 1')
 
         self._theme_edit_text = ControlTextArea('Temat')
@@ -15,5 +15,3 @@ class Stage1Window(pyforms.BaseWidget):
         self._range_edit_text = ControlTextArea('Zakres')
         self._users_edit_text = ControlTextArea(u'Użytkownicy')
         self._save_button = ControlButton('Zapisz')
-
-        self._project = project
