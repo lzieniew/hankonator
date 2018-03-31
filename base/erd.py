@@ -56,12 +56,17 @@ class Entity(object):
 
 
 class Relationship(object):
+
+    ID = 1
+
     def __init__(self, name, left_entity, right_entity, left_quantity, right_quantity):
         self.name = name
         self.left_entity = left_entity
         self.right_entity = right_entity
         self.left_quantity = left_quantity
         self.right_quantity = right_quantity
+        self.id = Relationship.ID
+        Relationship.ID += 1
 
     def get_other_ends_multiplicity(self, this_end_entity_name):
         if this_end_entity_name == self.right_entity:

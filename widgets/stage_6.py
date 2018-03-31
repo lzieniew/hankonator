@@ -34,7 +34,7 @@ class Stage6Window(BaseWidget):
             self._transaction_list += [transaction.name]
 
     def __add_trasaction_action(self):
-        win = TransactionEditor(self.transactions)
+        win = TransactionEditor(self.transactions, self.erd)
         win.parent = self
         win.show()
 
@@ -42,17 +42,46 @@ class Stage6Window(BaseWidget):
         pass
 
 
+class TypeCombo(ControlCombo):
+
+    def __init__(self, entity_combo):
+        super(TypeCombo, self).__init__()
+        self.entity_combo = entity_combo
+
+    def activated_event(self, index):
+        if index is not 0:
+            self.entity_combo.setVisible(True)
+        else:
+            self.entity_combo.setVisible(False)
+
+
 class TransactionEditor(BaseWidget):
 
-    def __init__(self, transactions):
+    def __init__(self, transactions, erd):
         super(TransactionEditor, self).__init__()
         self.transactions = transactions
+        self.erd = erd
+        self._project = project
 
         self._name_edit_text = ControlText('Nazwa transakcji')
-        # TODO combo box list of types of transactions
-        self._type_combo = ControlCombo()
+        self._entity_combo = ControlCombo()
+        self._type_combo = TypeCombo(self._entity_combo)
         self._save_button = ControlButton('Zapisz transakcję')
         self._save_button.value = self.__save_action
+
+        self._type_combo.add_item(Transaction.OTHER)
+        self._type_combo.add_item(Transaction.ADD)
+        self._type_combo.add_item(Transaction.EDIT)
+        self._type_combo.add_item(Transaction.REMOVE)
+
+        for entity in self.erd.entities:
+            self._entity_combo.add_item(entity.name_singular)
+
+        self._entity_combo.setVisible(False)
+
+        self.formset = ['_name_edit_text', '_type_combo', '_entity_combo', '_save_button']
+
+
 
     def __save_action(self):
         self.transactions.append(Transaction(name=self._name_edit_text.value))
