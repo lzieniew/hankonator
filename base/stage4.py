@@ -1,6 +1,9 @@
 from docx.shared import Pt
 
 
+from generation import Project
+
+
 class Stage4:
 
     def __init__(self, erd):
@@ -30,7 +33,7 @@ class Stage4:
     def build(self, document):
 
         header = document.add_paragraph()
-        header.add_run('4. Reguły funkcjonowania').font.size = Pt(24)
+        header.add_run('4. Reguły funkcjonowania').font.size = Pt(Project.HEADER_SIZE)
         header.add_run().add_break()
 
         counter = 1

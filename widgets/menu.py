@@ -9,8 +9,9 @@ from .stage_2 import Stage2Window
 from .stage_3 import Stage3Window
 from .stage_4 import Stage4Window
 from .stage_6 import Stage6Window
+from .stage_8 import Stage8Window
 
-from base import Stage1, Stage2, Erd, Entity, Attribute, Relationship
+from base import Stage1, Stage2, Erd, Entity, Attribute, Relationship, Stage8
 
 
 class Menu(pyforms.BaseWidget):
@@ -79,24 +80,26 @@ class Menu(pyforms.BaseWidget):
         r1 = Relationship(left_entity='Arkusz', left_quantity='0..N', name='Przydzielony', right_quantity='0..1', right_entity='Użytkownik')
         self.erd.relationships = [r1]
 
+        self._project.stages += [Stage8(self.erd)]
+
     def __button_stage_1_action(self):
         # switch windows
-        win = Stage1Window()
+        win = Stage1Window(self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_2_action(self):
-        win = Stage2Window()
+        win = Stage2Window(self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_3_action(self):
-        win = Stage3Window(self.erd)
+        win = Stage3Window(self.erd, self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_4_action(self):
-        win = Stage4Window(self.erd)
+        win = Stage4Window(self.erd, self._project)
         win.parent = self
         self._panel.value = win
 
@@ -104,7 +107,7 @@ class Menu(pyforms.BaseWidget):
         pass
 
     def __button_stage_6_action(self):
-        win = Stage6Window(self.erd, self.transactions)
+        win = Stage6Window(self.erd, self.transactions, self._project)
         win.parent = self
         self._panel.value = win
 
@@ -112,7 +115,9 @@ class Menu(pyforms.BaseWidget):
         pass
 
     def __button_stage_8_action(self):
-        pass
+        win = Stage8Window(self.erd, self._project)
+        win.parent = self
+        self._panel.value = win
 
     def __button_stage_9_action(self):
         pass

@@ -149,8 +149,7 @@ class EntityEditor(pyforms.BaseWidget):
 
     def __save_entity_button_action(self):
         # TODO fix program crash when attributes_list is empty
-        attr_list = self._attributes_list.value[1:-1].split(',')
-        self.erd.entities.append(Entity(self._entity_name_singular.value, self._entity_name_plural, attr_list))
+        self.erd.entities.append(Entity(self._entity_name_singular.value, self._entity_name_plural, self.attributes))
         self.erd.save()
         self.parent._populate()
         self.close()

@@ -9,7 +9,7 @@ from base import Stage6, Transaction
 
 class Stage6Window(BaseWidget):
 
-    def __init__(self, erd, transactions):
+    def __init__(self, erd, transactions, project):
         super(Stage6Window, self).__init__()
         self.set_margin(20)
         self._transaction_list = ControlList()
@@ -25,6 +25,7 @@ class Stage6Window(BaseWidget):
 
         self.erd = erd
         self.transactions = transactions
+        self.project = project
 
         self._populate()
 

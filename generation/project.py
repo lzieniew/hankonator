@@ -3,6 +3,9 @@ from docx import Document
 
 class Project(object):
 
+    HEADER_SIZE = 22
+    SECONDAR_HEADER_SIZE = 16
+
     def __init__(self, stages):
         self.stages = stages
 

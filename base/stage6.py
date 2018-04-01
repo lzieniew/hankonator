@@ -1,5 +1,6 @@
 from docx.shared import Pt
 
+from generation import Project
 
 class Stage6(object):
 
@@ -9,5 +10,5 @@ class Stage6(object):
 
     def build(self, document):
         header = document.add_paragraph()
-        header.add_run('6. Transakcje').font.size = Pt(24)
+        header.add_run('6. Transakcje').font.size = Pt(Project.HEADER_SIZE)
         header.add_run().add_break()

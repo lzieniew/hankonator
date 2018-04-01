@@ -1,6 +1,9 @@
 from docx.shared import Pt
 
 
+from generation import Project
+
+
 class Stage3:
 
     def __init__(self, erd):
@@ -9,7 +12,7 @@ class Stage3:
     def build(self, document):
 
         header = document.add_paragraph()
-        header.add_run('3. Kategorie').font.size = Pt(24)
+        header.add_run('3. Kategorie').font.size = Pt(Project.HEADER_SIZE)
         header.add_run().add_break()
 
         for entity in self.erd.entities:

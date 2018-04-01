@@ -51,6 +51,15 @@ class Entity(object):
         self.id = Entity.ID
         Entity.ID += 1
 
+    def repr_attributes(self):
+        result = '('
+        for attribute in self.attributes:
+            result += attribute.name
+            result += ', '
+        result = result[:-2]
+        result += ')'
+        return result
+
     def __repr__(self):
         return self.name_singular + repr(self.attributes)
 
