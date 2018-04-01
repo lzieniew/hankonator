@@ -101,4 +101,4 @@ class Attribute(object):
         self.type = type
 
     def __repr__(self):
-        return self.name + ':' + self.type
+        return self.name + ':' + repr(self.type)

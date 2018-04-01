@@ -10,6 +10,7 @@ class Stage8Window(BaseWidget):
 
     def __init__(self, erd, project):
         super(Stage8Window, self).__init__()
+        self.set_margin(20)
         self.erd = erd
         self.project = project
 

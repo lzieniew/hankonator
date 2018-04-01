@@ -35,10 +35,11 @@ class Stage6Window(BaseWidget):
             self._transaction_list += [transaction.name]
 
     def __add_trasaction_action(self):
-        win = TransactionEditor(self.transactions, self.erd)
+        win = TransactionEditor(self.transactions, self.erd, self.project)
         win.parent = self
         win.show()
 
+    # TODO removing transactions
     def __remove_transaction_action(self):
         pass
 
@@ -58,7 +59,7 @@ class TypeCombo(ControlCombo):
 
 class TransactionEditor(BaseWidget):
 
-    def __init__(self, transactions, erd):
+    def __init__(self, transactions, erd, project):
         super(TransactionEditor, self).__init__()
         self.transactions = transactions
         self.erd = erd

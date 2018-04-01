@@ -22,11 +22,9 @@ class Stage8(object):
             entities_paragraph.add_run(entity.repr_attributes()).italic = True
             entities_paragraph.add_run().add_break()
 
-
         relationships_paragraph = document.add_paragraph()
         relationships_paragraph.add_run('8.2 Relacje').font.size = Pt(Project.SECONDAR_HEADER_SIZE)
         relationships_paragraph.add_run().add_break()
-
 
         for relationship in self.erd.relationships:
             relationships_paragraph.add_run('ZWI/' + '{0:03}'.format(relationship.id) + ' ').bold = True

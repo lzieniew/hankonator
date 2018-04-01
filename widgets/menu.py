@@ -9,9 +9,10 @@ from .stage_2 import Stage2Window
 from .stage_3 import Stage3Window
 from .stage_4 import Stage4Window
 from .stage_6 import Stage6Window
+from .stage_7 import Stage7Window
 from .stage_8 import Stage8Window
 
-from base import Stage1, Stage2, Erd, Entity, Attribute, Relationship, Stage8
+from base import Stage1, Stage2, Erd, Entity, Attribute, Relationship, Stage8, Domains
 
 
 class Menu(pyforms.BaseWidget):
@@ -73,12 +74,13 @@ class Menu(pyforms.BaseWidget):
 
         # Waring, erd object is created only for testing purposes
         self.erd = Erd()
-        e1 = Entity('Arkusz', 'Arkusze', [Attribute('id', 'int'), Attribute('data', 'date')])
-        e2 = Entity('Użytkownik', 'Użytkownicy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
-        e3 = Entity('Organizator', 'Organizatorzy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
-        self.erd.entities = [e1, e2, e3]
-        r1 = Relationship(left_entity='Arkusz', left_quantity='0,N', name='Przydzielony', right_quantity='0,1', right_entity='Użytkownik')
-        self.erd.relationships = [r1]
+        # e1 = Entity('Arkusz', 'Arkusze', [Attribute('id', 'int'), Attribute('data', 'date')])
+        # e2 = Entity('Użytkownik', 'Użytkownicy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
+        # e3 = Entity('Organizator', 'Organizatorzy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
+        # self.erd.entities = [e1, e2, e3]
+        # r1 = Relationship(left_entity='Arkusz', left_quantity='0,N', name='Przydzielony', right_quantity='0,1', right_entity='Użytkownik')
+        # self.erd.relationships = [r1]
+        self.DEBUG_FUNCTION()
 
 
     def __button_stage_1_action(self):
@@ -111,7 +113,9 @@ class Menu(pyforms.BaseWidget):
         self._panel.value = win
 
     def __button_stage_7_action(self):
-        pass
+        win = Stage7Window(self.erd, self._project)
+        win.parent = self
+        self._panel.value = win
 
     def __button_stage_8_action(self):
         win = Stage8Window(self.erd, self._project)
@@ -140,3 +144,16 @@ class Menu(pyforms.BaseWidget):
 
     def __button_generate_action(self):
         self._project.generate()
+
+    def DEBUG_FUNCTION(self):
+        e1 = Entity('Karetka', 'Karetki', [Attribute('IdK', Domains.INT), Attribute('Rejestracja', Domains.STRING), Attribute('Dost', Domains.STRING), Attribute('WaznoscPrzegl', Domains.DATE)])
+        e2 = Entity('Zgłoszenie', 'Zgłoszenia', [Attribute('IdZ', Domains.INT), Attribute('AdresZ', Domains.STRING), Attribute('PozycjaZ', Domains.STRING), Attribute('OpisZ', Domains.STRING), Attribute('Czas dod', Domains.STRING)])
+        e3 = Entity('Dyżur', 'Dyżury', [Attribute('IdD', Domains.INT), Attribute('PoczDyz', Domains.DATE), Attribute('KonDyz', Domains.DATE), Attribute('PozycjaDyz', Domains.STRING)])
+        e4 = Entity('Szpital', 'Szpitale', [])
+        e5 = Entity('Pracownik medyczny', 'Pracownicy medyczni', [])
+        e6 = Entity('Poszkodowany', 'Poszkodowani', [])
+        e7 = Entity('Schorzenie', 'Schorzenia', [])
+        e8 = Entity('Dyspozytor', 'Dyspozytorzy', [])
+        e9 = Entity('Pracownik szpitala', 'Pracownicy szpitala', [])
+
+        self.erd.entities = [e1,e2,e3,e4,e5,e6,e7,e8,e9]

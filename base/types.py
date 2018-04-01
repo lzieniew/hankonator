@@ -6,6 +6,9 @@ class Domain():
         self.name = name
         self.short_name = short_name
 
+    def __repr__(self):
+        return self.name
+
 class StringDomain(Domain):
 
     def __init(self, domain, length):
