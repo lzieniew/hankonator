@@ -11,7 +11,7 @@ from pyforms.gui.controls.ControlCheckBoxList import ControlCheckBoxList
 from pyforms.gui.controls.ControlLabel import ControlLabel
 from pyforms.gui.controls.ControlCombo import ControlCombo
 
-from base import Entity, Attribute, Relationship, Domains
+from base import Entity, Attribute, Relationship, Types
 
 
 class ErdReader(pyforms.BaseWidget):
@@ -106,11 +106,11 @@ class AttributeEditor(pyforms.BaseWidget):
         self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_combo'), '_save_attribute_button']
 
 
-        self._type_combo.add_item(Domains.INT.name, 'INT')
-        self._type_combo.add_item(Domains.INT_POSITIVE.name, 'INT_POSITIVE')
-        self._type_combo.add_item(Domains.INT_NEGATIVE.name, 'INT_NEGATIVE')
-        self._type_combo.add_item(Domains.DATE.name, 'DATE')
-        self._type_combo.add_item(Domains.STRING.name, 'STRING')
+        self._type_combo.add_item(Types.INT.name, 'INT')
+        self._type_combo.add_item(Types.INT_POSITIVE.name, 'INT_POSITIVE')
+        self._type_combo.add_item(Types.INT_NEGATIVE.name, 'INT_NEGATIVE')
+        self._type_combo.add_item(Types.DATE.name, 'DATE')
+        self._type_combo.add_item(Types.STRING.name, 'STRING')
 
 
     def __add_attribute_action(self):

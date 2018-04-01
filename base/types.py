@@ -1,6 +1,6 @@
 
 
-class Domain():
+class Type():
 
     def __init__(self, name, short_name):
         self.name = name
@@ -9,17 +9,18 @@ class Domain():
     def __repr__(self):
         return self.name
 
-class StringDomain(Domain):
+class StringType(Type):
 
     def __init(self, domain, length):
-        super(StringDomain, self).__init__(domain.name, domain.short_name)
+        super(StringType, self).__init__(domain.name, domain.short_name)
         self.length = length
 
 
-class Domains(object):
+class Types(object):
 
-    INT = Domain('Liczba naturalna', 'Int')
-    INT_POSITIVE = Domain('Liczba naturalna dodatnia', 'Int+')
-    INT_NEGATIVE = Domain('Liczba naturalna ujemna', 'Int-')
-    DATE = Domain('Data', 'Date')
-    STRING = Domain('Łańcuch znaków', 'String')
+    INT = Type('Liczba naturalna', 'Int')
+    INT_POSITIVE = Type('Liczba naturalna dodatnia', 'Int+')
+    INT_NEGATIVE = Type('Liczba naturalna ujemna', 'Int-')
+    DATE = Type('Data', 'Date')
+    STRING = Type('Łańcuch znaków', 'String')
+    BOOL = Type('Wartość logiczna', 'BOOL')

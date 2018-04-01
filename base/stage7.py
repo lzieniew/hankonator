@@ -24,6 +24,7 @@ class Stage7(object):
             entity_paragraph.add_run('\tWykaz atrybutów:').italic = True
 
             table = document.add_table(rows=len(entity.attributes) + 1, cols=4)
+            table.style = 'TableGrid'
             hdr_cells = table.rows[0].cells
             hdr_cells[0].paragraphs[0].add_run('Nazwa atrybutu').bold = True
             hdr_cells[1].paragraphs[0].add_run('Opis atrybutu').bold = True
@@ -43,3 +44,12 @@ class Stage7(object):
             entities_paragraph2.add_run(' ').add_break()
             entities_paragraph2.add_run('Charakter encji:').italic = True
             entities_paragraph2.add_run(' ').add_break()
+
+        relatonships_paragraph = document.add_paragraph()
+        relatonships_paragraph.add_run('7.2 Związki').font.size = Pt(Project.SECONDAR_HEADER_SIZE)
+        relatonships_paragraph.add_run().add_break()
+
+        for relationship in self.erd.relationships:
+            pass
+
+

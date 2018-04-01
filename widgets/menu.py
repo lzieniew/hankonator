@@ -12,7 +12,7 @@ from .stage_6 import Stage6Window
 from .stage_7 import Stage7Window
 from .stage_8 import Stage8Window
 
-from base import Stage1, Stage2, Erd, Entity, Attribute, Relationship, Stage8, Domains
+from base import Stage1, Stage2, Erd, Entity, Attribute, Relationship, Stage8, Types
 
 
 class Menu(pyforms.BaseWidget):
@@ -146,14 +146,16 @@ class Menu(pyforms.BaseWidget):
         self._project.generate()
 
     def DEBUG_FUNCTION(self):
-        e1 = Entity('Karetka', 'Karetki', [Attribute('IdK', Domains.INT), Attribute('Rejestracja', Domains.STRING), Attribute('Dost', Domains.STRING), Attribute('WaznoscPrzegl', Domains.DATE)])
-        e2 = Entity('Zgłoszenie', 'Zgłoszenia', [Attribute('IdZ', Domains.INT), Attribute('AdresZ', Domains.STRING), Attribute('PozycjaZ', Domains.STRING), Attribute('OpisZ', Domains.STRING), Attribute('Czas dod', Domains.STRING)])
-        e3 = Entity('Dyżur', 'Dyżury', [Attribute('IdD', Domains.INT), Attribute('PoczDyz', Domains.DATE), Attribute('KonDyz', Domains.DATE), Attribute('PozycjaDyz', Domains.STRING)])
-        e4 = Entity('Szpital', 'Szpitale', [])
-        e5 = Entity('Pracownik medyczny', 'Pracownicy medyczni', [])
-        e6 = Entity('Poszkodowany', 'Poszkodowani', [])
-        e7 = Entity('Schorzenie', 'Schorzenia', [])
-        e8 = Entity('Dyspozytor', 'Dyspozytorzy', [])
-        e9 = Entity('Pracownik szpitala', 'Pracownicy szpitala', [])
+        e1 = Entity('Karetka', 'Karetki', [Attribute('IdK', Types.INT), Attribute('Rejestracja', Types.STRING), Attribute('Dost', Types.STRING), Attribute('WaznoscPrzegl', Types.DATE)])
+        e2 = Entity('Zgłoszenie', 'Zgłoszenia', [Attribute('IdZ', Types.INT), Attribute('AdresZ', Types.STRING), Attribute('PozycjaZ', Types.STRING), Attribute('OpisZ', Types.STRING), Attribute('Czas dod', Types.STRING)])
+        e3 = Entity('Dyżur', 'Dyżury', [Attribute('IdD', Types.INT), Attribute('PoczDyz', Types.DATE), Attribute('KonDyz', Types.DATE), Attribute('PozycjaDyz', Types.STRING)])
+        e4 = Entity('Szpital', 'Szpitale', [Attribute('IdS', Types.INT), Attribute('NazwaS', Types.STRING), Attribute('AdresS', Types.STRING), Attribute('PozycjaS', Types.STRING)])
+        e5 = Entity('Pracownik medyczny', 'Pracownicy medyczni', [Attribute('IdPS', Types.INT), Attribute('ImiePM', Types.STRING), Attribute('NazwiskoPM', Types.STRING), Attribute('LoginPM', Types.STRING), Attribute('HasłoPM', Types.STRING), Attribute('EmailPM', Types.STRING), Attribute('AktywnyPM', Types.BOOL)])
+        e6 = Entity('Poszkodowany', 'Poszkodowani', [Attribute('IdP', Types.INT), Attribute('OpisPoszk', Types.STRING)])
+        e7 = Entity('Schorzenie', 'Schorzenia', [Attribute('IdS', Types.STRING), Attribute('NazwaS', Types.STRING)])
+        e8 = Entity('Dyspozytor', 'Dyspozytorzy', [Attribute('IdDys', Types.INT), Attribute('LoginDys', Types.STRING), Attribute('HasloDys', Types.STRING), Attribute('EmailDys', Types.STRING), Attribute('AktywnyDys', Types.BOOL), Attribute('JestAdminem', Types.BOOL)])
+        e9 = Entity('Pracownik szpitala', 'Pracownicy szpitala', [Attribute('IdPS', Types.INT), Attribute('LoginPS', Types.STRING), Attribute('HasłoPS', Types.STRING), Attribute('EmailPS', Types.BOOL)])
 
         self.erd.entities = [e1,e2,e3,e4,e5,e6,e7,e8,e9]
+
+

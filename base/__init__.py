@@ -7,4 +7,4 @@ from .stage6 import Stage6
 from .stage7 import Stage7
 from .stage8 import Stage8
 from .transaction import Transaction
-from.types import Domains
+from.types import Types
