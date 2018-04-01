@@ -79,9 +79,9 @@ class Relationship(object):
 
     def get_other_ends_multiplicity(self, this_end_entity_name):
         if this_end_entity_name == self.right_entity:
-            return self.right_quantity
-        elif this_end_entity_name == self.left_entity:
             return self.left_quantity
+        elif this_end_entity_name == self.left_entity:
+            return self.right_quantity
         else:
             return None
 

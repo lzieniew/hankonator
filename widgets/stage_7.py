@@ -6,11 +6,12 @@ from base import Stage7
 
 class Stage7Window(BaseWidget):
 
-    def __init__(self, erd, project):
+    def __init__(self, erd, project, rules):
         super(Stage7Window, self).__init__()
         self.set_margin(20)
         self.erd = erd
         self.project = project
+        self.rules = rules
 
         self._entites_list = ControlList()
         self._save_button = ControlButton('Zapisz etap 7')
@@ -26,6 +27,6 @@ class Stage7Window(BaseWidget):
 
 
     def __save_action(self):
-        self.project.stages.append(Stage7(self.erd))
+        self.project.stages.append(Stage7(self.erd, self.rules))
 
 

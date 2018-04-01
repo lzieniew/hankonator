@@ -5,7 +5,7 @@ from pyforms.gui.controls.ControlList import ControlList
 from base import Stage4
 
 class Stage4Window(BaseWidget):
-    def __init__(self, erd, project):
+    def __init__(self, erd, project, rules):
         super(Stage4Window, self).__init__('Etap 4')
 
         self._categories_list = ControlList()
@@ -13,6 +13,7 @@ class Stage4Window(BaseWidget):
 
         self.erd = erd
         self._project = project
+        self.rules = rules
 
         self._save_button.value = self.__save_action
 
@@ -22,4 +23,4 @@ class Stage4Window(BaseWidget):
             self._categories_list += [repr(relationship)]
 
     def __save_action(self):
-        self._project.stages.append(Stage4(self.erd))
+        self._project.stages.append(Stage4(self.erd, self.rules))

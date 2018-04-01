@@ -6,5 +6,6 @@ from .stage4 import Stage4
 from .stage6 import Stage6
 from .stage7 import Stage7
 from .stage8 import Stage8
+from .rule import Rule
 from .transaction import Transaction
 from.types import Types

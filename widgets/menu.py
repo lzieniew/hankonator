@@ -66,6 +66,7 @@ class Menu(pyforms.BaseWidget):
         self._project = Project([])
         self.erd = None
         self.transactions = []
+        self.rules = []
 
         try:
             self.erd = Erd.load()
@@ -100,7 +101,7 @@ class Menu(pyforms.BaseWidget):
         self._panel.value = win
 
     def __button_stage_4_action(self):
-        win = Stage4Window(self.erd, self._project)
+        win = Stage4Window(self.erd, self._project, self.rules)
         win.parent = self
         self._panel.value = win
 
@@ -113,7 +114,7 @@ class Menu(pyforms.BaseWidget):
         self._panel.value = win
 
     def __button_stage_7_action(self):
-        win = Stage7Window(self.erd, self._project)
+        win = Stage7Window(self.erd, self._project, self.rules)
         win.parent = self
         self._panel.value = win
 
@@ -157,5 +158,16 @@ class Menu(pyforms.BaseWidget):
         e9 = Entity('Pracownik szpitala', 'Pracownicy szpitala', [Attribute('IdPS', Types.INT), Attribute('LoginPS', Types.STRING), Attribute('HasłoPS', Types.STRING), Attribute('EmailPS', Types.BOOL)])
 
         self.erd.entities = [e1,e2,e3,e4,e5,e6,e7,e8,e9]
+
+        r1 = Relationship('Przydzielona', left_entity='Karetka', left_quantity='1,1', right_entity='Dyżur', right_quantity='0,N')
+        r2 = Relationship('Pracuje', left_entity='Pracownik medyczny', left_quantity='0,N', right_entity='Dyżur', right_quantity='0,N')
+        r3 = Relationship('Wezwano', left_entity='Dyżur', left_quantity='0,N', right_entity='Zgłoszenie', right_quantity='0,N')
+        r4 = Relationship('Zgłasza', left_entity='Dyspozytor', left_quantity='1,1', right_entity='Zgłoszenie', right_quantity='0,N')
+        r5 = Relationship('Dotyczy', left_entity='Zgłoszenie', left_quantity='1,1', right_entity='Poszkodowany', right_quantity='1,N')
+        r6 = Relationship('CierpiNa', left_entity='Poszkodowany', left_quantity='0,N', right_entity='Schorzenie', right_quantity='0,N')
+        r7 = Relationship('Hospitalizowany', left_entity='Poszkodowany', left_quantity='0,N', right_entity='Szpital', right_quantity='0,1')
+        r8 = Relationship('PracujeW', left_entity='Pracownik szpitala', left_quantity='0,N', right_entity='Szpital', right_quantity='1,1')
+
+        self.erd.relationships = [r1,r2,r3,r4,r5,r6,r7,r8]
 
 

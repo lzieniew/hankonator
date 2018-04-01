@@ -4,8 +4,9 @@ from generation import Project
 
 class Stage7(object):
 
-    def __init__(self, erd):
+    def __init__(self, erd, rules):
         self.erd = erd
+        self.rules = rules
 
     def build(self, document):
         header = document.add_paragraph()
@@ -21,7 +22,7 @@ class Stage7(object):
             entity_paragraph.add_run('ENC/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular.upper()).bold = True
             entity_paragraph.add_run().add_break()
             entity_paragraph.add_run('\tSemantyka encji:\n').italic = True
-            entity_paragraph.add_run('\tWykaz atrybutów:').italic = True
+            entity_paragraph.add_run('\tWykaz atrybutów:\n').italic = True
 
             table = document.add_table(rows=len(entity.attributes) + 1, cols=4)
             table.style = 'TableGrid'
@@ -45,11 +46,25 @@ class Stage7(object):
             entities_paragraph2.add_run('Charakter encji:').italic = True
             entities_paragraph2.add_run(' ').add_break()
 
-        relatonships_paragraph = document.add_paragraph()
-        relatonships_paragraph.add_run('7.2 Związki').font.size = Pt(Project.SECONDAR_HEADER_SIZE)
-        relatonships_paragraph.add_run().add_break()
+        relationships_paragraph = document.add_paragraph()
+        relationships_paragraph.add_run('7.2 Związki').font.size = Pt(Project.SECONDAR_HEADER_SIZE)
+        relationships_paragraph.add_run().add_break()
 
         for relationship in self.erd.relationships:
-            pass
-
+            relationship_paragraph = document.add_paragraph()
+            relationship_paragraph.add_run('ZWI/' + '{0:03}'.format(relationship.id) + ' ' + relationship.name).bold\
+                = True
+            relationship_paragraph.add_run('(' + relationship.left_entity.upper() + '(' + relationship.left_quantity
+                                           + '):' + relationship.right_entity.upper() + '('
+                                           + relationship.right_quantity + ')')
+            relationship_paragraph.add_run().add_break()
+            entity_rules = []
+            for rule in self.rules:
+                if (rule.left_entity_name == relationship.left_entity \
+                        or rule.left_entity_name ==  relationship.right_entity) \
+                        and (rule.right_entity_name == relationship.left_entity \
+                        or rule.right_entity_name == relationship.right_entity):
+                    entity_rules.append(rule)
+            for rule in entity_rules:
+                relationship_paragraph.add_run('REG/' + '{0:03}'.format(rule.id) + ' ' + rule.content)
 
