@@ -26,6 +26,14 @@ class Erd(object):
                 relationships.add(relationship)
         return list(relationships)
 
+    def get_relationship_between(self, entity_1_name, entity_2_name):
+        out = None
+        for relationship in self.relationships:
+            if (relationship.left_entity == entity_1_name and relationship.right_entity == entity_2_name)\
+                or (relationship.left_entity == entity_2_name and relationship.right_entity == entity_1_name):
+                out = relationship
+        return out
+
     def get_entity_by_name(self, name):
         return list(filter(lambda entity: entity.name_singular == name, self.entities))[0]
 
@@ -49,7 +57,15 @@ class Entity(object):
         self.name_plural = name_plural
         self.attributes = attributes
         self.id = Entity.ID
+        self.foreign_keys = []
         Entity.ID += 1
+
+    def get_key(self):
+        out = None
+        for attribute in self.attributes:
+            if attribute.is_key:
+                out = attribute
+        return out
 
     def repr_attributes(self):
         result = '('
@@ -59,6 +75,25 @@ class Entity(object):
         result = result[:-2]
         result += ')'
         return result
+
+    def build_argument_list(self, paragraph):
+        paragraph.add_run('(')
+        counter = 0
+        for attribute in self.attributes:
+            name_run = paragraph.add_run(attribute.name)
+            name_run.italic = True
+            if attribute.is_key:
+                name_run.underline = True
+            if counter < len(self.attributes) + len(self.foreign_keys) - 1:
+                paragraph.add_run(', ')
+            counter += 1
+        for key in self.foreign_keys:
+            paragraph.add_run('#' + key.name).italic = True
+            if counter < len(self.attributes) + len(self.foreign_keys) - 1:
+                paragraph.add_run(', ')
+
+        paragraph.add_run(')')
+
 
     def __repr__(self):
         return self.name_singular + repr(self.attributes)
@@ -76,6 +111,14 @@ class Relationship(object):
         self.right_quantity = right_quantity
         self.id = Relationship.ID
         Relationship.ID += 1
+
+    def get_this_ends_multiplicity(self, this_end_entity_name):
+        if this_end_entity_name == self.right_entity:
+            return self.right_quantity
+        elif this_end_entity_name == self.left_entity:
+            return self.left_quantity
+        else:
+            return None
 
     def get_other_ends_multiplicity(self, this_end_entity_name):
         if this_end_entity_name == self.right_entity:
@@ -96,9 +139,10 @@ class Relationship(object):
 
 
 class Attribute(object):
-    def __init__(self, name, type):
+    def __init__(self, name, type, is_key=False):
         self.name = name
         self.type = type
+        self.is_key = is_key
 
     def __repr__(self):
         return self.name + ':' + repr(self.type)
