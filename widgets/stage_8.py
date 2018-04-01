@@ -15,6 +15,8 @@ class Stage8Window(BaseWidget):
 
         self._entities_relationships_list = ControlList()
         self._save_button = ControlButton('Zapisz etap 8')
+
+        self._save_button.value = self.__save_action
         self._entities_relationships_list.readonly = True
 
         self.populate()

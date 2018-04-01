@@ -17,9 +17,23 @@ class Stage8(object):
         entities_paragraph.add_run().add_break()
 
         for entity in self.erd.entities:
-            entities_paragraph.add_run('ENC/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular.upper() + ' ').bold = True
+            entities_paragraph.add_run('ENC/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular.upper()
+                                       + ' ').bold = True
             entities_paragraph.add_run(entity.repr_attributes()).italic = True
             entities_paragraph.add_run().add_break()
+
+
+        relationships_paragraph = document.add_paragraph()
+        relationships_paragraph.add_run('8.2 Relacje').font.size = Pt(Project.SECONDAR_HEADER_SIZE)
+        relationships_paragraph.add_run().add_break()
+
+
+        for relationship in self.erd.relationships:
+            relationships_paragraph.add_run('ZWI/' + '{0:03}'.format(relationship.id) + ' ').bold = True
+            relationships_paragraph.add_run(relationship.name + '(' + relationship.left_entity.upper() + '('
+                                            + relationship.left_quantity + '):' + relationship.right_entity.upper()
+                                            + '(' + relationship.right_quantity + '))')
+            relationships_paragraph.add_run().add_break()
 
         document.add_page_break()
 

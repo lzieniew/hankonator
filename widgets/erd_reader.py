@@ -173,7 +173,7 @@ class RelationshipEditor(pyforms.BaseWidget):
         for entity in erd.entities:
             self._left_entity_combo.add_item(entity.name_singular)
             self._right_entity_combo.add_item(entity.name_singular)
-        multiplicities = ['0..1', '1..1', '0..N', '1..N']
+        multiplicities = ['0,1', '1,1', '0,N', '1,N']
         for mul in multiplicities:
             self._left_multiplicity_combo.add_item(mul)
             self._right_multiplicity_combo.add_item(mul)

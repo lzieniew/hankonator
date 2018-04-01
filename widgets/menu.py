@@ -77,10 +77,9 @@ class Menu(pyforms.BaseWidget):
         e2 = Entity('Użytkownik', 'Użytkownicy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
         e3 = Entity('Organizator', 'Organizatorzy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
         self.erd.entities = [e1, e2, e3]
-        r1 = Relationship(left_entity='Arkusz', left_quantity='0..N', name='Przydzielony', right_quantity='0..1', right_entity='Użytkownik')
+        r1 = Relationship(left_entity='Arkusz', left_quantity='0,N', name='Przydzielony', right_quantity='0,1', right_entity='Użytkownik')
         self.erd.relationships = [r1]
 
-        self._project.stages += [Stage8(self.erd)]
 
     def __button_stage_1_action(self):
         # switch windows
