@@ -12,8 +12,9 @@ from .stage_6 import Stage6Window
 from .stage_7 import Stage7Window
 from .stage_8 import Stage8Window
 from .stage_10 import Stage10Window
+from .stage_11 import Stage11Window
 
-from base import Stage1, Stage2, Erd, Entity, Attribute, Relationship, Stage8, Types
+from base import Erd, Entity, Attribute, Relationship, Types
 
 
 class Menu(pyforms.BaseWidget):
@@ -133,7 +134,9 @@ class Menu(pyforms.BaseWidget):
         self._panel.value = win
 
     def __button_stage_11_action(self):
-        pass
+        win = Stage11Window(self.erd, self._project)
+        win.parent = self
+        self._panel.value = win
 
     def __button_stage_12_action(self):
         pass

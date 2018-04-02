@@ -17,6 +17,7 @@ class Stage3:
 
         for entity in self.erd.entities:
             entity_paragraph = document.add_paragraph()
+            entity_paragraph.paragraph_format.keep_together = True
             entity_paragraph.keep_together = True
             entity_paragraph.add_run('KAT/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular).font.size = Pt(16)
             entity_paragraph.add_run().add_break()

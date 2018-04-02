@@ -3,7 +3,7 @@ from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlList import ControlList
 
 
-from base import Stage8
+from generation import Stage8
 
 
 class Stage8Window(BaseWidget):

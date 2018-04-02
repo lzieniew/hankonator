@@ -4,6 +4,7 @@ from pyforms.gui.controls.ControlTextArea import ControlTextArea
 class Stage2Window(BaseWidget):
     def __init__(self, project):
         super(Stage2Window, self).__init__('Etap 2')
+        self.set_margin(20)
 
         self._reality_description_text_edit = ControlTextArea('Szczegółowy opis wycinka rzeczywistości')
         self._dictionary_text_edit = ControlTextArea('Słownik pojęć')

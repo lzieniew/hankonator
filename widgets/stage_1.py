@@ -9,6 +9,7 @@ class Stage1Window(pyforms.BaseWidget):
 
     def __init__(self, project):
         super(Stage1Window, self).__init__('Etap 1')
+        self.set_margin(20)
 
         self._theme_edit_text = ControlTextArea('Temat')
         self._goal_edit_text = ControlTextArea('Cel')

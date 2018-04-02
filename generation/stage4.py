@@ -2,7 +2,7 @@ from docx.shared import Pt
 
 
 from generation import Project
-from .rule import Rule
+from base.rule import Rule
 
 
 class Stage4:

@@ -2,11 +2,12 @@ from pyforms import BaseWidget
 from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlList import ControlList
 
-from base import Stage3
+from generation import Stage3
 
 class Stage3Window(BaseWidget):
     def __init__(self, erd, project):
         super(Stage3Window, self).__init__('Etap 3')
+        self.set_margin(20)
 
         self._categories_list = ControlList()
         self._save_button = ControlButton('Zapisz etap 3')

@@ -2,6 +2,7 @@ from docx.shared import Pt
 
 from generation import Project
 
+
 class Stage10(object):
 
     def __init__(self, erd):
@@ -14,8 +15,6 @@ class Stage10(object):
                 if relationship.get_this_ends_multiplicity(entity.name_singular)[-1] == 'N':
                     other_entity = self.erd.get_entity_by_name(relationship.get_other_entity_name(entity.name_singular))
                     entity.foreign_keys.append(other_entity.get_key())
-
-
 
     def build(self, document):
         header = document.add_paragraph()
@@ -53,6 +52,5 @@ class Stage10(object):
             relationship_paragraph.add_run(
                 'REL/' + '{0:03}'.format(right_entity.id) + ' ' + right_entity.name_plural + ' ')
             right_entity.build_argument_list(relationship_paragraph)
-
 
         print('Etap 10 wygenerowany!')

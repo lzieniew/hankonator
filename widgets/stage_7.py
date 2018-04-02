@@ -2,7 +2,7 @@ from pyforms import BaseWidget
 from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlList import ControlList
 
-from base import Stage7
+from generation import Stage7
 
 class Stage7Window(BaseWidget):
 

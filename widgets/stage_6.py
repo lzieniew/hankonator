@@ -4,7 +4,8 @@ from pyforms.gui.controls.ControlCombo import ControlCombo
 from pyforms.gui.controls.ControlList import ControlList
 from pyforms.gui.controls.ControlText import ControlText
 
-from base import Stage6, Transaction
+from generation import Stage6
+from base import Transaction
 
 
 class Stage6Window(BaseWidget):
