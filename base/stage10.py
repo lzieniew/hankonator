@@ -46,11 +46,11 @@ class Stage10(object):
             self.add_foreign_keys()
 
             relationship_paragraph.add_run(
-                'REL/' + '{0:03}'.format(left_entity.id) + ' ' + left_entity.name_singular.upper() + ' ')
+                'REL/' + '{0:03}'.format(left_entity.id) + ' ' + left_entity.name_plural + ' ')
             left_entity.build_argument_list(relationship_paragraph)
             relationship_paragraph.add_run().add_break()
             relationship_paragraph.add_run(
-                'REL/' + '{0:03}'.format(right_entity.id) + ' ' + right_entity.name_singular.upper() + ' ')
+                'REL/' + '{0:03}'.format(right_entity.id) + ' ' + right_entity.name_plural + ' ')
             right_entity.build_argument_list(relationship_paragraph)
 
 

@@ -157,21 +157,27 @@ class Menu(pyforms.BaseWidget):
         e4 = Entity('Szpital', 'Szpitale', [Attribute('IdS', Types.INT, True), Attribute('NazwaS', Types.STRING), Attribute('AdresS', Types.STRING), Attribute('PozycjaS', Types.STRING)])
         e5 = Entity('Pracownik medyczny', 'Pracownicy medyczni', [Attribute('IdPS', Types.INT, True), Attribute('ImiePM', Types.STRING), Attribute('NazwiskoPM', Types.STRING), Attribute('LoginPM', Types.STRING), Attribute('HasłoPM', Types.STRING), Attribute('EmailPM', Types.STRING), Attribute('AktywnyPM', Types.BOOL)])
         e6 = Entity('Poszkodowany', 'Poszkodowani', [Attribute('IdP', Types.INT, True), Attribute('OpisPoszk', Types.STRING)])
-        e7 = Entity('Schorzenie', 'Schorzenia', [Attribute('IdS', Types.STRING, True), Attribute('NazwaS', Types.STRING)])
+        e7 = Entity('ICD', 'Schorzenia', [Attribute('IdS', Types.STRING, True), Attribute('NazwaS', Types.STRING)])
         e8 = Entity('Dyspozytor', 'Dyspozytorzy', [Attribute('IdDys', Types.INT, True), Attribute('LoginDys', Types.STRING), Attribute('HasloDys', Types.STRING), Attribute('EmailDys', Types.STRING), Attribute('AktywnyDys', Types.BOOL), Attribute('JestAdminem', Types.BOOL)])
         e9 = Entity('Pracownik szpitala', 'Pracownicy szpitala', [Attribute('IdPS', Types.INT, True), Attribute('LoginPS', Types.STRING), Attribute('HasłoPS', Types.STRING), Attribute('EmailPS', Types.BOOL)])
+        e10 = Entity('Rejestr', 'Rejestry', [])
+        e11 = Entity('Wezwanie', 'Wezwania', [])
+        e12 = Entity('Schorzenie', 'Scorzenia', [])
 
-        self.erd.entities = [e1,e2,e3,e4,e5,e6,e7,e8,e9]
+        self.erd.entities = [e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12]
 
         r1 = Relationship('Przydzielona', left_entity='Karetka', left_quantity='1,1', right_entity='Dyżur', right_quantity='0,N')
-        r2 = Relationship('Pracuje', left_entity='Pracownik medyczny', left_quantity='0,N', right_entity='Dyżur', right_quantity='0,N')
-        r3 = Relationship('Wezwano', left_entity='Dyżur', left_quantity='0,N', right_entity='Zgłoszenie', right_quantity='0,N')
-        r4 = Relationship('Zgłasza', left_entity='Dyspozytor', left_quantity='1,1', right_entity='Zgłoszenie', right_quantity='0,N')
-        r5 = Relationship('Dotyczy', left_entity='Zgłoszenie', left_quantity='1,1', right_entity='Poszkodowany', right_quantity='1,N')
-        r6 = Relationship('CierpiNa', left_entity='Poszkodowany', left_quantity='0,N', right_entity='Schorzenie', right_quantity='0,N')
-        r7 = Relationship('Hospitalizowany', left_entity='Poszkodowany', left_quantity='0,N', right_entity='Szpital', right_quantity='0,1')
-        r8 = Relationship('PracujeW', left_entity='Pracownik szpitala', left_quantity='0,N', right_entity='Szpital', right_quantity='1,1')
+        r2 = Relationship('RejestrPracownika', left_entity='Pracownik medyczny', left_quantity='1,1', right_entity='Rejestr', right_quantity='0,N')
+        r3 = Relationship('RejestrDyżuru', left_entity='Rejestr', left_quantity='0,N', right_entity='Dyżur', right_quantity='1,1')
+        r4 = Relationship('Przydzielono', left_entity='Dyżur', left_quantity='0,N', right_entity='Zgłoszenie', right_quantity='0,N')
+        r5 = Relationship('WezwanieDyzuru', left_entity='Wezwanie', left_quantity='0,N', right_entity='Dyżur', right_quantity='1,1')
+        r6 = Relationship('Zgłasza', left_entity='Dyspozytor', left_quantity='1,1', right_entity='Zgłoszenie', right_quantity='0,N')
+        r7 = Relationship('Dotyczy', left_entity='ICD', left_quantity='1,1', right_entity='Schorzenie', right_quantity='0,N')
+        r8 = Relationship('KodSchorzenia', left_entity='ICD', left_quantity='1,1', right_entity='Schorzenie', right_quantity='0,N')
+        r9 = Relationship('SchorzeniePoszkodowanego', left_entity='Poszkodowany', left_quantity='1,1', right_entity='Schorzenie', right_quantity='0,N')
+        r10 = Relationship('Hospitalizowany', left_entity='Poszkodowany', left_quantity='0,N', right_entity='Szpital', right_quantity='0,1')
+        r11 = Relationship('PracujeW', left_entity='Pracownik szpitala', left_quantity='0,N', right_entity='Szpital', right_quantity='1,1')
 
-        self.erd.relationships = [r1,r2,r3,r4,r5,r6,r7,r8]
+        self.erd.relationships = [r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11]
 
 
