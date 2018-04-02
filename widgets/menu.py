@@ -160,9 +160,9 @@ class Menu(pyforms.BaseWidget):
         e7 = Entity('ICD', 'Schorzenia', [Attribute('IdS', Types.STRING, True), Attribute('NazwaS', Types.STRING)])
         e8 = Entity('Dyspozytor', 'Dyspozytorzy', [Attribute('IdDys', Types.INT, True), Attribute('LoginDys', Types.STRING), Attribute('HasloDys', Types.STRING), Attribute('EmailDys', Types.STRING), Attribute('AktywnyDys', Types.BOOL), Attribute('JestAdminem', Types.BOOL)])
         e9 = Entity('Pracownik szpitala', 'Pracownicy szpitala', [Attribute('IdPS', Types.INT, True), Attribute('LoginPS', Types.STRING), Attribute('HasłoPS', Types.STRING), Attribute('EmailPS', Types.BOOL)])
-        e10 = Entity('Rejestr', 'Rejestry', [])
-        e11 = Entity('Wezwanie', 'Wezwania', [])
-        e12 = Entity('Schorzenie', 'Scorzenia', [])
+        e10 = Entity('Rejestr', 'Rejestry', [Attribute('IdR', Types.INT), Attribute('JestKierowca', Types.BOOL)])
+        e11 = Entity('Wezwanie', 'Wezwania', [Attribute('IdW', Types.INT), Attribute('DataWezw',Types.DATE)])
+        e12 = Entity('Schorzenie', 'Scorzenia', [Attribute('IdSch', Types.INT), Attribute('Uwagi', Types.STRING)])
 
         self.erd.entities = [e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12]
 

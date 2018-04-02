@@ -24,6 +24,7 @@ class Stage10(object):
 
         for relationship in self.erd.relationships:
             relationship_paragraph = document.add_paragraph()
+            relationship_paragraph.paragraph_format.keep_together = True
             relationship_paragraph.add_run('ZWI' + '{0:03}'.format(relationship.id)).bold = True
             relationship_paragraph.add_run(' ' + relationship.name + '(' + relationship.left_entity.upper() + '(' + relationship.left_quantity + '):' + relationship.right_entity.upper() + '(' + relationship.right_quantity + ')')
             relationship_paragraph.add_run().add_break()
