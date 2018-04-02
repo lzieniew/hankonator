@@ -19,12 +19,11 @@ from base import Entity, Attribute, Relationship, Types
 # this window will be run from button, that now shows this ErdReader
 class ErdReader(pyforms.BaseWidget):
 
-    def __init__(self, menu):
+    def __init__(self, erd):
         super(ErdReader, self,).__init__('ERD reader')
         self.set_margin(20)
 
-        self.erd = menu.erd
-        self.menu = menu
+        self.erd = erd
 
         self._entity_list = ControlList('Encje',
                                         plusFunction = self.__add_entity_action,

@@ -2,7 +2,7 @@ import pyforms
 from pyforms.controls import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
 from generation import Project
-from .erd_reader import ErdReader
+from .initial_data_editor import InitialDataEditor
 
 from .stage_1 import Stage1Window
 from .stage_2 import Stage2Window
@@ -42,7 +42,7 @@ class Menu(pyforms.BaseWidget):
         self._button_generate = ControlButton('GENERATE!')
 
         # button's actions
-        self._button_erd_reader.value = self.__button_erd_action
+        self._button_erd_reader.value = self.__button_initial_data_action
         self._button_stage_1.value = self.__button_stage_1_action
         self._button_stage_2.value = self.__button_stage_2_action
         self._button_stage_3.value = self.__button_stage_3_action
@@ -144,10 +144,10 @@ class Menu(pyforms.BaseWidget):
     def __button_stage_13_action(self):
         pass
 
-    def __button_erd_action(self):
-        win = ErdReader(self)
+    def __button_initial_data_action(self):
+        win = InitialDataEditor(self.erd)
         win.parent = self
-        self._panel.value = win
+        win.show()
 
     def __button_generate_action(self):
         self._project.generate()

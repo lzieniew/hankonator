@@ -91,4 +91,3 @@ class TransactionEditor(BaseWidget):
         self.parent._populate()
 
         self.close()
-
