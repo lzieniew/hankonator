@@ -15,6 +15,8 @@ from pyforms.gui.controls.ControlCombo import ControlCombo
 from base import Entity, Attribute, Relationship, Types
 
 
+# TODO add a new window that contains this erd reader, and also readers for things, like users, transactions etc.
+# this window will be run from button, that now shows this ErdReader
 class ErdReader(pyforms.BaseWidget):
 
     def __init__(self, menu):
