@@ -163,11 +163,16 @@ class Menu(pyforms.BaseWidget):
         e7 = Entity('ICD', 'Schorzenia', [Attribute('IdS', Types.STRING, True), Attribute('NazwaS', Types.STRING)])
         e8 = Entity('Dyspozytor', 'Dyspozytorzy', [Attribute('IdDys', Types.INT, True), Attribute('LoginDys', Types.STRING), Attribute('HasloDys', Types.STRING), Attribute('EmailDys', Types.STRING), Attribute('AktywnyDys', Types.BOOL), Attribute('JestAdminem', Types.BOOL)])
         e9 = Entity('Pracownik szpitala', 'Pracownicy szpitala', [Attribute('IdPS', Types.INT, True), Attribute('LoginPS', Types.STRING), Attribute('HasłoPS', Types.STRING), Attribute('EmailPS', Types.BOOL)])
-        e10 = Entity('Rejestr', 'Rejestry', [Attribute('IdR', Types.INT), Attribute('JestKierowca', Types.BOOL)])
-        e11 = Entity('Wezwanie', 'Wezwania', [Attribute('IdW', Types.INT), Attribute('DataWezw',Types.DATE)])
-        e12 = Entity('Schorzenie', 'Scorzenia', [Attribute('IdSch', Types.INT), Attribute('Uwagi', Types.STRING)])
+        e10 = Entity('Rejestr', 'Rejestry', [Attribute('IdR', Types.INT, True), Attribute('JestKierowca', Types.BOOL)])
+        e11 = Entity('Wezwanie', 'Wezwania', [Attribute('IdW', Types.INT, True), Attribute('DataWezw',Types.DATE)])
+        e12 = Entity('Schorzenie', 'Scorzenia', [Attribute('IdSch', Types.INT, True), Attribute('Uwagi', Types.STRING)])
+
 
         self.erd.entities = [e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12]
+
+        for entity in self.erd.entities:
+            for attribute in entity.attributes:
+                attribute.description = 'Opis ' + attribute.name
 
         r1 = Relationship('Przydzielona', left_entity='Karetka', left_quantity='1,1', right_entity='Dyżur', right_quantity='0,N')
         r2 = Relationship('RejestrPracownika', left_entity='Pracownik medyczny', left_quantity='1,1', right_entity='Rejestr', right_quantity='0,N')

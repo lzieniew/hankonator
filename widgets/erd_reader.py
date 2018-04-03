@@ -101,6 +101,7 @@ class AttributeEditor(pyforms.BaseWidget):
 
         self._name_edit_text = ControlText()
         self._type_combo = ControlCombo()
+        self._description_edit_text = ControlText('Opis')
         self._is_key_checkbox = ControlCheckBox('Czy kluczowy')
         self._save_attribute_button = ControlButton('Zapisz')
 
@@ -108,7 +109,7 @@ class AttributeEditor(pyforms.BaseWidget):
 
         self._save_attribute_button.value = self.__add_attribute_action
 
-        self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_combo'), '_is_key_checkbox', '_save_attribute_button']
+        self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_combo'), '_description_edit_text', '_is_key_checkbox', '_save_attribute_button']
 
 
         self._type_combo.add_item(Types.INT.name, 'INT')

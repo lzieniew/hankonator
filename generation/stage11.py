@@ -5,6 +5,8 @@ from generation import Project
 
 class Stage11(object):
 
+    TABLE_FONT_SIZE = 6
+
     def __init__(self, erd):
         self.erd = erd
 
@@ -15,7 +17,7 @@ class Stage11(object):
 
         for entity in self.erd.entities:
             relation_paragraph = document.add_paragraph()
-            relation_paragraph.add_run('REL/' + '{0:03}'.format(entity.id) + entity.name_plural + '/' + entity.name_singular.upper()).bold = True
+            relation_paragraph.add_run('REL/' + '{0:03}'.format(entity.id) + ' ' + entity.name_plural + '/' + entity.name_singular.upper()).bold = True
             relation_paragraph.add_run().add_break()
             relation_paragraph.add_run('Opis schematu relacji:')
             relation_paragraph.add_run().add_break()
@@ -34,29 +36,54 @@ class Stage11(object):
             runs.append(hdr_cells[8].paragraphs[0].add_run('Referencje'))
             runs.append(hdr_cells[9].paragraphs[0].add_run('Źródło danych'))
             for run in runs:
-                run.font.size = Pt(10)
+                run.font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 run.bold = True
             row_counter = 1
             for attribute in entity.attributes:
                 row = table.rows[row_counter].cells
-                row[0].text = attribute.name
-                row[1].text = repr(attribute.type)
+                row[0].paragraphs[0].add_run(attribute.name).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                row[1].paragraphs[0].add_run(repr(attribute.type)).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 if attribute.is_key:
-                    row[7].text = 'PK'
+                    row[7].paragraphs[0].add_run('PK').font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 row_counter += 1
             for foreign_key in entity.foreign_keys:
+                row = table.rows[row_counter].cells
+                row[0].paragraphs[0].add_run(foreign_key.name).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                row[1].paragraphs[0].add_run(repr(foreign_key.type)).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 if row[7].text == '':
-                    row[7].text = 'FK'
+                    row[7].paragraphs[0].add_run('FK').font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 else:
-                    row[7].text += ', FK'
+                    row[7].paragraphs[0].add_run(', FK').font.size = Pt(Stage11.TABLE_FONT_SIZE)
 
                 reference = self.erd.get_entity_by_pk(foreign_key.name).name_plural
                 if row[8].text == '':
-                    row[8].text = reference
+                    row[8].paragraphs[0].add_run(reference).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 else:
-                    row[8].text += ', ' + reference
+                    row[8].paragraphs[0].add_run(', ' + reference).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                row_counter += 1
 
+            relation_paragraph = document.add_paragraph()
+            relation_paragraph.add_run().add_break()
+            relation_paragraph.add_run('Zanczenie atrybutów w schemacie relacji ' + entity.name_plural)
+            relation_paragraph.add_run().add_break()
 
+            table = document.add_table(rows=len(entity.attributes)+len(entity.foreign_keys)+1, cols=2)
+            hdr_row = table.rows[0].cells
+            run = hdr_row[0].paragraphs[0].add_run('Nazwa atrybutu')
+            run.font.size = Pt(Stage11.TABLE_FONT_SIZE)
+            run.bold = True
+            run = hdr_row[1].paragraphs[0].add_run('Opis')
+            run.font.size = Pt(Stage11.TABLE_FONT_SIZE)
+            run.bold = True
 
-
-
+            row_counter = 1
+            for attribute in entity.attributes:
+                row = table.rows[row_counter].cells
+                row[0].paragraphs[0].add_run(attribute.name).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                row[1].paragraphs[0].add_run(attribute.description).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                row_counter += 1
+            for foreign_key in entity.foreign_keys:
+                row = table.rows[row_counter].cells
+                row[0].paragraphs[0].add_run(foreign_key.name).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                row[1].paragraphs[0].add_run(foreign_key.description).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                row_counter += 1

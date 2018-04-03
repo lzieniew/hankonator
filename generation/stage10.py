@@ -14,7 +14,8 @@ class Stage10(object):
             for relationship in relationships:
                 if relationship.get_this_ends_multiplicity(entity.name_singular)[-1] == 'N':
                     other_entity = self.erd.get_entity_by_name(relationship.get_other_entity_name(entity.name_singular))
-                    entity.foreign_keys.append(other_entity.get_key())
+                    if other_entity.get_key() not in entity.foreign_keys:
+                        entity.foreign_keys.append(other_entity.get_key())
 
     def build(self, document):
         header = document.add_paragraph()
