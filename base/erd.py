@@ -37,6 +37,13 @@ class Erd(object):
     def get_entity_by_name(self, name):
         return list(filter(lambda entity: entity.name_singular == name, self.entities))[0]
 
+    def get_entity_by_pk(self, pk_name):
+        result_entity = None
+        for entity in self.entities:
+            if entity.get_key().name == pk_name:
+                result_entity = entity
+        return result_entity
+
     def save(self):
         pass
         # output = open('erd.P', 'w')

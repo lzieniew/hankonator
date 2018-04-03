@@ -40,7 +40,23 @@ class Stage11(object):
             for attribute in entity.attributes:
                 row = table.rows[row_counter].cells
                 row[0].text = attribute.name
+                row[1].text = repr(attribute.type)
+                if attribute.is_key:
+                    row[7].text = 'PK'
                 row_counter += 1
+            for foreign_key in entity.foreign_keys:
+                if row[7].text == '':
+                    row[7].text = 'FK'
+                else:
+                    row[7].text += ', FK'
+
+                reference = self.erd.get_entity_by_pk(foreign_key.name).name_plural
+                if row[8].text == '':
+                    row[8].text = reference
+                else:
+                    row[8].text += ', ' + reference
+
+
 
 
 
