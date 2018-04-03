@@ -148,7 +148,7 @@ class Menu(pyforms.BaseWidget):
         pass
 
     def __button_initial_data_action(self):
-        win = InitialDataEditor(self.erd)
+        win = InitialDataEditor(self.erd, self.transactions)
         win.parent = self
         win.show()
 

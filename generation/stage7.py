@@ -43,6 +43,8 @@ class Stage7(object):
             entities_paragraph2 = document.add_paragraph()
             entities_paragraph2.add_run('Klucze kandydujące:').italic = True
             entities_paragraph2.add_run(' ').add_break()
+            entities_paragraph2.add_run('Klucz główny: ' + entity.get_key().name).italic = True
+            entities_paragraph2.add_run(' ').add_break()
             entities_paragraph2.add_run('Charakter encji:').italic = True
             entities_paragraph2.add_run(' ').add_break()
 

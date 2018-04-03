@@ -37,6 +37,9 @@ class Erd(object):
     def get_entity_by_name(self, name):
         return list(filter(lambda entity: entity.name_singular == name, self.entities))[0]
 
+    def get_relationship_by_name(self, name):
+        return list(filter(lambda rel: rel.name == name, self.relationships))[0]
+
     def get_entity_by_pk(self, pk_name):
         result_entity = None
         for entity in self.entities:

@@ -27,7 +27,7 @@ class Stage3:
             entity_paragraph.add_run('\tAtrybuty:').bold = True
             entity_paragraph.add_run().add_break()
             for attribute in entity.attributes:
-                entity_paragraph.add_run('\t\t' + repr(attribute.name) + ' - [Opis atrybutu]')
+                entity_paragraph.add_run('\t\t' + repr(attribute.name) + ' - ' + attribute.description)
                 entity_paragraph.add_run().add_break()
         document.add_page_break()
 
