@@ -22,15 +22,19 @@ class TypeCombo(ControlCombo):
 
 class TransactionsEditor(BaseWidget):
 
-    def __init__(self, erd,  transactions):
+    def __init__(self, erd, transactions):
         super(TransactionsEditor, self).__init__()
+        self.set_margin(20)
 
         self.transactions = transactions
+        self.erd = erd
 
         self._transaction_list = ControlList()
         self._add_transaction_button = ControlButton('Dodaj transakcję')
         self._edit_transaction_button = ControlButton('Edytuj transakcję')
         self._remove_transaction_button = ControlButton('Usuń transakcję')
+
+        self._add_transaction_button.value = self.__add_transaction_action
 
         self.formset = ['_transaction_list', ('_add_transaction_button', '_edit_transaction_button', '_remove_transaction_button')]
 
@@ -38,10 +42,15 @@ class TransactionsEditor(BaseWidget):
         for transaction in self.transactions:
             self._transaction_list += [transaction]
 
+    def __add_transaction_action(self):
+        win = TransactionEditor(self.erd, self.transactions)
+        win.parent = self
+        win.show()
+
 
 class TransactionEditor(BaseWidget):
 
-    def __init__(self, transactions, erd):
+    def __init__(self, erd, transactions, transaction=None):
         super(TransactionEditor, self).__init__()
         self.transactions = transactions
         self.erd = erd

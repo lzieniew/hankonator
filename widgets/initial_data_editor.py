@@ -5,16 +5,18 @@ from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
 
 from .erd_reader import ErdReader
 from .transaction_editor import TransactionsEditor
+from .user_editor import UsersEditor
 
 
 class InitialDataEditor(BaseWidget):
 
-    def __init__(self, erd, transactions):
+    def __init__(self, erd, transactions, users):
         super(InitialDataEditor, self).__init__('Edytor podstawowych danych projektu')
         self.set_margin(10)
 
         self.erd = erd
         self.transactions = transactions
+        self.users = users
 
         self._label = ControlLabel('W tym oknie wpisz podstawowe dane dotyczące Twojego projektu')
         self._erd_button = ControlButton('ERD')
@@ -25,9 +27,10 @@ class InitialDataEditor(BaseWidget):
 
         self._erd_button.value = self.__erd_action
         self._transactions_button.value = self.__transactions_action
+        self._users_button.value = self.__users_action
 
         self.formset = ['_label',
-                        ('_erd_button', '_transactions_button', '_users_button'),
+                        ('_erd_button', '_users_button', '_transactions_button'),
                         '_panel',
                         '_save_button']
 
@@ -42,7 +45,9 @@ class InitialDataEditor(BaseWidget):
         self._panel.value = win
 
     def __users_action(self):
-        pass
+        win = UsersEditor(self.erd, self.users)
+        win.parent = self
+        self._panel.value = win
 
     def __save_acton(self):
         self.close()

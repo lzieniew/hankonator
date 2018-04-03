@@ -70,6 +70,7 @@ class Menu(pyforms.BaseWidget):
         self.erd = None
         self.transactions = []
         self.rules = []
+        self.users = []
 
         try:
             self.erd = Erd.load()
@@ -148,7 +149,7 @@ class Menu(pyforms.BaseWidget):
         pass
 
     def __button_initial_data_action(self):
-        win = InitialDataEditor(self.erd, self.transactions)
+        win = InitialDataEditor(self.erd, self.transactions, self.users)
         win.parent = self
         win.show()
 
