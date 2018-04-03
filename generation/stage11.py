@@ -1,3 +1,5 @@
+from random import randint, randrange
+
 from docx.shared import Pt
 
 from generation import Project
@@ -6,6 +8,7 @@ from generation import Project
 class Stage11(object):
 
     TABLE_FONT_SIZE = 6
+    EXAMPLES_COUNT = 4
 
     def __init__(self, erd):
         self.erd = erd
@@ -87,3 +90,28 @@ class Stage11(object):
                 row[0].paragraphs[0].add_run(foreign_key.name).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 row[1].paragraphs[0].add_run(foreign_key.description).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 row_counter += 1
+
+            relation_paragraph = document.add_paragraph()
+
+            relation_paragraph.add_run().add_break()
+            relation_paragraph.add_run('Przykładowe dane tabeli o schemacie relacji ' + entity.name_plural)
+            relation_paragraph.add_run().add_break()
+
+            table = document.add_table(rows=Stage11.EXAMPLES_COUNT + 1, cols=len(entity.attributes)+len(entity.foreign_keys))
+            hdr_row = table.rows[0].cells
+
+            column_counter = 0
+            for attribute in entity.attributes + entity.foreign_keys:
+                run = hdr_row[column_counter].paragraphs[0].add_run(attribute.name)
+                run.bold = True
+                run.font.size = Pt(Stage11.TABLE_FONT_SIZE)
+
+                if attribute.is_key or attribute in entity.foreign_keys:
+                    for i in range(1, Stage11.EXAMPLES_COUNT + 1):
+                        row = table.rows[i].cells
+                        row[column_counter].paragraphs[0].add_run(str(randrange(0, 1000))).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                column_counter += 1
+
+            relation_paragraph = document.add_paragraph()
+            relation_paragraph.add_run().add_break()
+            relation_paragraph.add_run().add_break()
