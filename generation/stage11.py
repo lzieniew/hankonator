@@ -110,6 +110,10 @@ class Stage11(object):
                     for i in range(1, Stage11.EXAMPLES_COUNT + 1):
                         row = table.rows[i].cells
                         row[column_counter].paragraphs[0].add_run(str(randrange(0, 1000))).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                if attribute.type.short_name == 'Bool':
+                    for i in range(1, Stage11.EXAMPLES_COUNT + 1):
+                        row = table.rows[i].cells
+                        row[column_counter].paragraphs[0].add_run(str(randrange(0,2))).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 column_counter += 1
 
             relation_paragraph = document.add_paragraph()

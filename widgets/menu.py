@@ -13,6 +13,7 @@ from .stage_7 import Stage7Window
 from .stage_8 import Stage8Window
 from .stage_10 import Stage10Window
 from .stage_11 import Stage11Window
+from .stage_12 import Stage12Window
 
 from base import Erd, Entity, Attribute, Relationship, Types
 
@@ -39,7 +40,7 @@ class Menu(pyforms.BaseWidget):
         self._button_stage_11 = ControlButton('Etap 11')
         self._button_stage_12 = ControlButton('Etap 12')
         self._button_stage_13 = ControlButton('Etap 13')
-        self._button_generate = ControlButton('GENERATE!')
+        self._button_generate = ControlButton('GENERUJ!')
 
         # button's actions
         self._button_erd_reader.value = self.__button_initial_data_action
@@ -139,7 +140,9 @@ class Menu(pyforms.BaseWidget):
         self._panel.value = win
 
     def __button_stage_12_action(self):
-        pass
+        win = Stage12Window(self.erd, self._project)
+        win.parent = self
+        self._panel.value = win
 
     def __button_stage_13_action(self):
         pass

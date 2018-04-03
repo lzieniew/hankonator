@@ -83,6 +83,7 @@ class Entity(object):
         result += ')'
         return result
 
+    # TODO fix bug: sometimes there is a comma at the end of argument list
     def build_argument_list(self, paragraph):
         paragraph.add_run('(')
         counter = 0
@@ -151,7 +152,6 @@ class Attribute(object):
         self.type = type
         self.is_key = is_key
         self.description = description
-
 
     def __repr__(self):
         return self.name + ':' + repr(self.type)

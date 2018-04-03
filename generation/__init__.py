@@ -9,3 +9,4 @@ from .stage7 import Stage7
 from .stage8 import Stage8
 from .stage10 import Stage10
 from .stage11 import Stage11
+from .stage12 import Stage12
