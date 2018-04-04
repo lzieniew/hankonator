@@ -35,10 +35,18 @@ class Erd(object):
         return out
 
     def get_entity_by_name(self, name):
-        return list(filter(lambda entity: entity.name_singular == name, self.entities))[0]
+        entities_with_name = list(filter(lambda entity: entity.name_singular == name, self.entities))
+        if not entities_with_name:
+            return None
+        else:
+            return entities_with_name[0]
 
     def get_relationship_by_name(self, name):
-        return list(filter(lambda rel: rel.name == name, self.relationships))[0]
+        relationships_with_name = list(filter(lambda rel: rel.name == name, self.relationships))
+        if not relationships_with_name:
+            return None
+        else:
+            return relationships_with_name[0]
 
     def get_entity_by_pk(self, pk_name):
         result_entity = None

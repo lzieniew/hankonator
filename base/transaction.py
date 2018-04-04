@@ -18,3 +18,6 @@ class Transaction(object):
         self.name = name
         self.type = type
         self.entity = entity
+
+    def __repr__(self):
+        return self.name + ': ' + self.type + ' (' + self.entity + ')'

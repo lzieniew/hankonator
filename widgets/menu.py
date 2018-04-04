@@ -77,14 +77,8 @@ class Menu(pyforms.BaseWidget):
         except:
             self.erd = Erd()
 
-        # Waring, erd object is created only for testing purposes
+        # Warning, erd object is created only for testing purposes
         self.erd = Erd()
-        # e1 = Entity('Arkusz', 'Arkusze', [Attribute('id', 'int'), Attribute('data', 'date')])
-        # e2 = Entity('Użytkownik', 'Użytkownicy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
-        # e3 = Entity('Organizator', 'Organizatorzy', [Attribute('Imię', 'string'), Attribute('Nazwisko', 'string'), Attribute('id', 'int')])
-        # self.erd.entities = [e1, e2, e3]
-        # r1 = Relationship(left_entity='Arkusz', left_quantity='0,N', name='Przydzielony', right_quantity='0,1', right_entity='Użytkownik')
-        # self.erd.relationships = [r1]
         self.DEBUG_FUNCTION()
 
 

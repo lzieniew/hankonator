@@ -35,23 +35,41 @@ class TransactionsEditor(BaseWidget):
         self._remove_transaction_button = ControlButton('Usuń transakcję')
 
         self._add_transaction_button.value = self.__add_transaction_action
+        self._edit_transaction_button.value = self.__edit_transaction_action
+
+        self._transaction_list.readonly = True
 
         self.formset = ['_transaction_list', ('_add_transaction_button', '_edit_transaction_button', '_remove_transaction_button')]
 
     def populate(self):
+        self._transaction_list.clear()
         for transaction in self.transactions:
-            self._transaction_list += [transaction]
+            self._transaction_list += [repr(transaction)]
 
     def __add_transaction_action(self):
         win = TransactionEditor(self.erd, self.transactions)
         win.parent = self
         win.show()
 
+    def __edit_transaction_action(self):
+        index = self._transaction_list.selected_row_index
+        if index is not None:
+            win = TransactionEditor(self.erd, self.transactions, self.transactions[index])
+            win.parent = self
+            win.show()
+
+    def __remove_transaction_action(self):
+        index = self._transaction_list.selected_row_index
+        if index is not None:
+            del self.transactions[index]
+            self.populate()
+
 
 class TransactionEditor(BaseWidget):
 
     def __init__(self, erd, transactions, transaction=None):
         super(TransactionEditor, self).__init__()
+        self.set_margin(10)
         self.transactions = transactions
         self.erd = erd
 
@@ -73,7 +91,23 @@ class TransactionEditor(BaseWidget):
 
         self.formset = ['_name_edit_text', '_type_combo', '_entity_combo', '_save_button']
 
-    def __save_action(self):
-        self.transactions.append(Transaction(name=self._name_edit_text.value))
+        if transaction is not None:
+            self.transaction = transaction
+        else:
+            self.transaction = Transaction('')
 
+        self.populate()
+
+    def populate(self):
+        self._name_edit_text.value = self.transaction.name
+        self._type_combo.value = self.transaction.type
+        self._entity_combo.value = self.transaction.entity
+
+    def __save_action(self):
+        self.transaction.name = self._name_edit_text.value
+        self.transaction.type = self._type_combo.value
+        self.transaction.entity = self._entity_combo.value
+        if self.transaction not in self.transactions:
+            self.transactions.append(self.transaction)
+        self.parent.populate()
         self.close()

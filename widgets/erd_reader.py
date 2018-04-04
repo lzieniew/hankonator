@@ -182,6 +182,8 @@ class EntityEditor(pyforms.BaseWidget):
             self._attributes_list += [attribute.name]
 
     def __add_attribute_button_action(self):
+        self.entity.name_singular = self._entity_name_singular.value
+        self.entity.name_plural = self._entity_name_plural.value
         editor = AttributeEditor(self.entity.attributes)
         editor.parent = self
         editor.show()
