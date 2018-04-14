@@ -70,12 +70,13 @@ class Entity(object):
 
     ID = 1
 
-    def __init__(self, name_singular, name_plural, attributes):
+    def __init__(self, name_singular, name_plural, attributes, is_associative=False):
         self.name_singular = name_singular
         self.name_plural = name_plural
         self.attributes = attributes
         self.id = Entity.ID
         self.foreign_keys = []
+        self.is_associative = is_associative
         Entity.ID += 1
 
     def get_key(self):

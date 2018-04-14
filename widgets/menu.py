@@ -79,7 +79,7 @@ class Menu(pyforms.BaseWidget):
 
         # Warning, erd object is created only for testing purposes
         self.erd = Erd()
-        self.DEBUG_FUNCTION()
+        self.DEBUG_ACTUALL_PROJECT()
 
 
     def __button_stage_1_action(self):
@@ -158,8 +158,9 @@ class Menu(pyforms.BaseWidget):
         e2 = Entity('Konkurs', 'Konkursy', [Attribute('IdK', Types.INT, True), Attribute('Nazwa', Types.STRING), Attribute('Data', Types.DATE)])
         e6 = Entity('Organizator', 'Organizatorzy', [Attribute('IdO', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
         e5 = Entity('Sprawdzający', 'Sprawdzający', [Attribute('IdS', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
+        e7 = Entity('PytanieNaArkuszu', 'PytaniaNaArkuszu', [], is_associative=True)
 
-        self.erd.entities = [e1, e2, e3, e4, e5, e6]
+        self.erd.entities = [e1, e2, e3, e4, e5, e6, e7]
 
 
     # TODO change the example, so it doesn't have any N-N relationships
