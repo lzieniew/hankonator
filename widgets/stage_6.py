@@ -16,7 +16,7 @@ class Stage6Window(BaseWidget):
         self.set_margin(20)
 
         self._label = ControlLabel('Nie masz tutaj nic do roboty, kliknij zapisz')
-        self._save_button('Zapisz')
+        # self._save_button('Zapisz')
 
         self.erd = erd
         self.transactions = transactions

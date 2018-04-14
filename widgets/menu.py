@@ -107,7 +107,7 @@ class Menu(pyforms.BaseWidget):
         pass
 
     def __button_stage_6_action(self):
-        win = Stage6Window(self.erd, self.transactions, self._project)
+        win = Stage6Window(self.erd, self.transactions)
         win.parent = self
         self._panel.value = win
 
@@ -149,6 +149,18 @@ class Menu(pyforms.BaseWidget):
 
     def __button_generate_action(self):
         self._project.generate()
+
+
+    def DEBUG_ACTUALL_PROJECT(self):
+        e1 = Entity('Arkusz', 'Arkusze', [Attribute('IdA', Types.INT, True), Attribute('Ocena', Types.INT_POSITIVE, False)])
+        e4 = Entity('Pytanie', 'Pytania', [Attribute('IdP', Types.INT, True), Attribute('Pytanie', Types.STRING, False), Attribute('Odpowiedź', Types.STRING)])
+        e3 = Entity('Uczestnik', 'Uczestnicy', [Attribute('NrAlbumu', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
+        e2 = Entity('Konkurs', 'Konkursy', [Attribute('IdK', Types.INT, True), Attribute('Nazwa', Types.STRING), Attribute('Data', Types.DATE)])
+        e6 = Entity('Organizator', 'Organizatorzy', [Attribute('IdO', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
+        e5 = Entity('Sprawdzający', 'Sprawdzający', [Attribute('IdS', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
+
+        self.erd.entities = [e1, e2, e3, e4, e5, e6]
+
 
     # TODO change the example, so it doesn't have any N-N relationships
     def DEBUG_FUNCTION(self):
