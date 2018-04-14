@@ -36,6 +36,7 @@ class TransactionsEditor(BaseWidget):
 
         self._add_transaction_button.value = self.__add_transaction_action
         self._edit_transaction_button.value = self.__edit_transaction_action
+        self._remove_transaction_button.value = self.__remove_transaction_action
 
         self._transaction_list.readonly = True
 
@@ -57,6 +58,12 @@ class TransactionsEditor(BaseWidget):
             win = TransactionEditor(self.erd, self.transactions, self.transactions[index])
             win.parent = self
             win.show()
+
+    def __remove_transaction_action(self):
+        index = self._transaction_list.selected_row_index
+        if index is not None:
+            del self._transaction_list[index]
+            self.populate()
 
     def __remove_transaction_action(self):
         index = self._transaction_list.selected_row_index

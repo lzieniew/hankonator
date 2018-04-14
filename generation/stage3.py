@@ -16,7 +16,7 @@ class Stage3:
         header.add_run().add_break()
 
         filtered = list(filter(lambda x: not x.is_associative, self.erd.entities))
-        filtered.sort(key=lambda x:x.id)
+        filtered.sort(key=lambda x: x.id)
 
         for entity in filtered:
             entity_paragraph = document.add_paragraph()
