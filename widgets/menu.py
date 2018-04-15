@@ -71,6 +71,7 @@ class Menu(pyforms.BaseWidget):
         self.transactions = []
         self.rules = []
         self.users = []
+        self.perspectives = []
 
         try:
             self.erd = Erd.load()
@@ -143,7 +144,7 @@ class Menu(pyforms.BaseWidget):
         pass
 
     def __button_initial_data_action(self):
-        win = InitialDataEditor(self.erd, self.transactions, self.users)
+        win = InitialDataEditor(self.erd, self.transactions, self.users, self.perspectives)
         win.parent = self
         win.show()
 
@@ -162,6 +163,15 @@ class Menu(pyforms.BaseWidget):
 
         self.erd.entities = [e1, e2, e3, e4, e5, e6, e7]
 
+        r1 = Relationship('NależyDo', left_entity='Konkurs', left_quantity='1,1', right_entity='Arkusz', right_quantity='0,N')
+        r2 = Relationship('Zawiera', left_entity='Arkusz', left_quantity='1,1', right_entity='PytanieNaArkuszu', right_quantity='0,N')
+        r3 = Relationship('Uczestniczy', left_entity='Konkurs', left_quantity='1,1', right_entity='Uczestnik', right_quantity='0,N')
+        r4 = Relationship('Wypełnia', left_entity='Arkusz', left_quantity='0,N', right_entity='Uczestnik', right_quantity='0,1')
+        r5 = Relationship('Jest', left_entity='Pytanie', left_quantity='1,1', right_entity='PytanieNaArkuszu', right_quantity='0,N')
+        r6 = Relationship('Tworzy', left_entity='Arkusz', left_quantity='0,N', right_entity='Organizator', right_quantity='1,1')
+        r7 = Relationship('Sprawdza', left_entity='Sprawdzający', left_quantity='0,1', right_entity='Arkusz', right_quantity='0,N')
+
+        self.erd.relationships = [r1, r2, r3, r4, r5, r6, r7]
 
     # TODO change the example, so it doesn't have any N-N relationships
     def DEBUG_FUNCTION(self):
@@ -178,8 +188,7 @@ class Menu(pyforms.BaseWidget):
         e11 = Entity('Wezwanie', 'Wezwania', [Attribute('IdW', Types.INT, True), Attribute('DataWezw',Types.DATE)])
         e12 = Entity('Schorzenie', 'Schorzenia', [Attribute('IdSch', Types.INT, True), Attribute('Uwagi', Types.STRING)])
 
-
-        self.erd.entities = [e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12]
+        self.erd.entities = [e1, e2, e3, e4, e5, e6, e7, e8, e9, e10,e11, e12]
 
         for entity in self.erd.entities:
             for attribute in entity.attributes:
@@ -197,6 +206,6 @@ class Menu(pyforms.BaseWidget):
         r10 = Relationship('Hospitalizowany', left_entity='Poszkodowany', left_quantity='0,N', right_entity='Szpital', right_quantity='0,1')
         r11 = Relationship('PracujeW', left_entity='Pracownik szpitala', left_quantity='0,N', right_entity='Szpital', right_quantity='1,1')
 
-        self.erd.relationships = [r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11]
+        self.erd.relationships = [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11]
 
 

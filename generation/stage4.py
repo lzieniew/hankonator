@@ -16,7 +16,8 @@ class Stage4:
         self.populate_rules()
 
     def populate_rules(self):
-        for entity in self.erd.entities:
+        filtered_entities = list(filter(lambda x: not x.is_associative, self.erd.entities))
+        for entity in filtered_entities:
             self.rules_dict[entity.name_singular] = []
             relationships = self.erd.get_relationships_connected_wit_entity(entity.name_singular)
             for rel in relationships:

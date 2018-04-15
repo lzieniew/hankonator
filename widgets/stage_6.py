@@ -21,4 +21,4 @@ class Stage6Window(BaseWidget):
         self.erd = erd
         self.transactions = transactions
 
-        self._populate()
+        # self._populate()
