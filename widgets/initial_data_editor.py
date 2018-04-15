@@ -7,11 +7,12 @@ from .erd_reader import ErdReader
 from .transaction_editor import TransactionsEditor
 from .user_editor import UsersEditor
 from .perspectives_editor import PerspectivesEditor
+from base import Rule
 
 
 class InitialDataEditor(BaseWidget):
 
-    def __init__(self, erd, transactions, users, perspectives):
+    def __init__(self, erd, transactions, users, perspectives, rules):
         super(InitialDataEditor, self).__init__('Edytor podstawowych danych projektu')
         self.set_margin(10)
 
@@ -19,6 +20,7 @@ class InitialDataEditor(BaseWidget):
         self.transactions = transactions
         self.users = users
         self.perspectives = perspectives
+        self.rules = rules
 
         self._label = ControlLabel('W tym oknie wpisz podstawowe dane dotyczące Twojego projektu')
         self._erd_button = ControlButton('ERD')

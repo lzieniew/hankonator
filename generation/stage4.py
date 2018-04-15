@@ -13,33 +13,6 @@ class Stage4:
 
         self.rules_dict = {}
 
-        self.populate_rules()
-
-    def populate_rules(self):
-        filtered_entities = list(filter(lambda x: not x.is_associative, self.erd.entities))
-        for entity in filtered_entities:
-            self.rules_dict[entity.name_singular] = []
-            relationships = self.erd.get_relationships_connected_wit_entity(entity.name_singular)
-            for rel in relationships:
-                this_entity_name = entity.name_singular
-                other_entity_name = rel.get_other_entity_name(entity.name_singular)
-                if rel.get_other_ends_multiplicity(this_entity_name)[0] == '0':
-                    rule = Rule(this_entity_name + u' nie musi być powiązany z żadnym ' + other_entity_name + '\n', this_entity_name, other_entity_name)
-                    self.rules_dict[this_entity_name].append(rule)
-                    self.rules.append(rule)
-                elif rel.get_other_ends_multiplicity(entity.name_singular)[0] == '1':
-                    rule = Rule(this_entity_name + u' musi być powiązany z przynajmniej jednym ' + other_entity_name + '\n', this_entity_name, other_entity_name)
-                    self.rules_dict[this_entity_name].append(rule)
-                    self.rules.append(rule)
-
-                if rel.get_other_ends_multiplicity(entity.name_singular)[-1] == '1':
-                    rule = Rule(this_entity_name + u' jest powiązany z maksymalnie jednym ' + other_entity_name + '\n', this_entity_name, other_entity_name)
-                    self.rules_dict[this_entity_name].append(rule)
-                    self.rules.append(rule)
-                elif rel.get_other_ends_multiplicity(entity.name_singular)[-1] == 'N':
-                    rule = Rule(this_entity_name + u' może być powiązany z wieloma ' + other_entity_name + '\n', this_entity_name, other_entity_name)
-                    self.rules_dict[this_entity_name].append(rule)
-                    self.rules.append(rule)
 
     def build(self, document):
 
