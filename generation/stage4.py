@@ -22,7 +22,7 @@ class Stage4:
 
         counter = 1
 
-        for entity in list(filter(lambda x: not x.is_associative, self.erd.entities)):
+        for entity in self.erd.entities:
             rules_paragraph = document.add_paragraph()
             rules_paragraph.keep_together = True
 

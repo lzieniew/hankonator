@@ -14,9 +14,7 @@ class CustomEntityCombo(ControlCombo):
         super(CustomEntityCombo, self).__init__()
         self.entities = entities
 
-        filter_lambda = lambda x: not x.is_associative
-
-        for entity in list(filter(filter_lambda, entities)):
+        for entity in entities:
             self.add_item(entity.name_singular, value=entity)
 
     def activated_event(self, index):
@@ -31,7 +29,9 @@ class Stage4Window(BaseWidget):
 
         self._entities_combo = CustomEntityCombo(erd.entities)
         self._rules_list = ControlList()
+        self._add_rule_button = ControlButton('Dodaj regułę')
         self._fix_button = ControlButton('Popraw regułę')
+        self._remove_rule_button = ControlButton('Usuń regułę')
         self._save_button = ControlButton('Zapisz etap 4')
 
         self.erd = erd
@@ -40,10 +40,12 @@ class Stage4Window(BaseWidget):
 
         self._save_button.value = self.__save_action
         self._fix_button.value = self.__fix_action
+        self._add_rule_button.value = self.__add_rule_action
+        self._remove_rule_button.value = self.__remove_rule_action
         self._rules_list.readonly = True
         self._entities_combo.parent = self
 
-        self.formset = ['_entities_combo', ('_rules_list', '_fix_button'), '_save_button']
+        self.formset = ['_entities_combo', '_rules_list', ('_add_rule_button', '_fix_button', '_remove_rule_button'), '_save_button']
 
         if not rules:
             self.populate_rules()
@@ -51,10 +53,9 @@ class Stage4Window(BaseWidget):
         self.populate()
 
     def populate_rules(self):
-        filtered_entities = list(filter(lambda x: not x.is_associative, self.erd.entities))
-        relationships = self.erd.get_relationships_without_associative_entities()
-        for entity in filtered_entities:
-            rels = self.erd.get_relationships_connected_with_entity(entity.name_singular, relationships_alt=relationships)
+        # relationships = self.erd.get_relationships_without_associative_entities()
+        for entity in self.erd.entities:
+            rels = self.erd.get_relationships_connected_with_entity(entity.name_singular)
             for rel in rels:
                 this_entity_name = entity.name_singular
                 other_entity_name = rel.get_other_entity_name(entity.name_singular)
@@ -81,21 +82,25 @@ class Stage4Window(BaseWidget):
 
     # TODO fix indexes, now they are not proper ones
     def __fix_action(self):
+        entity = self._entities_combo.value
+        entitys_rules = list(filter(lambda r: r.left_entity_name == entity.name_singular or r.right_entity_name == entity.name_singular, self.rules))
         index = self._rules_list.selected_row_index
         if index is not None:
-            win = RuleEditor(self.rules[index])
+            win = RuleEditor(entitys_rules[index])
             win.parent = self
             win.show()
 
     def __add_rule_action(self):
-        win = RuleEditor()
+        win = RuleEditor(self.rules, entity=self._entities_combo.value.name_singular)
         win.parent = self
         win.show()
 
     def __remove_rule_action(self):
+        entity = self._entities_combo.value
+        entitys_rules = list(filter(lambda r: r.left_entity_name == entity.name_singular or r.right_entity_name == entity.name_singular, self.rules))
         index = self._rules_list.selected_row_index
         if index is not None:
-            del self.rules[index]
+            del entitys_rules[index]
             self.populate()
 
     def __save_action(self):
@@ -104,16 +109,23 @@ class Stage4Window(BaseWidget):
 
 class RuleEditor(BaseWidget):
 
-    def __init__(self, rule=None):
+    def __init__(self, rules, rule=None, entity=''):
         super(RuleEditor, self).__init__()
+        self.set_margin(20)
+
+        self.rules = rules
 
         self._rule_content_edit_text = ControlText()
-
+        self._save_button = ControlButton('Zapisz')
 
         if rule is None:
-            self.rule = Rule('', left_entity_name='', right_entity_name='')
+            self.rule = Rule('', left_entity_name=entity, right_entity_name='')
         else:
             self.rule = rule
+
+        self._save_button.value = self.__save_action
+
+        self.formset = ['', '_rule_content_edit_text', '_save_button']
 
         self.populate()
 
@@ -122,5 +134,7 @@ class RuleEditor(BaseWidget):
 
     def __save_action(self):
         self.rule.content = self._rule_content_edit_text.value
+        if self.rule not in self.rules:
+            self.rules.append(self.rule)
         self.parent.populate()
         self.close()
