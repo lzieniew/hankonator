@@ -11,7 +11,7 @@ class Stage4:
         self.erd = erd
         self.rules = rules
 
-        self.rules_dict = {}
+        # self.rules_dict = {}
 
 
     def build(self, document):
@@ -21,21 +21,18 @@ class Stage4:
         header.add_run().add_break()
 
         counter = 1
-        rules_counter = 1
 
-        for entity in self.rules_dict.keys():
+        for entity in list(filter(lambda x: not x.is_associative, self.erd.entities)):
             rules_paragraph = document.add_paragraph()
             rules_paragraph.keep_together = True
 
-            if self.rules_dict[entity]:
-                rules_paragraph.add_run(str(counter) + '. Reguły dla KAT/' + '{0:03}'.format(self.erd.get_entity_by_name(entity).id) + ' ' + entity).font.size = Pt(16)
+            rules_paragraph.add_run(str(counter) + '. Reguły dla KAT/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular).font.size = Pt(16)
             rules_paragraph.add_run().add_break()
-            for rule in self.rules_dict[entity]:
-                rules_paragraph.add_run('REG/' + '{0:03}'.format(rules_counter)).font.bold=True
+            entitys_rules = list(filter(lambda r: r.left_entity_name == entity.name_singular, self.rules))
+            for rule in entitys_rules:
+                rules_paragraph.add_run('REG/' + '{0:03}'.format(rule.id)).font.bold=True
                 rules_paragraph.add_run('\t\t')
                 rules_paragraph.add_run(repr(rule))
-
-                rules_counter += 1
 
             counter += 1
         document.add_page_break()

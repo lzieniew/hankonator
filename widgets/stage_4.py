@@ -6,6 +6,7 @@ from pyforms.gui.controls.ControlList import ControlList
 from generation import Stage4
 from base import Rule
 
+
 class CustomEntityCombo(ControlCombo):
 
     def __init__(self, entities):
@@ -21,8 +22,8 @@ class CustomEntityCombo(ControlCombo):
         self.parent.populate()
 
 
-
 class Stage4Window(BaseWidget):
+
     def __init__(self, erd, project, rules):
         super(Stage4Window, self).__init__('Etap 4')
         self.set_margin(20)
@@ -36,8 +37,6 @@ class Stage4Window(BaseWidget):
         self._project = project
         self.rules = rules
 
-        self.rules_dict = {}
-
         self._save_button.value = self.__save_action
         self._rules_list.readonly = True
         self._entities_combo.parent = self
@@ -49,31 +48,26 @@ class Stage4Window(BaseWidget):
 
         self.populate()
 
-
     def populate_rules(self):
         filtered_entities = list(filter(lambda x: not x.is_associative, self.erd.entities))
+        relationships = self.erd.get_relationships_without_associative_entities()
         for entity in filtered_entities:
-            self.rules_dict[entity.name_singular] = []
-            relationships = self.erd.get_relationships_connected_wit_entity(entity.name_singular)
-            for rel in relationships:
+            rels = self.erd.get_relationships_connected_with_entity(entity.name_singular, relationships_alt=relationships)
+            for rel in rels:
                 this_entity_name = entity.name_singular
                 other_entity_name = rel.get_other_entity_name(entity.name_singular)
                 if rel.get_other_ends_multiplicity(this_entity_name)[0] == '0':
                     rule = Rule(this_entity_name + u' nie musi być powiązany z żadnym ' + other_entity_name + '\n', this_entity_name, other_entity_name)
-                    self.rules_dict[this_entity_name].append(rule)
                     self.rules.append(rule)
                 elif rel.get_other_ends_multiplicity(entity.name_singular)[0] == '1':
                     rule = Rule(this_entity_name + u' musi być powiązany z przynajmniej jednym ' + other_entity_name + '\n', this_entity_name, other_entity_name)
-                    self.rules_dict[this_entity_name].append(rule)
                     self.rules.append(rule)
 
                 if rel.get_other_ends_multiplicity(entity.name_singular)[-1] == '1':
                     rule = Rule(this_entity_name + u' jest powiązany z maksymalnie jednym ' + other_entity_name + '\n', this_entity_name, other_entity_name)
-                    self.rules_dict[this_entity_name].append(rule)
                     self.rules.append(rule)
                 elif rel.get_other_ends_multiplicity(entity.name_singular)[-1] == 'N':
                     rule = Rule(this_entity_name + u' może być powiązany z wieloma ' + other_entity_name + '\n', this_entity_name, other_entity_name)
-                    self.rules_dict[this_entity_name].append(rule)
                     self.rules.append(rule)
 
     def populate(self):
@@ -81,8 +75,7 @@ class Stage4Window(BaseWidget):
         curr_entity = self._entities_combo.value.name_singular
         filtered_rules = list(filter(lambda x: curr_entity == x.left_entity_name or curr_entity == x.right_entity_name, self.rules))
         for rule in filtered_rules:
-            self._rules_list += [rule.content]
-
+            self._rules_list += [str(rule.id) + ' ' + rule.content]
 
     def __fix_action(self):
         pass
@@ -92,7 +85,6 @@ class Stage4Window(BaseWidget):
 
     def __remove_rule_action(self):
         pass
-
 
     def __save_action(self):
         self._project.stages.append(Stage4(self.erd, self.rules))

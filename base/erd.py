@@ -19,18 +19,19 @@ class Erd(object):
                 entities.add(relationship)
         return list(entities)
 
-    def get_relationships_connected_wit_entity(self, entity_name):
-        relationships = set()
-        for relationship in self.relationships:
+    def get_relationships_connected_with_entity(self, entity_name, relationships_alt=None):
+        relationships = relationships_alt if relationships_alt is not None else self.relationships
+        relationships_set = set()
+        for relationship in relationships:
             if relationship.left_entity == entity_name or relationship.right_entity == entity_name:
-                relationships.add(relationship)
-        return list(relationships)
+                relationships_set.add(relationship)
+        return list(relationships_set)
 
     def get_relationship_between(self, entity_1_name, entity_2_name):
         out = None
         for relationship in self.relationships:
             if (relationship.left_entity == entity_1_name and relationship.right_entity == entity_2_name)\
-                or (relationship.left_entity == entity_2_name and relationship.right_entity == entity_1_name):
+                    or (relationship.left_entity == entity_2_name and relationship.right_entity == entity_1_name):
                 out = relationship
         return out
 
@@ -54,6 +55,27 @@ class Erd(object):
             if entity.get_key().name == pk_name:
                 result_entity = entity
         return result_entity
+
+    def get_relationships_without_associative_entities(self):
+        result = []
+        for entity in self.entities:
+            relationships = self.get_relationships_connected_with_entity(entity_name=entity.name_singular)
+            if entity.is_associative:
+                left_entity = self.get_entity_by_name(relationships[0].get_entity_with_N_quantity())
+                right_entity = self.get_entity_by_name(relationships[1].get_entity_with_N_quantity())
+                if not left_entity.is_associative and not right_entity.is_associative:
+                    result.append(Relationship(left_entity=relationships[0].get_entity_with_N_quantity(),
+                                  left_quantity=relationships[0].get_N_quantity(),
+                                  right_entity=relationships[1].get_entity_with_N_quantity(),
+                                  right_quantity=relationships[1].get_N_quantity(),
+                                  name='temp'))
+            else:
+                for relationship in relationships:
+                    left_entity = self.get_entity_by_name(relationship.left_entity)
+                    right_entity = self.get_entity_by_name(relationship.right_entity)
+                    if relationship not in result and not left_entity.is_associative and not right_entity.is_associative:
+                        result.append(relationship)
+        return result
 
     def save(self):
         pass
@@ -153,6 +175,26 @@ class Relationship(object):
             return self.right_entity
         elif self.right_entity == this_name:
             return self.left_entity
+
+    def get_entity_with_N_quantity(self):
+        if 'N' in self.left_quantity and 'N' in self.right_quantity:
+            return (self.left_entity, self.right_entity)
+        elif 'N' in self.left_quantity:
+            return (self.right_entity)
+        elif 'N' in self.right_quantity:
+            return (self.left_entity)
+        else:
+            return None
+
+    def get_N_quantity(self):
+        if 'N' in self.left_quantity and 'N' in self.right_quantity:
+            return (self.left_quantity, self.right_quantity)
+        elif 'N' in self.left_quantity:
+            return (self.left_quantity)
+        elif 'N' in self.right_quantity:
+            return (self.right_quantity)
+        else:
+            return None
 
     def __repr__(self):
         return self.left_entity + ' -- ' + self.left_quantity + ' --- ' + self.name + ' --- ' + self.right_quantity + ' -- ' + self.right_entity

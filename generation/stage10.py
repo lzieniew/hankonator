@@ -10,7 +10,7 @@ class Stage10(object):
 
     def add_foreign_keys(self):
         for entity in self.erd.entities:
-            relationships = self.erd.get_relationships_connected_wit_entity(entity.name_singular)
+            relationships = self.erd.get_relationships_connected_with_entity(entity.name_singular)
             for relationship in relationships:
                 if relationship.get_this_ends_multiplicity(entity.name_singular)[-1] == 'N':
                     other_entity = self.erd.get_entity_by_name(relationship.get_other_entity_name(entity.name_singular))
