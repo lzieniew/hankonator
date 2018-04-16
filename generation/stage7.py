@@ -69,4 +69,4 @@ class Stage7(object):
                     entity_rules.append(rule)
             for rule in entity_rules:
                 relationship_paragraph.add_run('REG/' + '{0:03}'.format(rule.id) + ' ' + rule.content)
-    print('Etap 7 wygenerowany!')
+        print('Etap 7 wygenerowany!')

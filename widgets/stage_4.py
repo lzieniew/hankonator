@@ -47,6 +47,8 @@ class Stage4Window(BaseWidget):
         if not rules:
             self.populate_rules()
 
+        self.populate()
+
 
     def populate_rules(self):
         filtered_entities = list(filter(lambda x: not x.is_associative, self.erd.entities))
