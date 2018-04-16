@@ -65,6 +65,8 @@ class Menu(pyforms.BaseWidget):
                                                '_button_stage_10', '_button_stage_11', '_button_stage_12',
                                                '_button_stage_13'), '_panel', '_button_generate']
 
+        
+
         # logic
         self._project = Project([])
         self.erd = None
