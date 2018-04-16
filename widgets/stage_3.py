@@ -3,6 +3,7 @@ from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlList import ControlList
 
 from generation import Stage3
+from base import Saver
 
 
 class Stage3Window(BaseWidget):
@@ -28,3 +29,4 @@ class Stage3Window(BaseWidget):
 
     def __save_action(self):
         self._project.stages.append(Stage3(self.erd))
+        Saver.get_saver().save()

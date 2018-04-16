@@ -6,6 +6,7 @@ class Stage12(object):
 
     def __init__(self, erd):
         self.erd = erd
+        self.stage_number = 12
 
     def build(self, document):
 

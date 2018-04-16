@@ -12,6 +12,7 @@ class Stage11(object):
 
     def __init__(self, erd):
         self.erd = erd
+        self.stage_number = 11
 
     def build(self, document):
         header = document.add_paragraph()

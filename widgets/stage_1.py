@@ -4,6 +4,8 @@ from pyforms.gui.controls.ControlButton import  ControlButton
 from pyforms.gui.controls.ControlTextArea import ControlTextArea
 import docx
 
+from base import Saver
+
 
 class Stage1Window(pyforms.BaseWidget):
 
@@ -17,4 +19,9 @@ class Stage1Window(pyforms.BaseWidget):
         self._users_edit_text = ControlTextArea(u'Użytkownicy')
         self._save_button = ControlButton('Zapisz')
 
+        self._save_button.value = self.__save_action
+
         self._project = project
+
+    def __save_action(self):
+        Saver.get_saver().save()

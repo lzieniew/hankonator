@@ -1,18 +1,20 @@
 import pickle
 
-from base import Erd, Entity, Relationship, Rule, Transaction, Perspective, User
+from base import Erd
+from generation import Project
 
 
 class Saver(object):
 
     SAVER_INSTANCE = None
 
-    def __init__(self, erd=None, perspectives=None, rules=None, transactions=None, users=None):
+    def __init__(self, erd=None, perspectives=None, rules=None, transactions=None, users=None, project=None):
         self.erd = erd
         self.perspectives = perspectives
         self.rules = rules
         self.transactions = transactions
         self.users = users
+        self.project = project
 
     def save(self):
         f = open('save.pickle', 'wb')
@@ -27,6 +29,6 @@ class Saver(object):
                 f = open('save.pickle', 'rb')
                 saver = pickle.load(f)
             except Exception:
-                saver = Saver(erd=Erd(), perspectives=[], rules=[], transactions=[], users=[])
+                saver = Saver(erd=Erd(), perspectives=[], rules=[], transactions=[], users=[], project=Project())
             Saver.SAVER_INSTANCE = saver
             return saver

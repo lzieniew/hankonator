@@ -7,6 +7,7 @@ class Stage6(object):
     def __init__(self, erd, transactions):
         self.erd = erd
         self.transactions = transactions
+        self.stage_number = 5
 
     def build(self, document):
         header = document.add_paragraph()

@@ -10,6 +10,7 @@ class Stage4:
     def __init__(self, erd, rules):
         self.erd = erd
         self.rules = rules
+        self.stage_number = 4
 
         # self.rules_dict = {}
 

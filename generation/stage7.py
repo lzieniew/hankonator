@@ -7,6 +7,7 @@ class Stage7(object):
     def __init__(self, erd, rules):
         self.erd = erd
         self.rules = rules
+        self.stage_number = 7
 
     def build(self, document):
         header = document.add_paragraph()

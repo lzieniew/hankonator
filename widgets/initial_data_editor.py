@@ -7,7 +7,7 @@ from .erd_reader import ErdReader
 from .transaction_editor import TransactionsEditor
 from .user_editor import UsersEditor
 from .perspectives_editor import PerspectivesEditor
-from base import Rule
+from base import Rule, Saver
 
 
 class InitialDataEditor(BaseWidget):
@@ -28,7 +28,6 @@ class InitialDataEditor(BaseWidget):
         self._users_button = ControlButton('Użytkownicy')
         self._perspectives_button = ControlButton('Perspektywy')
         self._panel = ControlEmptyWidget()
-        self._save_button = ControlButton('Zapisz dane')
 
         self._erd_button.value = self.__erd_action
         self._transactions_button.value = self.__transactions_action
@@ -37,8 +36,7 @@ class InitialDataEditor(BaseWidget):
 
         self.formset = ['_label',
                         ('_erd_button', '_users_button', '_transactions_button', '_perspectives_button'),
-                        '_panel',
-                        '_save_button']
+                        '_panel']
 
     def __erd_action(self):
         win = ErdReader(self.erd)
@@ -59,6 +57,3 @@ class InitialDataEditor(BaseWidget):
         win = PerspectivesEditor(self.perspectives, self.users)
         win.parent = self
         self._panel.value = win
-
-    def __save_acton(self):
-        self.close()

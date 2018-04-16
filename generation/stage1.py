@@ -8,6 +8,7 @@ class Stage1:
         self.objective = objective
         self.range = objective
         self.users = []
+        self.stage_number = 1
 
     def build(self, document):
         document.add_paragraph('Etap 1')

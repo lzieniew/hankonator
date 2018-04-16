@@ -1,5 +1,8 @@
 from pyforms import BaseWidget
 from pyforms.gui.controls.ControlTextArea import ControlTextArea
+from pyforms.gui.controls.ControlButton import ControlButton
+
+from base import Saver
 
 
 class Stage2Window(BaseWidget):
@@ -15,5 +18,11 @@ class Stage2Window(BaseWidget):
         self._nonfunctional_requirements_text_edit = ControlTextArea('Wymagania niefunkcjonalne')
         self._existing_database_text_edit = ControlTextArea('Analiza isniejącej bazy danych')
         self._cost_text_edit = ControlTextArea('Analiza kosztów')
+        self._save_button = ControlButton('Zapisz')
+
+        self._save_button.value = self.__save_action
 
         self._project = project
+
+    def __save_action(self):
+        Saver.get_saver().save()

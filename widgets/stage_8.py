@@ -4,6 +4,7 @@ from pyforms.gui.controls.ControlList import ControlList
 
 
 from generation import Stage8
+from base import Saver
 
 
 class Stage8Window(BaseWidget):
@@ -15,7 +16,7 @@ class Stage8Window(BaseWidget):
         self.project = project
 
         self._entities_relationships_list = ControlList()
-        self._save_button = ControlButton('Zapisz etap 8')
+        self._save_button = ControlButton('Zapisz')
 
         self._save_button.value = self.__save_action
         self._entities_relationships_list.readonly = True
@@ -33,3 +34,4 @@ class Stage8Window(BaseWidget):
 
     def __save_action(self):
         self.project.stages.append(Stage8(self.erd))
+        Saver.get_saver().save()

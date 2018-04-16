@@ -4,7 +4,7 @@ from pyforms.gui.controls.ControlCombo import ControlCombo
 from pyforms.gui.controls.ControlList import ControlList
 from pyforms.gui.controls.ControlText import ControlText
 
-from base import Transaction
+from base import Transaction, Saver
 
 
 class TypeCombo(ControlCombo):
@@ -41,6 +41,8 @@ class TransactionsEditor(BaseWidget):
         self._transaction_list.readonly = True
 
         self.formset = ['_transaction_list', ('_add_transaction_button', '_edit_transaction_button', '_remove_transaction_button')]
+
+        self.populate()
 
     def populate(self):
         self._transaction_list.clear()
@@ -117,4 +119,5 @@ class TransactionEditor(BaseWidget):
         if self.transaction not in self.transactions:
             self.transactions.append(self.transaction)
         self.parent.populate()
+        Saver.get_saver().save()
         self.close()

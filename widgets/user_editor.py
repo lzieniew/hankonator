@@ -4,7 +4,7 @@ from pyforms.gui.controls.ControlCombo import ControlCombo
 from pyforms.gui.controls.ControlList import ControlList
 from pyforms.gui.controls.ControlText import ControlText
 
-from base import User
+from base import User, Saver
 
 
 class UsersEditor(BaseWidget):
@@ -80,5 +80,6 @@ class UserEditor(BaseWidget):
         self.user.name = self._name_edit_text.value
         if self.user not in self.users:
             self.users.append(self.user)
+        Saver.get_saver().save()
         self.close()
         self.parent.populate()

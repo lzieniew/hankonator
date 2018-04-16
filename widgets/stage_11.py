@@ -3,6 +3,7 @@ from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlLabel import ControlLabel
 
 from generation import Stage11
+from base import Saver
 
 
 class Stage11Window(BaseWidget):
@@ -14,8 +15,9 @@ class Stage11Window(BaseWidget):
         self.project = project
 
         self._label = ControlLabel('W tym etapie nie musisz niczego poprawiać, po prostu kliknij zapisz :)')
-        self._save_button = ControlButton('Zapisz etap 11')
+        self._save_button = ControlButton('Zapisz')
         self._save_button.value = self.__save_action
 
     def __save_action(self):
         self.project.stages.append(Stage11(self.erd))
+        Saver.get_saver().save()

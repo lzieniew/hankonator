@@ -7,6 +7,7 @@ class Stage10(object):
 
     def __init__(self, erd):
         self.erd = erd
+        self.stage_number = 10
 
     def add_foreign_keys(self):
         for entity in self.erd.entities:

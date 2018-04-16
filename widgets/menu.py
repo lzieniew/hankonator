@@ -68,7 +68,7 @@ class Menu(pyforms.BaseWidget):
         saver = Saver.get_saver()
 
         # logic
-        self._project = Project([])
+        self._project = saver.project
         self.erd = saver.erd
         self.transactions = saver.transactions
         self.rules = saver.rules

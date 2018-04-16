@@ -4,7 +4,7 @@ import pickle
 from pyforms.gui.controls.ControlCheckBox import ControlCheckBox
 from pyforms.gui.controls.ControlList import ControlList
 
-from base import Erd
+from base import Erd, Saver
 from pyforms.gui.controls.ControlText import ControlText
 from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
@@ -257,4 +257,5 @@ class RelationshipEditor(pyforms.BaseWidget):
         if self.relationship not in self.erd.relationships:
             self.erd.relationships.append(self.relationship)
         self.parent._populate()
+        Saver.get_saver().save()
         self.close()

@@ -3,7 +3,7 @@ from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlList import ControlList
 from pyforms.gui.controls.ControlText import ControlText
 
-from base import Perspective
+from base import Perspective, Saver
 
 class PerspectivesEditor(BaseWidget):
 
@@ -77,5 +77,6 @@ class PerspectiveEditor(BaseWidget):
         self.perspective.name = self._name_edit_text.value
         if self.perspective not in self.perspectives:
             self.perspectives.append(self.perspective)
+        Saver.get_saver().save()
         self.close()
         self.parent.populate()

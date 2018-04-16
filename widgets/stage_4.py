@@ -32,7 +32,7 @@ class Stage4Window(BaseWidget):
         self._add_rule_button = ControlButton('Dodaj regułę')
         self._fix_button = ControlButton('Popraw regułę')
         self._remove_rule_button = ControlButton('Usuń regułę')
-        self._save_button = ControlButton('Zapisz etap 4')
+        self._save_button = ControlButton('Zapisz')
 
         self.erd = erd
         self._project = project

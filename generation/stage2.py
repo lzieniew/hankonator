@@ -10,6 +10,7 @@ class Stage2:
         self.nonfunctional_requirements = nonfunctional_requirements
         self.existing_database = existing_database
         self.cost = cost
+        self.stage_number = 2
 
     def build(self, document):
         document.add_paragraph('Etap2')
