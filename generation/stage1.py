@@ -3,11 +3,11 @@ from docx import Document
 
 class Stage1:
 
-    def __init__(self, topic, objective, range, users):
+    def __init__(self, topic='', objective='', range='', users=''):
         self.topic = topic
         self.objective = objective
-        self.range = objective
-        self.users = []
+        self.range = range
+        self.users = users
         self.stage_number = 1
 
     def build(self, document):

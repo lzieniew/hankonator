@@ -5,6 +5,7 @@ from pyforms.gui.controls.ControlTextArea import ControlTextArea
 import docx
 
 from base import Saver
+from generation import Stage1
 
 
 class Stage1Window(pyforms.BaseWidget):
@@ -13,8 +14,8 @@ class Stage1Window(pyforms.BaseWidget):
         super(Stage1Window, self).__init__('Etap 1')
         self.set_margin(20)
 
-        self._theme_edit_text = ControlTextArea('Temat')
-        self._goal_edit_text = ControlTextArea('Cel')
+        self._topic_edit_text = ControlTextArea('Temat')
+        self._objective_edit_text = ControlTextArea('Cel')
         self._range_edit_text = ControlTextArea('Zakres')
         self._users_edit_text = ControlTextArea(u'Użytkownicy')
         self._save_button = ControlButton('Zapisz')
@@ -23,5 +24,23 @@ class Stage1Window(pyforms.BaseWidget):
 
         self._project = project
 
+        if self._project.get_stage(1) is None:
+            self.stage = Stage1()
+            self._project.add_stage(self.stage)
+        else:
+            self.stage = self._project.stages[1]
+
+        self.populate()
+
+    def populate(self):
+        self._topic_edit_text.value = self.stage.topic
+        self._objective_edit_text.value = self.stage.objective
+        self._range_edit_text.value = self.stage.range
+        self._users_edit_text.value = self.stage.users
+
     def __save_action(self):
+        self.stage.topic = self._topic_edit_text.value
+        self.stage.objective = self._objective_edit_text.value
+        self.stage.range = self._range_edit_text.value
+        self.stage.users = self._users_edit_text.value
         Saver.get_saver().save()

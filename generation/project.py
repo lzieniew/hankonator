@@ -10,7 +10,10 @@ class Project(object):
         self.stages = list(None for x in range(14))
 
     def add_stage(self, stage):
-        self.stages[stage.stage_number]
+        self.stages[stage.stage_number] = stage
+
+    def get_stage(self, stage_number):
+        return self.stages[stage_number]
 
     def generate(self):
         document = Document()
