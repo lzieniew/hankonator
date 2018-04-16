@@ -4,6 +4,7 @@ from pyforms.gui.controls.ControlLabel import ControlLabel
 
 from generation import Stage10
 
+
 class Stage10Window(BaseWidget):
 
     def __init__(self, erd, project):

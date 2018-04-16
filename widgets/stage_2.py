@@ -1,7 +1,9 @@
 from pyforms import BaseWidget
 from pyforms.gui.controls.ControlTextArea import ControlTextArea
 
+
 class Stage2Window(BaseWidget):
+
     def __init__(self, project):
         super(Stage2Window, self).__init__('Etap 2')
         self.set_margin(20)

@@ -4,7 +4,9 @@ from pyforms.gui.controls.ControlList import ControlList
 
 from generation import Stage3
 
+
 class Stage3Window(BaseWidget):
+
     def __init__(self, erd, project):
         super(Stage3Window, self).__init__('Etap 3')
         self.set_margin(20)

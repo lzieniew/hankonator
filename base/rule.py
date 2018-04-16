@@ -4,7 +4,7 @@ class Rule(object):
 
     ID = 1
 
-    def __init__(self, content, left_entity_name, right_entity_name):
+    def __init__(self, content, left_entity_name, right_entity_name=''):
         self.content = content
         self.left_entity_name = left_entity_name
         self.right_entity_name = right_entity_name

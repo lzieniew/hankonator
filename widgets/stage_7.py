@@ -4,6 +4,7 @@ from pyforms.gui.controls.ControlList import ControlList
 
 from generation import Stage7
 
+
 class Stage7Window(BaseWidget):
 
     def __init__(self, erd, project, rules):

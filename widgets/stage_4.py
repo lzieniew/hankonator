@@ -2,6 +2,7 @@ from pyforms import BaseWidget
 from pyforms.gui.controls.ControlButton import ControlButton
 from pyforms.gui.controls.ControlCombo import ControlCombo
 from pyforms.gui.controls.ControlList import ControlList
+from pyforms.gui.controls.ControlText import ControlText
 
 from generation import Stage4
 from base import Rule
@@ -38,6 +39,7 @@ class Stage4Window(BaseWidget):
         self.rules = rules
 
         self._save_button.value = self.__save_action
+        self._fix_button.value = self.__fix_action
         self._rules_list.readonly = True
         self._entities_combo.parent = self
 
@@ -77,14 +79,48 @@ class Stage4Window(BaseWidget):
         for rule in filtered_rules:
             self._rules_list += [str(rule.id) + ' ' + rule.content]
 
+    # TODO fix indexes, now they are not proper ones
     def __fix_action(self):
-        pass
+        index = self._rules_list.selected_row_index
+        if index is not None:
+            win = RuleEditor(self.rules[index])
+            win.parent = self
+            win.show()
 
     def __add_rule_action(self):
-        pass
+        win = RuleEditor()
+        win.parent = self
+        win.show()
 
     def __remove_rule_action(self):
-        pass
+        index = self._rules_list.selected_row_index
+        if index is not None:
+            del self.rules[index]
+            self.populate()
 
     def __save_action(self):
         self._project.stages.append(Stage4(self.erd, self.rules))
+
+
+class RuleEditor(BaseWidget):
+
+    def __init__(self, rule=None):
+        super(RuleEditor, self).__init__()
+
+        self._rule_content_edit_text = ControlText()
+
+
+        if rule is None:
+            self.rule = Rule('', left_entity_name='', right_entity_name='')
+        else:
+            self.rule = rule
+
+        self.populate()
+
+    def populate(self):
+        self._rule_content_edit_text.value = self.rule.content
+
+    def __save_action(self):
+        self.rule.content = self._rule_content_edit_text.value
+        self.parent.populate()
+        self.close()
