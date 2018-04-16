@@ -5,7 +5,7 @@ from pyforms.gui.controls.ControlList import ControlList
 from pyforms.gui.controls.ControlText import ControlText
 
 from generation import Stage4
-from base import Rule
+from base import Rule, Saver
 
 
 class CustomEntityCombo(ControlCombo):
@@ -137,4 +137,5 @@ class RuleEditor(BaseWidget):
         if self.rule not in self.rules:
             self.rules.append(self.rule)
         self.parent.populate()
+        Saver.get_saver().save()
         self.close()

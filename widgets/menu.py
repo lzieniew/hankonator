@@ -15,7 +15,7 @@ from .stage_10 import Stage10Window
 from .stage_11 import Stage11Window
 from .stage_12 import Stage12Window
 
-from base import Erd, Entity, Attribute, Relationship, Types
+from base import Erd, Entity, Attribute, Relationship, Types, Saver
 
 
 class Menu(pyforms.BaseWidget):
@@ -65,15 +65,15 @@ class Menu(pyforms.BaseWidget):
                                                '_button_stage_10', '_button_stage_11', '_button_stage_12',
                                                '_button_stage_13'), '_panel', '_button_generate']
 
-        
+        saver = Saver.get_saver()
 
         # logic
         self._project = Project([])
-        self.erd = None
-        self.transactions = []
-        self.rules = []
-        self.users = []
-        self.perspectives = []
+        self.erd = saver.erd
+        self.transactions = saver.transactions
+        self.rules = saver.rules
+        self.users = saver.users
+        self.perspectives = saver.perspectives
 
         try:
             self.erd = Erd.load()
