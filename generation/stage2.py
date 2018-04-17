@@ -1,8 +1,8 @@
 
 
 class Stage2:
-    def __init__(self, reality_description, dictionary, users, functional_requirements, nonfunctional_requirements,
-                 existing_database, cost):
+    def __init__(self, reality_description='', dictionary='', users='', functional_requirements='', nonfunctional_requirements='',
+                 existing_database='', cost=''):
         self.reality_description = reality_description
         self.dictionary = dictionary
         self.users = users
