@@ -18,6 +18,8 @@ class Stage11Window(BaseWidget):
         self._save_button = ControlButton('Zapisz')
         self._save_button.value = self.__save_action
 
+        self.formset = ['_label', '_save_button']
+
     def __save_action(self):
         self.project.stages.append(Stage11(self.erd))
         Saver.get_saver().save()

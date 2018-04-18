@@ -1,6 +1,7 @@
 import pyforms
 from pyforms.controls import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
+from pyforms.gui.controls.ControlProgress import ControlProgress
 from generation import Project
 from .initial_data_editor import InitialDataEditor
 
@@ -19,11 +20,16 @@ from base import Erd, Entity, Attribute, Relationship, Types, Saver
 
 
 class Menu(pyforms.BaseWidget):
+
+    PROGRESS_BAR = None
+
     def __init__(self):
         super(Menu, self).__init__('Hankonator MENU')
         self.set_margin(30)
 
         self._panel = ControlEmptyWidget()
+        self._progress_bar = ControlProgress(defaultValue=0, min=0, max=100)
+        Menu.PROGRESS_BAR = self._progress_bar
 
         # buttons
         self._button_erd_reader = ControlButton('Wczytaj ERD')
@@ -59,7 +65,7 @@ class Menu(pyforms.BaseWidget):
         self._button_stage_13.value = self.__button_stage_13_action
         self._button_generate.value = self.__button_generate_action
 
-        self.formset = ['_button_erd_reader', ('_button_stage_1', '_button_stage_2', '_button_stage_3',
+        self.formset = ['_button_erd_reader', '_progress_bar', ('_button_stage_1', '_button_stage_2', '_button_stage_3',
                                                '_button_stage_4', '_button_stage_5', '_button_stage_6',
                                                '_button_stage_7', '_button_stage_8', '_button_stage_9',
                                                '_button_stage_10', '_button_stage_11', '_button_stage_12',
