@@ -30,6 +30,7 @@ class Menu(pyforms.BaseWidget):
         self._panel = ControlEmptyWidget()
         self._progress_bar = ControlProgress(defaultValue=0, min=0, max=100)
         Menu.PROGRESS_BAR = self._progress_bar
+        self._progress_bar.value = 67
 
         # buttons
         self._button_erd_reader = ControlButton('Wczytaj ERD')
@@ -81,83 +82,126 @@ class Menu(pyforms.BaseWidget):
         self.users = saver.users
         self.perspectives = saver.perspectives
 
-        try:
-            self.erd = Erd.load()
-        except:
-            self.erd = Erd()
+        self.populate_buttons()
 
         # Warning, erd object is created only for testing purposes
-        self.erd = Erd()
-        self.DEBUG_ACTUALL_PROJECT()
+        # self.erd = Erd()
+        # self.DEBUG_ACTUALL_PROJECT()
+
+    def populate_buttons(self):
+        self._progress_bar.value = self._project.get_stage_count() / 13 * 100
+
+        self._button_stage_1.label = 'Etap 1' if self._project.get_stage(1) is None else 'Etap 1 - Zrobiony'
 
 
     def __button_stage_1_action(self):
+        self.populate_buttons()
         # switch windows
         win = Stage1Window(self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_2_action(self):
+        self.populate_buttons()
         win = Stage2Window(self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_3_action(self):
+        self.populate_buttons()
         win = Stage3Window(self.erd, self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_4_action(self):
+        self.populate_buttons()
         win = Stage4Window(self.erd, self._project, self.rules)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_5_action(self):
+        self.populate_buttons()
         pass
 
     def __button_stage_6_action(self):
+        self.populate_buttons()
         win = Stage6Window(self.erd, self.transactions)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_7_action(self):
+        self.populate_buttons()
         win = Stage7Window(self.erd, self._project, self.rules)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_8_action(self):
+        self.populate_buttons()
         win = Stage8Window(self.erd, self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_9_action(self):
+        self.populate_buttons()
         pass
 
     def __button_stage_10_action(self):
+        self.populate_buttons()
         win = Stage10Window(self.erd, self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_11_action(self):
+        self.populate_buttons()
         win = Stage11Window(self.erd, self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_12_action(self):
+        self.populate_buttons()
         win = Stage12Window(self.erd, self._project)
         win.parent = self
         self._panel.value = win
 
     def __button_stage_13_action(self):
+        self.populate_buttons()
         pass
 
     def __button_initial_data_action(self):
+        self.populate_buttons()
         win = InitialDataEditor(self.erd, self.transactions, self.users, self.perspectives, self.rules)
         win.parent = self
         win.show()
 
     def __button_generate_action(self):
+        # preparations
+        self.prepare_entities()
+        self.prepare_rules()
+
         self._project.generate()
+
+    # preparation functions, called right before generation, to assure proper order and numeration
+
+    def prepare_rules(self):
+        counter = 1
+        for rule in self.rules:
+            rule.id = counter
+            counter += 1
+        self.rules.sort(key=lambda rule: rule.id)
+
+    def prepare_entities(self):
+        counter = 1
+        for entity in self.erd.entities:
+            entity.id = counter
+            counter += 1
+        self.erd.entities.sort(key=lambda entity: entity.id)
+
+    def prepare_relationships(self):
+        counter = 1
+        for relationship in self.erd.relationships:
+            relationship.id = counter
+            counter += 1
+        self.erd.relationships.sort(key=lambda rel: rel.id)
 
 
     def DEBUG_ACTUALL_PROJECT(self):

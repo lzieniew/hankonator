@@ -35,5 +35,6 @@ class Stage8Window(BaseWidget):
             self._entities_relationships_list += ['\t' + repr(relationship)]
 
     def __save_action(self):
-        self.project.stages.append(Stage8(self.erd))
+        self.project.add_stage(Stage8(self.erd))
         Saver.get_saver().save()
+        self.parent.populate_buttons()

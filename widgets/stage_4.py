@@ -75,10 +75,11 @@ class Stage4Window(BaseWidget):
 
     def populate(self):
         self._rules_list.clear()
-        curr_entity = self._entities_combo.value.name_singular
-        filtered_rules = list(filter(lambda x: curr_entity == x.left_entity_name or curr_entity == x.right_entity_name, self.rules))
-        for rule in filtered_rules:
-            self._rules_list += [str(rule.id) + ' ' + rule.content]
+        if self._entities_combo.value is not None:
+            curr_entity = self._entities_combo.value.name_singular
+            filtered_rules = list(filter(lambda x: curr_entity == x.left_entity_name or curr_entity == x.right_entity_name, self.rules))
+            for rule in filtered_rules:
+                self._rules_list += [rule.content]
 
     # TODO fix indexes, now they are not proper ones
     def __fix_action(self):
@@ -105,6 +106,7 @@ class Stage4Window(BaseWidget):
 
     def __save_action(self):
         self._project.stages.append(Stage4(self.erd, self.rules))
+        self.parent.populate_buttons()
 
 
 class RuleEditor(BaseWidget):

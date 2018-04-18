@@ -77,29 +77,16 @@ class Erd(object):
                         result.append(relationship)
         return result
 
-    def save(self):
-        pass
-        # output = open('erd.P', 'w')
-        # pickle.dump(self, output)
-
-    @staticmethod
-    def load():
-        pkl_file = open('erd.P')
-        return pickle.load(pkl_file)
-
 
 class Entity(object):
-
-    ID = 1
 
     def __init__(self, name_singular, name_plural, attributes, is_associative=False):
         self.name_singular = name_singular
         self.name_plural = name_plural
         self.attributes = attributes
-        self.id = Entity.ID
+        self.id = None
         self.foreign_keys = []
         self.is_associative = is_associative
-        Entity.ID += 1
 
     def get_key(self):
         out = None

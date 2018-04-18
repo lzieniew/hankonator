@@ -31,7 +31,8 @@ class Stage7Window(BaseWidget):
 
 
     def __save_action(self):
-        self.project.stages.append(Stage7(self.erd, self.rules))
+        self.project.add_stage(Stage7(self.erd, self.rules))
         Saver.get_saver().save()
+        self.parent.populate_buttons()
 
 

@@ -25,24 +25,24 @@ class Stage2Window(BaseWidget):
 
         self._project = project
 
-        if self._project.get_stage(2) is None:
-            self.stage = Stage2()
-            self._project.add_stage(self.stage)
-        else:
-            self.stage = self._project.stages[2]
+        self.stage = self._project.stages[2]
 
         self.populate()
 
     def populate(self):
-        self._reality_description_text_edit.value = self.stage.reality_description
-        self._dictionary_text_edit.value = self.stage.dictionary
-        self._users_text_edit.value = self.stage.users
-        self._functional_requirements_text_edit.value = self.stage.functional_requirements
-        self._nonfunctional_requirements_text_edit.value = self.stage.nonfunctional_requirements
-        self._existing_database_text_edit.value = self.stage.existing_database
-        self._cost_text_edit.value = self.stage.cost
+        if self.stage is not None:
+            self._reality_description_text_edit.value = self.stage.reality_description
+            self._dictionary_text_edit.value = self.stage.dictionary
+            self._users_text_edit.value = self.stage.users
+            self._functional_requirements_text_edit.value = self.stage.functional_requirements
+            self._nonfunctional_requirements_text_edit.value = self.stage.nonfunctional_requirements
+            self._existing_database_text_edit.value = self.stage.existing_database
+            self._cost_text_edit.value = self.stage.cost
 
     def __save_action(self):
+        if self._project.stages[2] is None:
+            self.stage = Stage2()
+            self._project.add_stage(Stage2())
         self.stage.reality_description = self._reality_description_text_edit.value
         self.stage.dictionary = self._dictionary_text_edit.value
         self.stage.users = self._users_text_edit.value
@@ -51,3 +51,4 @@ class Stage2Window(BaseWidget):
         self.stage.existing_database = self._existing_database_text_edit.value
         self.stage.cost = self._cost_text_edit.value
         Saver.get_saver().save()
+        self.parent.populate_buttons()

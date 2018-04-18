@@ -24,23 +24,24 @@ class Stage1Window(pyforms.BaseWidget):
 
         self._project = project
 
-        if self._project.get_stage(1) is None:
-            self.stage = Stage1()
-            self._project.add_stage(self.stage)
-        else:
-            self.stage = self._project.stages[1]
+        self.stage = self._project.stages[1]
 
         self.populate()
 
     def populate(self):
-        self._topic_edit_text.value = self.stage.topic
-        self._objective_edit_text.value = self.stage.objective
-        self._range_edit_text.value = self.stage.range
-        self._users_edit_text.value = self.stage.users
+        if self.stage is not None:
+            self._topic_edit_text.value = self.stage.topic
+            self._objective_edit_text.value = self.stage.objective
+            self._range_edit_text.value = self.stage.range
+            self._users_edit_text.value = self.stage.users
 
     def __save_action(self):
+        if self._project.stages[1] is None:
+            self.stage = Stage1()
+            self._project.add_stage(self.stage)
         self.stage.topic = self._topic_edit_text.value
         self.stage.objective = self._objective_edit_text.value
         self.stage.range = self._range_edit_text.value
         self.stage.users = self._users_edit_text.value
         Saver.get_saver().save()
+        self.parent.populate_buttons()

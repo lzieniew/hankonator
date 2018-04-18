@@ -16,10 +16,9 @@ class Stage3:
         header.add_run('3. Kategorie').font.size = Pt(Project.HEADER_SIZE)
         header.add_run().add_break()
 
-        filtered = list(filter(lambda x: not x.is_associative, self.erd.entities))
-        filtered.sort(key=lambda x: x.id)
+        self.erd.entities.sort(key=lambda x: x.id)
 
-        for entity in filtered:
+        for entity in self.erd.entities:
             entity_paragraph = document.add_paragraph()
             entity_paragraph.paragraph_format.keep_together = True
             entity_paragraph.keep_together = True

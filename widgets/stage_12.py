@@ -23,5 +23,6 @@ class Stage12Window(BaseWidget):
         self.formset = ['_label', '_save_button']
 
     def __save_action(self):
-        self.project.stages.append(Stage12(self.erd))
+        self.project.add_stage(Stage12(self.erd))
         Saver.get_saver().save()
+        self.parent.populate_buttons()

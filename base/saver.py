@@ -3,7 +3,6 @@ import pickle
 from base import Erd
 from generation import Project
 
-
 class Saver(object):
 
     SAVER_INSTANCE = None
@@ -22,6 +21,7 @@ class Saver(object):
     def save(self):
         f = open('save.pickle', 'wb')
         pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
+        f.close()
 
     @staticmethod
     def get_saver():
@@ -32,6 +32,6 @@ class Saver(object):
                 f = open('save.pickle', 'rb')
                 saver = pickle.load(f)
             except Exception:
-                saver = Saver(erd=Erd(), perspectives=[], rules=[], transactions=[], users=[], project=Project(Saver.PROGRESS_BAR))
+                saver = Saver(erd=Erd(), perspectives=[], rules=[], transactions=[], users=[], project=Project())
             Saver.SAVER_INSTANCE = saver
             return saver

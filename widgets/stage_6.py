@@ -27,3 +27,4 @@ class Stage6Window(BaseWidget):
 
     def __save_action(self):
         Saver.get_saver().save()
+        self.parent.populate_buttons()

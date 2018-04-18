@@ -21,21 +21,19 @@ class Stage4:
         header.add_run('4. Reguły funkcjonowania').font.size = Pt(Project.HEADER_SIZE)
         header.add_run().add_break()
 
-        counter = 1
 
         for entity in self.erd.entities:
             rules_paragraph = document.add_paragraph()
             rules_paragraph.keep_together = True
 
-            rules_paragraph.add_run(str(counter) + '. Reguły dla KAT/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular).font.size = Pt(16)
+            rules_paragraph.add_run(str(entity.id) + '. Reguły dla KAT/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular).font.size = Pt(16)
             rules_paragraph.add_run().add_break()
             entitys_rules = list(filter(lambda r: r.left_entity_name == entity.name_singular, self.rules))
             for rule in entitys_rules:
-                rules_paragraph.add_run('REG/' + '{0:03}'.format(rule.id)).font.bold=True
+                rules_paragraph.add_run('REG/' + '{0:03}'.format(rule.id)).font.bold = True
                 rules_paragraph.add_run('\t\t')
                 rules_paragraph.add_run(repr(rule))
 
-            counter += 1
         document.add_page_break()
 
         print('Etap 4 wygenerowany')

@@ -27,6 +27,12 @@ class Stage3Window(BaseWidget):
 
         self._project = project
 
+        self.stage = self._project.get_stage(3)
+
+
     def __save_action(self):
-        self._project.stages.append(Stage3(self.erd))
+        if self._project.stages[3] is None:
+            self.stage = Stage3(self.erd)
+            self._project.add_stage(self.stage)
         Saver.get_saver().save()
+        self.parent.populate_buttons()
