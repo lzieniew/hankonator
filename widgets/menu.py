@@ -1,6 +1,7 @@
 import pyforms
 from pyforms.controls import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
+from pyforms.gui.controls.ControlProgress import ControlProgress
 from generation import Project
 from .initial_data_editor import InitialDataEditor
 
@@ -24,6 +25,7 @@ class Menu(pyforms.BaseWidget):
         self.set_margin(30)
 
         self._panel = ControlEmptyWidget()
+        self._progress_bar = ControlProgress()
 
         # buttons
         self._button_erd_reader = ControlButton('Wczytaj ERD')
@@ -59,11 +61,13 @@ class Menu(pyforms.BaseWidget):
         self._button_stage_13.value = self.__button_stage_13_action
         self._button_generate.value = self.__button_generate_action
 
-        self.formset = ['_button_erd_reader', ('_button_stage_1', '_button_stage_2', '_button_stage_3',
+        self.formset = ['_button_erd_reader', '_progress_bar', ('_button_stage_1', '_button_stage_2', '_button_stage_3',
                                                '_button_stage_4', '_button_stage_5', '_button_stage_6',
                                                '_button_stage_7', '_button_stage_8', '_button_stage_9',
                                                '_button_stage_10', '_button_stage_11', '_button_stage_12',
                                                '_button_stage_13'), '_panel', '_button_generate']
+
+        (self._progress_bar.min, self._progress_bar.max, self._progress_bar.value) = (0, 100, 50)
 
         saver = Saver.get_saver()
 
