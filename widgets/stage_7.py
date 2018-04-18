@@ -23,6 +23,8 @@ class Stage7Window(BaseWidget):
 
         self.populate()
 
+        self.formset = ['_entites_list', '_save_button']
+
     def populate(self):
         for entity in self.erd.entities:
             self._entites_list += [repr(entity)]

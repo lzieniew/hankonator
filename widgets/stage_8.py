@@ -23,6 +23,8 @@ class Stage8Window(BaseWidget):
 
         self.populate()
 
+        self.formset = ['_entities_relationships_list', '_save_button']
+
 
     def populate(self):
         self._entities_relationships_list += ['Encje:']

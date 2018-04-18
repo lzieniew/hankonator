@@ -20,12 +20,16 @@ from base import Erd, Entity, Attribute, Relationship, Types, Saver
 
 
 class Menu(pyforms.BaseWidget):
+
+    PROGRESS_BAR = None
+
     def __init__(self):
         super(Menu, self).__init__('Hankonator MENU')
         self.set_margin(30)
 
         self._panel = ControlEmptyWidget()
-        self._progress_bar = ControlProgress()
+        self._progress_bar = ControlProgress(defaultValue=0, min=0, max=100)
+        Menu.PROGRESS_BAR = self._progress_bar
 
         # buttons
         self._button_erd_reader = ControlButton('Wczytaj ERD')
@@ -66,8 +70,6 @@ class Menu(pyforms.BaseWidget):
                                                '_button_stage_7', '_button_stage_8', '_button_stage_9',
                                                '_button_stage_10', '_button_stage_11', '_button_stage_12',
                                                '_button_stage_13'), '_panel', '_button_generate']
-
-        (self._progress_bar.min, self._progress_bar.max, self._progress_bar.value) = (0, 100, 50)
 
         saver = Saver.get_saver()
 
