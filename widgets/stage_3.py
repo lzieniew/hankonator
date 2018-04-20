@@ -13,7 +13,7 @@ class Stage3Window(BaseWidget):
         self.set_margin(20)
 
         self._categories_list = ControlList()
-        self._save_button = ControlButton('Zapisz etap 3')
+        self._save_button = ControlButton('Zapisz')
 
         self.erd = erd
         self._project = project

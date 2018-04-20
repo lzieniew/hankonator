@@ -72,6 +72,13 @@ class Menu(pyforms.BaseWidget):
                                                '_button_stage_10', '_button_stage_11', '_button_stage_12',
                                                '_button_stage_13'), '_panel', '_button_generate']
 
+        self.mainmenu = [
+            {'Ustawienia': [
+                {'Resetuj dane (widoczne przy następnym uruchomieniu)': self.__menu_reset_action},
+                {'Wczytaj przykładowy projekt: ': self.__menu_load_project_action}
+            ]}
+        ]
+
         saver = Saver.get_saver()
 
         # logic
@@ -84,14 +91,23 @@ class Menu(pyforms.BaseWidget):
 
         self.populate_buttons()
 
-        # Warning, erd object is created only for testing purposes
-        # self.erd = Erd()
-        # self.DEBUG_ACTUALL_PROJECT()
 
     def populate_buttons(self):
         self._progress_bar.value = self._project.get_stage_count() / 13 * 100
 
         self._button_stage_1.label = 'Etap 1' if self._project.get_stage(1) is None else 'Etap 1 - Zrobiony'
+        self._button_stage_2.label = 'Etap 2' if self._project.get_stage(2) is None else 'Etap 2 - Zrobiony'
+        self._button_stage_3.label = 'Etap 3' if self._project.get_stage(3) is None else 'Etap 3 - Zrobiony'
+        self._button_stage_4.label = 'Etap 4' if self._project.get_stage(4) is None else 'Etap 4 - Zrobiony'
+        self._button_stage_5.label = 'Etap 5' if self._project.get_stage(5) is None else 'Etap 5 - Zrobiony'
+        self._button_stage_6.label = 'Etap 6' if self._project.get_stage(6) is None else 'Etap 6 - Zrobiony'
+        self._button_stage_7.label = 'Etap 7' if self._project.get_stage(7) is None else 'Etap 7 - Zrobiony'
+        self._button_stage_8.label = 'Etap 8' if self._project.get_stage(8) is None else 'Etap 8 - Zrobiony'
+        self._button_stage_9.label = 'Etap 9' if self._project.get_stage(9) is None else 'Etap 9 - Zrobiony'
+        self._button_stage_10.label = 'Etap 10' if self._project.get_stage(10) is None else 'Etap 10 - Zrobiony'
+        self._button_stage_11.label = 'Etap 11' if self._project.get_stage(11) is None else 'Etap 11 - Zrobiony'
+        self._button_stage_12.label = 'Etap 12' if self._project.get_stage(12) is None else 'Etap 12 - Zrobiony'
+        self._button_stage_13.label = 'Etap 13' if self._project.get_stage(13) is None else 'Etap 13 - Zrobiony'
 
 
     def __button_stage_1_action(self):
@@ -125,7 +141,7 @@ class Menu(pyforms.BaseWidget):
 
     def __button_stage_6_action(self):
         self.populate_buttons()
-        win = Stage6Window(self.erd, self.transactions)
+        win = Stage6Window(self.erd, self.transactions, self._project)
         win.parent = self
         self._panel.value = win
 
@@ -179,6 +195,16 @@ class Menu(pyforms.BaseWidget):
         self.prepare_rules()
 
         self._project.generate()
+
+    def __menu_reset_action(self):
+        from os import remove
+        try:
+            remove('save.pickle')
+        except FileNotFoundError as e:
+            print(e)
+
+    def __menu_load_project_action(self):
+        self.DEBUG_ACTUALL_PROJECT()
 
     # preparation functions, called right before generation, to assure proper order and numeration
 

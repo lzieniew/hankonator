@@ -11,7 +11,7 @@ from base import Transaction, Saver
 
 class Stage6Window(BaseWidget):
 
-    def __init__(self, erd, transactions):
+    def __init__(self, erd, transactions, project):
         super(Stage6Window, self).__init__()
         self.set_margin(20)
 
@@ -23,8 +23,13 @@ class Stage6Window(BaseWidget):
         self.erd = erd
         self.transactions = transactions
 
+        self._project = project
+
         # self._populate()
 
     def __save_action(self):
+        if self._project.get_stage(6) is None:
+            self.stage = Stage6(self.erd, self.transactions)
+            self._project.add_stage(self.stage)
         Saver.get_saver().save()
         self.parent.populate_buttons()

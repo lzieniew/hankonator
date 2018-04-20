@@ -105,7 +105,10 @@ class Stage4Window(BaseWidget):
             self.populate()
 
     def __save_action(self):
-        self._project.stages.append(Stage4(self.erd, self.rules))
+        if self._project.stages[4] is None:
+            self.stage = Stage4(self.erd, self.rules)
+            self._project.add_stage(self.stage)
+        Saver.get_saver().save()
         self.parent.populate_buttons()
 
 
