@@ -2,7 +2,7 @@ from .project import Project
 
 from .stage1 import Stage1
 from .stage2 import Stage2
-from .stage3 import Stage3
+from .stage3 import Stage3, Category
 from .stage4 import Stage4
 from .stage6 import Stage6
 from .stage7 import Stage7

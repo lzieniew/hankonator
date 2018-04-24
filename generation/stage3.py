@@ -3,6 +3,12 @@ from docx.shared import Pt
 
 from generation import Project
 
+class Category(object):
+
+    def __init__(self, entity, description):
+        self.entity = entity
+        self.description = description
+
 
 class Stage3:
 

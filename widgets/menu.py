@@ -89,6 +89,8 @@ class Menu(pyforms.BaseWidget):
         self.users = saver.users
         self.perspectives = saver.perspectives
 
+        self.categories = saver.categories
+
         self.populate_buttons()
 
 
@@ -125,7 +127,7 @@ class Menu(pyforms.BaseWidget):
 
     def __button_stage_3_action(self):
         self.populate_buttons()
-        win = Stage3Window(self.erd, self._project)
+        win = Stage3Window(self.erd, self.categories, self._project)
         win.parent = self
         self._panel.value = win
 

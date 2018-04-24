@@ -1,36 +1,43 @@
 from pyforms import BaseWidget
 from pyforms.gui.controls.ControlButton import ControlButton
+from pyforms.gui.controls.ControlCombo import ControlCombo
+from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
 from pyforms.gui.controls.ControlList import ControlList
+from pyforms.gui.controls.ControlText import ControlText
 
-from generation import Stage3
+from generation import Stage3, Category
 from base import Saver
 
 
 class Stage3Window(BaseWidget):
 
-    def __init__(self, erd, project):
+    def __init__(self, erd, categories, project):
         super(Stage3Window, self).__init__('Etap 3')
-        self.set_margin(20)
+        self.set_margin(40)
 
-        self._categories_list = ControlList()
+        self._categories_editor =  ControlEmptyWidget()
         self._save_button = ControlButton('Zapisz')
 
         self.erd = erd
         self._project = project
+        self.categories = categories
+
+        self.generate_categories()
 
         self._save_button.value = self.__save_action
-
-        self._categories_list.readonly = True
-
-        for entity in self.erd.entities:
-            self._categories_list += [repr(entity)]
 
         self._project = project
 
         self.stage = self._project.get_stage(3)
 
-        self.formset = ['_categories_list', '_save_button']
+        self._categories_editor.value = CategoriesEditor(self.categories)
 
+        self.formset = ['_categories_editor', '_save_button']
+
+    def generate_categories(self):
+        if not self.categories:
+            for entity in self.erd.entities:
+                self.categories.append(Category(entity, ''))
 
     def __save_action(self):
         if self._project.stages[3] is None:
@@ -38,3 +45,39 @@ class Stage3Window(BaseWidget):
             self._project.add_stage(self.stage)
         Saver.get_saver().save()
         self.parent.populate_buttons()
+
+
+class CategoryCombo(ControlCombo):
+
+    def __init__(self, categories, edit_description):
+        super(CategoryCombo, self).__init__()
+
+        self.categories = categories
+        self.edit_description = edit_description
+
+    def activated_event(self, index):
+        category = self.categories[index]
+        self.edit_description.value = category.description
+
+
+class CategoriesEditor(BaseWidget):
+
+    def __init__(self, categories):
+        super(CategoriesEditor, self).__init__()
+
+        self.categories = categories
+
+        self._description_edit_text = ControlText()
+        self._combo = CategoryCombo(self.categories, self._description_edit_text)
+
+        self._combo.parent = self
+
+        self.formset = ['_combo', ('Opis kategorii' ,'_description_edit_text')]
+
+        self.populate()
+
+    def populate(self):
+        for category in self.categories:
+            self._combo.add_item(category.entity.name_singular, category)
+
+
