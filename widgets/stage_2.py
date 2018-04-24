@@ -29,6 +29,10 @@ class Stage2Window(BaseWidget):
 
         self.populate()
 
+        self.formset = ['_reality_description_text_edit', '_dictionary_text_edit', '_users_text_edit',
+                        '_functional_requirements_text_edit', '_nonfunctional_requirements_text_edit',
+                        '_existing_database_text_edit', '_cost_text_edit', '_save_button']
+
     def populate(self):
         if self.stage is not None:
             self._reality_description_text_edit.value = self.stage.reality_description

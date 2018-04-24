@@ -28,6 +28,8 @@ class Stage1Window(pyforms.BaseWidget):
 
         self.populate()
 
+        self.formset = ['_topic_edit_text', '_objective_edit_text', '_range_edit_text', '_users_edit_text', '_save_button']
+
     def populate(self):
         if self.stage is not None:
             self._topic_edit_text.value = self.stage.topic

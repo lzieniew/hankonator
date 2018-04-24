@@ -29,6 +29,8 @@ class Stage3Window(BaseWidget):
 
         self.stage = self._project.get_stage(3)
 
+        self.formset = ['_categories_list', '_save_button']
+
 
     def __save_action(self):
         if self._project.stages[3] is None:
