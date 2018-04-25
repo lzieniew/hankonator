@@ -239,7 +239,7 @@ class Menu(pyforms.BaseWidget):
         e2 = Entity('Konkurs', 'Konkursy', [Attribute('IdK', Types.INT, True), Attribute('Nazwa', Types.STRING), Attribute('Data', Types.DATE)])
         e6 = Entity('Organizator', 'Organizatorzy', [Attribute('IdO', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
         e5 = Entity('Sprawdzający', 'Sprawdzający', [Attribute('IdS', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
-        e7 = Entity('PytanieNaArkuszu', 'PytaniaNaArkuszu', [], is_associative=True)
+        e7 = Entity('PytanieNaArkuszu', 'PytaniaNaArkuszu', [Attribute('IdPnA', Types.INT, is_key=True)], is_associative=True)
 
         self.erd.entities = [e1, e2, e3, e4, e5, e6, e7]
 

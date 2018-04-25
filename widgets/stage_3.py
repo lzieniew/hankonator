@@ -41,7 +41,7 @@ class Stage3Window(BaseWidget):
 
     def __save_action(self):
         if self._project.stages[3] is None:
-            self.stage = Stage3(self.erd)
+            self.stage = Stage3(self.erd, self.categories)
             self._project.add_stage(self.stage)
         Saver.get_saver().save()
         self.parent.populate_buttons()
@@ -69,15 +69,22 @@ class CategoriesEditor(BaseWidget):
 
         self._description_edit_text = ControlText()
         self._combo = CategoryCombo(self.categories, self._description_edit_text)
+        self._save_button = ControlButton('Zapisz')
+
+        self._save_button.value = self.__save_category_action
 
         self._combo.parent = self
 
-        self.formset = ['_combo', ('Opis kategorii' ,'_description_edit_text')]
+        self.formset = ['_combo', ('Opis kategorii' ,'_description_edit_text', '_save_button')]
 
         self.populate()
 
     def populate(self):
         for category in self.categories:
             self._combo.add_item(category.entity.name_singular, category)
+
+    def __save_category_action(self):
+        self.categories[self._combo.current_index].description = self._description_edit_text.value
+        Saver.get_saver().save()
 
 

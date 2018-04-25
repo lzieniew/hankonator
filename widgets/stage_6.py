@@ -23,6 +23,8 @@ class Stage6Window(BaseWidget):
         self.erd = erd
         self.transactions = transactions
 
+        self.formset = ['_label', '_save_button']
+
         self._project = project
 
         # self._populate()
