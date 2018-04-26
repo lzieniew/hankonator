@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pyforms
 from pyforms.controls import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
