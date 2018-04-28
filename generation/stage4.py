@@ -33,6 +33,7 @@ class Stage4:
                 rules_paragraph.add_run('REG/' + '{0:03}'.format(rule.id)).font.bold = True
                 rules_paragraph.add_run('\t\t')
                 rules_paragraph.add_run(repr(rule))
+                rules_paragraph.add_run().add_break()
 
         document.add_page_break()
 

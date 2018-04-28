@@ -60,17 +60,17 @@ class Stage4Window(BaseWidget):
                 this_entity_name = entity.name_singular
                 other_entity_name = rel.get_other_entity_name(entity.name_singular)
                 if rel.get_other_ends_multiplicity(this_entity_name)[0] == '0':
-                    rule = Rule(this_entity_name + u' nie musi być powiązany z żadnym ' + other_entity_name + '\n', this_entity_name, other_entity_name)
+                    rule = Rule(this_entity_name + u' nie musi być powiązany z żadnym ' + other_entity_name, this_entity_name, other_entity_name)
                     self.rules.append(rule)
                 elif rel.get_other_ends_multiplicity(entity.name_singular)[0] == '1':
-                    rule = Rule(this_entity_name + u' musi być powiązany z przynajmniej jednym ' + other_entity_name + '\n', this_entity_name, other_entity_name)
+                    rule = Rule(this_entity_name + u' musi być powiązany z przynajmniej jednym ' + other_entity_name, this_entity_name, other_entity_name)
                     self.rules.append(rule)
 
                 if rel.get_other_ends_multiplicity(entity.name_singular)[-1] == '1':
-                    rule = Rule(this_entity_name + u' jest powiązany z maksymalnie jednym ' + other_entity_name + '\n', this_entity_name, other_entity_name)
+                    rule = Rule(this_entity_name + u' jest powiązany z maksymalnie jednym ' + other_entity_name, this_entity_name, other_entity_name)
                     self.rules.append(rule)
                 elif rel.get_other_ends_multiplicity(entity.name_singular)[-1] == 'N':
-                    rule = Rule(this_entity_name + u' może być powiązany z wieloma ' + other_entity_name + '\n', this_entity_name, other_entity_name)
+                    rule = Rule(this_entity_name + u' może być powiązany z wieloma ' + other_entity_name, this_entity_name, other_entity_name)
                     self.rules.append(rule)
 
     def populate(self):
@@ -87,12 +87,12 @@ class Stage4Window(BaseWidget):
         entitys_rules = list(filter(lambda r: r.left_entity_name == entity.name_singular or r.right_entity_name == entity.name_singular, self.rules))
         index = self._rules_list.selected_row_index
         if index is not None:
-            win = RuleEditor(entitys_rules[index])
+            win = RuleEditor(rule=entitys_rules[index], rules=self.rules)
             win.parent = self
             win.show()
 
     def __add_rule_action(self):
-        win = RuleEditor(self.rules, entity=self._entities_combo.value.name_singular)
+        win = RuleEditor(rules=self.rules, entity=self._entities_combo.value.name_singular)
         win.parent = self
         win.show()
 
