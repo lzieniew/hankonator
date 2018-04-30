@@ -15,8 +15,6 @@ from pyforms.gui.controls.ControlCombo import ControlCombo
 from base import Entity, Attribute, Relationship, Types
 
 
-# TODO add a new window that contains this erd reader, and also readers for things, like users, transactions etc.
-# this window will be run from button, that now shows this ErdReader
 class ErdReader(pyforms.BaseWidget):
 
     def __init__(self, erd):
@@ -101,7 +99,6 @@ class ErdReader(pyforms.BaseWidget):
             win.parent = self
             win.show()
 
-
     def __remove_relationship_action(self):
         indexes = self._relationship_list.selected_rows_indexes
         indexes.sort(reverse=True)
@@ -111,11 +108,12 @@ class ErdReader(pyforms.BaseWidget):
 
 
 class AttributeEditor(pyforms.BaseWidget):
-    def __init__(self, attributes):
+    def __init__(self, attributes, attribute=None):
         super(AttributeEditor, self).__init__()
         self.set_margin(10)
 
         self.attributes = attributes
+        self.attribute = attribute
 
         self._name_edit_text = ControlText()
         self._type_combo = ControlCombo()
@@ -125,7 +123,7 @@ class AttributeEditor(pyforms.BaseWidget):
 
         self._is_key_checkbox.value = False
 
-        self._save_attribute_button.value = self.__add_attribute_action
+        self._save_attribute_button.value = self.__save_attribute_action
 
         self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_combo'), '_description_edit_text', '_is_key_checkbox', '_save_attribute_button']
 
@@ -135,9 +133,24 @@ class AttributeEditor(pyforms.BaseWidget):
         self._type_combo.add_item(Types.DATE.name, 'DATE')
         self._type_combo.add_item(Types.STRING.name, 'STRING')
 
+        self.populate()
 
-    def __add_attribute_action(self):
-        self.attributes.append(Attribute(self._name_edit_text.value, self._type_combo.value))
+    def populate(self):
+        if self.attribute is not None:
+            self._name_edit_text.value = self.attribute.name
+            self._type_combo.value = self.attribute.type
+            self._description_edit_text.value = self.attribute.description
+            self._is_key_checkbox.value = self.attribute.is_key
+        else:
+            self.attribute = Attribute('', '')
+
+    def __save_attribute_action(self):
+        self.attribute.name = self._name_edit_text.value
+        self.attribute.type = self._type_combo.value
+        self.attribute.description = self._description_edit_text.value
+        self.attribute.is_key = self._is_key_checkbox.value
+        if self.attribute not in self.attributes:
+            self.attributes.append(self.attribute)
         self.parent.populate()
         self.close()
 
@@ -157,11 +170,13 @@ class EntityEditor(pyforms.BaseWidget):
         self._entity_name_singular = ControlText()
         self._entity_name_plural = ControlText()
         self._add_attribute_button = ControlButton(u'Dodaj atrybut')
+        self._edit_attribute_button = ControlButton(u'Edytuj atrybut')
         self._remove_attribute_button = ControlButton(u'Usuń atrybut')
         self._attributes_list = ControlList()
         self._save_entity_button = ControlButton(u'Zapisz')
 
         self._add_attribute_button.value = self.__add_attribute_button_action
+        self._edit_attribute_button.value = self.__edit_attribute_button_action
         self._remove_attribute_button.value = self.__remove_attribute_action
         self._save_entity_button.value = self.__save_entity_button_action
 
@@ -169,7 +184,7 @@ class EntityEditor(pyforms.BaseWidget):
 
         self.formset = [(u'Nazwa encji (liczba pojedyńcza): ', '_entity_name_singular'),
                         (u'Nazwa encji (liczba mnoga):', '_entity_name_plural'),
-                        ('Atrybuty: ', '_attributes_list' ,'_add_attribute_button', '_remove_attribute_button'),
+                        ('Atrybuty: ', '_attributes_list', '_add_attribute_button', '_edit_attribute_button', '_remove_attribute_button'),
                         '_save_entity_button']
 
         self.populate()
@@ -182,11 +197,15 @@ class EntityEditor(pyforms.BaseWidget):
             self._attributes_list += [attribute.name]
 
     def __add_attribute_button_action(self):
-        self.entity.name_singular = self._entity_name_singular.value
-        self.entity.name_plural = self._entity_name_plural.value
         editor = AttributeEditor(self.entity.attributes)
         editor.parent = self
         editor.show()
+
+    def __edit_attribute_button_action(self):
+        if self._attributes_list.selected_row_index is not None:
+            win = AttributeEditor(self.entity.attributes, self.entity.attributes[self._attributes_list.selected_row_index])
+            win.parent = self
+            win.show()
 
     def __remove_attribute_action(self):
         index = self._attributes_list.selected_row_index

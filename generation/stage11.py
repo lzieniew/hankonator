@@ -68,7 +68,7 @@ class Stage11(object):
 
             relation_paragraph = document.add_paragraph()
             relation_paragraph.add_run().add_break()
-            relation_paragraph.add_run('Zanczenie atrybutów w schemacie relacji ' + entity.name_plural)
+            relation_paragraph.add_run('Znaczenie atrybutów w schemacie relacji ' + entity.name_plural)
             relation_paragraph.add_run().add_break()
 
             table = document.add_table(rows=len(entity.attributes)+len(entity.foreign_keys)+1, cols=2)

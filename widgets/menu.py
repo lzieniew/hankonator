@@ -234,13 +234,24 @@ class Menu(pyforms.BaseWidget):
 
 
     def DEBUG_ACTUALL_PROJECT(self):
-        e1 = Entity('Arkusz', 'Arkusze', [Attribute('IdA', Types.INT, True), Attribute('Ocena', Types.INT_POSITIVE, False)])
-        e4 = Entity('Pytanie', 'Pytania', [Attribute('IdP', Types.INT, True), Attribute('Pytanie', Types.STRING, False), Attribute('Odpowiedź', Types.STRING)])
-        e3 = Entity('Uczestnik', 'Uczestnicy', [Attribute('NrAlbumu', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
-        e2 = Entity('Konkurs', 'Konkursy', [Attribute('IdK', Types.INT, True), Attribute('Nazwa', Types.STRING), Attribute('Data', Types.DATE)])
-        e6 = Entity('Organizator', 'Organizatorzy', [Attribute('IdO', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
-        e5 = Entity('Sprawdzający', 'Sprawdzający', [Attribute('IdS', Types.INT, True), Attribute('Nazwisko', Types.STRING), Attribute('Imię', Types.STRING)])
-        e7 = Entity('PytanieNaArkuszu', 'PytaniaNaArkuszu', [Attribute('IdPnA', Types.INT, is_key=True)], is_associative=True)
+        e1 = Entity('Arkusz', 'Arkusze', [Attribute('IdA', Types.INT, True, 'Unikalny identyfikator Arkusza nadawany automatycznie przez system, np. 1. '),
+                                          Attribute('Ocena', Types.INT_POSITIVE, False, 'Ilość punktów zdobyta przez uczestnika konkursu wprowadzana przez sprawdzającego, np. 30.')])
+        e2 = Entity('Pytanie', 'Pytania', [Attribute('IdP', Types.INT, True, ' Unikalny identyfikator Pytania nadawany automatycznie przez system, np. 4. '),
+                                           Attribute('Pytanie', Types.STRING, False, 'Treść pytania, np. Co oznacza skrót FIFO?'),
+                                           Attribute('Odpowiedź', Types.STRING, False,  '(ang. First in, First out) żądania są przetwarzane sekwencyjnie wg kolejki.')])
+        e3 = Entity('Uczestnik', 'Uczestnicy', [Attribute('NrAlbumu', Types.INT, True, 'Unikalny identyfikator Uczestnika nadawany automatycznie przez system, np. 3. '),
+                                                Attribute('Nazwisko', Types.STRING, False, 'Nazwisko uczestnika, np. Kowalski. '),
+                                                Attribute('Imię', Types.STRING, False, 'Imię uczestnika, np. Adam. ')])
+        e4 = Entity('Konkurs', 'Konkursy', [Attribute('IdK', Types.INT, True, 'Unikalny identyfikator Konkursu nadawany automatycznie przez system, np. 2. '),
+                                            Attribute('Nazwa', Types.STRING, False, 'Nazwa konkursu, np.  Electron.'),
+                                            Attribute('Data', Types.DATE, False, 'Data realizacji konkursu, np. 14/05/2018.')])
+        e5 = Entity('Organizator', 'Organizatorzy', [Attribute('IdO', Types.INT, True, 'Unikalny identyfikator Organizatora nadawany automatycznie przez system, np. 6. '),
+                                                     Attribute('Nazwisko', Types.STRING, False, 'Nazwisko organizatora, np. Szymański.'),
+                                                     Attribute('Imię', Types.STRING, False, 'Imię organizatora, np. Dawid.')])
+        e6 = Entity('Sprawdzający', 'Sprawdzający', [Attribute('IdS', Types.INT, True, 'Unikalny identyfikator Sprawdzającego nadawany automatycznie przez system, np. 5.'),
+                                                     Attribute('Nazwisko', Types.STRING, False, 'Nazwisko sprawdzającego, np. Nowak.'),
+                                                     Attribute('Imię', Types.STRING, False, 'Imię sprawdzającego, np. Mateusz')])
+        e7 = Entity('PytanieNaArkuszu', 'PytaniaNaArkuszu', [Attribute('IdPnA', Types.INT, True, 'Unikalny identyfikator PytaniaNaArkuszu, np. 70.')], is_associative=True)
 
         self.erd.entities = [e1, e2, e3, e4, e5, e6, e7]
 
@@ -269,7 +280,7 @@ class Menu(pyforms.BaseWidget):
         e11 = Entity('Wezwanie', 'Wezwania', [Attribute('IdW', Types.INT, True), Attribute('DataWezw',Types.DATE)])
         e12 = Entity('Schorzenie', 'Schorzenia', [Attribute('IdSch', Types.INT, True), Attribute('Uwagi', Types.STRING)])
 
-        self.erd.entities = [e1, e2, e3, e4, e5, e6, e7, e8, e9, e10,e11, e12]
+        self.erd.entities = [e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12]
 
         for entity in self.erd.entities:
             for attribute in entity.attributes:
