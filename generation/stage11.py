@@ -1,6 +1,7 @@
 from random import randint, randrange
 
 from docx.shared import Pt
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 from generation import Project
 
@@ -24,7 +25,6 @@ class Stage11(object):
             relation_paragraph.add_run('REL/' + '{0:03}'.format(entity.id) + ' ' + entity.name_plural + '/' + entity.name_singular.upper()).bold = True
             relation_paragraph.add_run().add_break()
             relation_paragraph.add_run('Opis schematu relacji:')
-            relation_paragraph.add_run().add_break()
 
             table = document.add_table(rows = len(entity.attributes) + len(entity.foreign_keys) + 1, cols = 10)
             hdr_cells = table.rows[0].cells
@@ -47,6 +47,8 @@ class Stage11(object):
                 row = table.rows[row_counter].cells
                 row[0].paragraphs[0].add_run(attribute.name).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 row[1].paragraphs[0].add_run(repr(attribute.type)).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                row[3].add_paragraph('+' if attribute.is_obligatory else '-').alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                row[4].add_paragraph('+' if attribute.unique else '')
                 if attribute.is_key:
                     row[7].paragraphs[0].add_run('PK').font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 row_counter += 1
@@ -54,6 +56,8 @@ class Stage11(object):
                 row = table.rows[row_counter].cells
                 row[0].paragraphs[0].add_run(foreign_key.name).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 row[1].paragraphs[0].add_run(repr(foreign_key.type)).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                row[3].add_paragraph('+' if attribute.is_obligatory else '-').alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                row[4].add_paragraph('+' if attribute.unique else '')
                 if row[7].text == '':
                     row[7].paragraphs[0].add_run('FK').font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 else:
@@ -69,7 +73,6 @@ class Stage11(object):
             relation_paragraph = document.add_paragraph()
             relation_paragraph.add_run().add_break()
             relation_paragraph.add_run('Znaczenie atrybutów w schemacie relacji ' + entity.name_plural)
-            relation_paragraph.add_run().add_break()
 
             table = document.add_table(rows=len(entity.attributes)+len(entity.foreign_keys)+1, cols=2)
             hdr_row = table.rows[0].cells
@@ -96,7 +99,6 @@ class Stage11(object):
 
             relation_paragraph.add_run().add_break()
             relation_paragraph.add_run('Przykładowe dane tabeli o schemacie relacji ' + entity.name_plural)
-            relation_paragraph.add_run().add_break()
 
             table = document.add_table(rows=Stage11.EXAMPLES_COUNT + 1, cols=len(entity.attributes)+len(entity.foreign_keys))
             hdr_row = table.rows[0].cells
@@ -111,12 +113,12 @@ class Stage11(object):
                     for i in range(1, Stage11.EXAMPLES_COUNT + 1):
                         row = table.rows[i].cells
                         row[column_counter].paragraphs[0].add_run(str(randrange(0, 1000))).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                        row[column_counter].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
                 if attribute.type.short_name == 'Bool':
                     for i in range(1, Stage11.EXAMPLES_COUNT + 1):
                         row = table.rows[i].cells
-                        row[column_counter].paragraphs[0].add_run(str(randrange(0,2))).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                        row[column_counter].add_paragraph().add_run(str(randrange(0, 2))).font.size = Pt(Stage11.TABLE_FONT_SIZE)
+                        row[column_counter].add_paragraph().alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
                 column_counter += 1
 
-            relation_paragraph = document.add_paragraph()
-            relation_paragraph.add_run().add_break()
-            relation_paragraph.add_run().add_break()
+            document.add_page_break()

@@ -119,13 +119,13 @@ class AttributeEditor(pyforms.BaseWidget):
         self._type_combo = ControlCombo()
         self._description_edit_text = ControlText('Opis')
         self._is_key_checkbox = ControlCheckBox('Czy kluczowy')
+        self._is_obligatory_checkbox = ControlCheckBox(u'Atrybut obligatoryjny (brak zaznaczenia - opcjonalny)')
+        self._is_unique_checkbox = ControlCheckBox('Unikalny')
         self._save_attribute_button = ControlButton('Zapisz')
-
-        self._is_key_checkbox.value = False
 
         self._save_attribute_button.value = self.__save_attribute_action
 
-        self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_combo'), '_description_edit_text', '_is_key_checkbox', '_save_attribute_button']
+        self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_combo'), '_description_edit_text', '_is_key_checkbox', '_is_obligatory_checkbox', '_is_unique_checkbox', '_save_attribute_button']
 
         self._type_combo.add_item(Types.INT.name, 'INT')
         self._type_combo.add_item(Types.INT_POSITIVE.name, 'INT_POSITIVE')
@@ -141,6 +141,8 @@ class AttributeEditor(pyforms.BaseWidget):
             self._type_combo.value = self.attribute.type
             self._description_edit_text.value = self.attribute.description
             self._is_key_checkbox.value = self.attribute.is_key
+            self._is_obligatory_checkbox.value = self.attribute.is_obligatory
+            self._is_unique_checkbox.value = self.attribute.unique
         else:
             self.attribute = Attribute('', '')
 
@@ -149,6 +151,9 @@ class AttributeEditor(pyforms.BaseWidget):
         self.attribute.type = self._type_combo.value
         self.attribute.description = self._description_edit_text.value
         self.attribute.is_key = self._is_key_checkbox.value
+        self.attribute.is_obligatory = self._is_obligatory_checkbox.value
+        self.attribute.unique = self._is_unique_checkbox.value or self._is_key_checkbox.value
+
         if self.attribute not in self.attributes:
             self.attributes.append(self.attribute)
         self.parent.populate()

@@ -189,11 +189,13 @@ class Relationship(object):
 
 
 class Attribute(object):
-    def __init__(self, name, type, is_key=False, description=''):
+    def __init__(self, name, type, is_key=False, description='', is_obligatory=False, unique=False):
         self.name = name
         self.type = type
         self.is_key = is_key
         self.description = description
+        self.is_obligatory = is_obligatory
+        self.unique = unique
 
     def __repr__(self):
         return self.name + ':' + repr(self.type)

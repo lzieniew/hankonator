@@ -1,4 +1,5 @@
 from docx.shared import Pt
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 from generation import Project
 
@@ -39,12 +40,16 @@ class Stage7(object):
                 row[0].text = attribute.name
                 row[1].text = attribute.description
                 row[2].text = repr(attribute.type)
+                p = row[3].add_paragraph('+' if attribute.is_obligatory else '-')
+                p.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
                 counter += 1
 
             entities_paragraph2 = document.add_paragraph()
             entities_paragraph2.add_run().add_break()
             entities_paragraph2.add_run('Klucze kandydujące:').italic = True
+            for attribute in list(filter(lambda attr: attr.unique,  entity.attributes)):
+                entities_paragraph2.add_run(attribute.name + ', ')
             entities_paragraph2.add_run(' ').add_break()
             entities_paragraph2.add_run('Klucz główny: ' + entity.get_key().name).italic = True
             entities_paragraph2.add_run(' ').add_break()
@@ -68,7 +73,7 @@ class Stage7(object):
             entity_rules = []
             for rule in self.rules:
                 if (rule.left_entity_name == relationship.left_entity \
-                        or rule.left_entity_name ==  relationship.right_entity) \
+                        or rule.left_entity_name == relationship.right_entity) \
                         and (rule.right_entity_name == relationship.left_entity \
                         or rule.right_entity_name == relationship.right_entity):
                     entity_rules.append(rule)
