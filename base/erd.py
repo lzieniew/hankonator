@@ -106,7 +106,7 @@ class Entity(object):
         return result
 
     # TODO fix bug: sometimes there is a comma at the end of argument list
-    def build_argument_list(self, paragraph):
+    def build_argument_list(self, paragraph, with_foreign_keys=True):
         paragraph.add_run('(')
         counter = 0
         for attribute in self.attributes:
@@ -117,13 +117,13 @@ class Entity(object):
             if counter < len(self.attributes) + len(self.foreign_keys) - 1:
                 paragraph.add_run(', ')
             counter += 1
-        for key in self.foreign_keys:
-            paragraph.add_run('#' + key.name).italic = True
-            if counter < len(self.attributes) + len(self.foreign_keys) - 1:
-                paragraph.add_run(', ')
+        if with_foreign_keys:
+            for key in self.foreign_keys:
+                paragraph.add_run('#' + key.name).italic = True
+                if counter < len(self.attributes) + len(self.foreign_keys) - 1:
+                    paragraph.add_run(', ')
 
         paragraph.add_run(')')
-
 
     def __repr__(self):
         return self.name_singular + repr(self.attributes)
