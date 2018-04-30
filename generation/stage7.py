@@ -24,7 +24,7 @@ class Stage7(object):
             entity_paragraph.add_run('ENC/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular.upper() + '\n').bold = True
             entity_paragraph.add_run().add_break()
             entity_paragraph.add_run('\tSemantyka encji: ' + entity.description + '\n').italic = True
-            entity_paragraph.add_run('\tWykaz atrybutów:\n').italic = True
+            entity_paragraph.add_run('\tWykaz atrybutów:').italic = True
 
             table = document.add_table(rows=len(entity.attributes) + 1, cols=4)
             table.style = 'TableGrid'

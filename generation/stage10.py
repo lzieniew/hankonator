@@ -55,4 +55,6 @@ class Stage10(object):
                 'REL/' + '{0:03}'.format(right_entity.id) + ' ' + right_entity.name_plural + ' ')
             right_entity.build_argument_list(relationship_paragraph)
 
+        document.add_page_break()
+
         print('Etap 10 wygenerowany!')

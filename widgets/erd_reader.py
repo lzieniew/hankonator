@@ -127,11 +127,11 @@ class AttributeEditor(pyforms.BaseWidget):
 
         self.formset = [('Nazwa: ', '_name_edit_text'), ('Typ: ', '_type_combo'), '_description_edit_text', '_is_key_checkbox', '_is_obligatory_checkbox', '_is_unique_checkbox', '_save_attribute_button']
 
-        self._type_combo.add_item(Types.INT.name, 'INT')
-        self._type_combo.add_item(Types.INT_POSITIVE.name, 'INT_POSITIVE')
-        self._type_combo.add_item(Types.INT_NEGATIVE.name, 'INT_NEGATIVE')
-        self._type_combo.add_item(Types.DATE.name, 'DATE')
-        self._type_combo.add_item(Types.STRING.name, 'STRING')
+        self._type_combo.add_item(Types.INT.name, Types.INT)
+        self._type_combo.add_item(Types.INT_POSITIVE.name, Types.INT_POSITIVE)
+        self._type_combo.add_item(Types.INT_NEGATIVE.name, Types.INT_NEGATIVE)
+        self._type_combo.add_item(Types.DATE.name, Types.DATE)
+        self._type_combo.add_item(Types.STRING.name, Types.STRING)
 
         self.populate()
 

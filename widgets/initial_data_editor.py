@@ -35,7 +35,10 @@ class InitialDataEditor(BaseWidget):
         self._perspectives_button.value = self.__perspectives_action
 
         self.formset = ['_label',
-                        ('_erd_button', '_users_button', '_transactions_button', '_perspectives_button'),
+                        ('_erd_button', '_users_button',
+                         # transactions and perspectives editor commented out for now
+                         # '_transactions_button', '_perspectives_button'
+                        ),
                         '_panel']
 
     def __erd_action(self):

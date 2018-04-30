@@ -47,8 +47,10 @@ class Stage11(object):
                 row = table.rows[row_counter].cells
                 row[0].paragraphs[0].add_run(attribute.name).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 row[1].paragraphs[0].add_run(repr(attribute.type)).font.size = Pt(Stage11.TABLE_FONT_SIZE)
-                row[3].add_paragraph('+' if attribute.is_obligatory else '-').alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-                row[4].add_paragraph('+' if attribute.unique else '')
+                row[3].paragraphs[0].add_run('+' if attribute.is_obligatory else '-')
+                row[6].paragraphs[0].add_run('+' if attribute.unique else '')
+                row[3].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                row[6].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                 if attribute.is_key:
                     row[7].paragraphs[0].add_run('PK').font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 row_counter += 1
@@ -56,8 +58,10 @@ class Stage11(object):
                 row = table.rows[row_counter].cells
                 row[0].paragraphs[0].add_run(foreign_key.name).font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 row[1].paragraphs[0].add_run(repr(foreign_key.type)).font.size = Pt(Stage11.TABLE_FONT_SIZE)
-                row[3].add_paragraph('+' if attribute.is_obligatory else '-').alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-                row[4].add_paragraph('+' if attribute.unique else '')
+                row[3].paragraphs[0].add_run('+' if attribute.is_obligatory else '-')
+                row[6].paragraphs[0].add_run('+' if attribute.unique else '')
+                row[3].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                row[6].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                 if row[7].text == '':
                     row[7].paragraphs[0].add_run('FK').font.size = Pt(Stage11.TABLE_FONT_SIZE)
                 else:

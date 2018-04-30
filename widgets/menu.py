@@ -92,7 +92,6 @@ class Menu(pyforms.BaseWidget):
 
         self.populate_buttons()
 
-
     def populate_buttons(self):
         self._progress_bar.value = self._project.get_stage_count() / 13 * 100
 
@@ -109,7 +108,6 @@ class Menu(pyforms.BaseWidget):
         self._button_stage_11.label = 'Etap 11' if self._project.get_stage(11) is None else 'Etap 11 - Zrobiony'
         self._button_stage_12.label = 'Etap 12' if self._project.get_stage(12) is None else 'Etap 12 - Zrobiony'
         self._button_stage_13.label = 'Etap 13' if self._project.get_stage(13) is None else 'Etap 13 - Zrobiony'
-
 
     def __button_stage_1_action(self):
         self.populate_buttons()
