@@ -80,13 +80,14 @@ class Erd(object):
 
 class Entity(object):
 
-    def __init__(self, name_singular, name_plural, attributes, is_associative=False):
+    def __init__(self, name_singular, name_plural, attributes, is_strong=False, description=''):
         self.name_singular = name_singular
         self.name_plural = name_plural
         self.attributes = attributes
         self.id = None
         self.foreign_keys = []
-        self.is_associative = is_associative
+        self.is_strong = is_strong
+        self.description = description
 
     def get_key(self):
         out = None

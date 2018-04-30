@@ -20,9 +20,9 @@ class Stage7(object):
 
         for entity in self.erd.entities:
             entity_paragraph = document.add_paragraph()
-            entity_paragraph.add_run('ENC/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular.upper()).bold = True
+            entity_paragraph.add_run('ENC/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular.upper() + '\n').bold = True
             entity_paragraph.add_run().add_break()
-            entity_paragraph.add_run('\tSemantyka encji:\n').italic = True
+            entity_paragraph.add_run('\tSemantyka encji: ' + entity.description + '\n').italic = True
             entity_paragraph.add_run('\tWykaz atrybutów:\n').italic = True
 
             table = document.add_table(rows=len(entity.attributes) + 1, cols=4)
@@ -37,17 +37,21 @@ class Stage7(object):
             for attribute in entity.attributes:
                 row = table.rows[counter].cells
                 row[0].text = attribute.name
+                row[1].text = attribute.description
                 row[2].text = repr(attribute.type)
 
                 counter += 1
 
             entities_paragraph2 = document.add_paragraph()
+            entities_paragraph2.add_run().add_break()
             entities_paragraph2.add_run('Klucze kandydujące:').italic = True
             entities_paragraph2.add_run(' ').add_break()
             entities_paragraph2.add_run('Klucz główny: ' + entity.get_key().name).italic = True
             entities_paragraph2.add_run(' ').add_break()
-            entities_paragraph2.add_run('Charakter encji:').italic = True
+            entities_paragraph2.add_run('Charakter encji: ' + ('silna' if entity.is_strong else u'słaba')).italic = True
             entities_paragraph2.add_run(' ').add_break()
+            document.add_page_break()
+
 
         relationships_paragraph = document.add_paragraph()
         relationships_paragraph.add_run('7.2 Związki').font.size = Pt(Project.SECONDAR_HEADER_SIZE)

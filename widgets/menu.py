@@ -90,8 +90,6 @@ class Menu(pyforms.BaseWidget):
         self.users = saver.users
         self.perspectives = saver.perspectives
 
-        self.categories = saver.categories
-
         self.populate_buttons()
 
 
@@ -128,7 +126,7 @@ class Menu(pyforms.BaseWidget):
 
     def __button_stage_3_action(self):
         self.populate_buttons()
-        win = Stage3Window(self.erd, self.categories, self._project)
+        win = Stage3Window(self.erd, self._project)
         win.parent = self
         self._panel.value = win
 
@@ -251,7 +249,7 @@ class Menu(pyforms.BaseWidget):
         e6 = Entity('Sprawdzający', 'Sprawdzający', [Attribute('IdS', Types.INT, True, 'Unikalny identyfikator Sprawdzającego nadawany automatycznie przez system, np. 5.'),
                                                      Attribute('Nazwisko', Types.STRING, False, 'Nazwisko sprawdzającego, np. Nowak.'),
                                                      Attribute('Imię', Types.STRING, False, 'Imię sprawdzającego, np. Mateusz')])
-        e7 = Entity('PytanieNaArkuszu', 'PytaniaNaArkuszu', [Attribute('IdPnA', Types.INT, True, 'Unikalny identyfikator PytaniaNaArkuszu, np. 70.')], is_associative=True)
+        e7 = Entity('PytanieNaArkuszu', 'PytaniaNaArkuszu', [Attribute('IdPnA', Types.INT, True, 'Unikalny identyfikator PytaniaNaArkuszu, np. 70.')], is_strong=True)
 
         self.erd.entities = [e1, e2, e3, e4, e5, e6, e7]
 

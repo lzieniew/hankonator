@@ -152,6 +152,7 @@ class AttributeEditor(pyforms.BaseWidget):
         if self.attribute not in self.attributes:
             self.attributes.append(self.attribute)
         self.parent.populate()
+        Saver.get_saver().save()
         self.close()
 
 
@@ -173,6 +174,8 @@ class EntityEditor(pyforms.BaseWidget):
         self._edit_attribute_button = ControlButton(u'Edytuj atrybut')
         self._remove_attribute_button = ControlButton(u'Usuń atrybut')
         self._attributes_list = ControlList()
+        self._description_edit_text = ControlText()
+        self._is_strong_checkbox = ControlCheckBox(u'Jest silna (brak zaznaczenia - słaba)')
         self._save_entity_button = ControlButton(u'Zapisz')
 
         self._add_attribute_button.value = self.__add_attribute_button_action
@@ -184,7 +187,9 @@ class EntityEditor(pyforms.BaseWidget):
 
         self.formset = [(u'Nazwa encji (liczba pojedyńcza): ', '_entity_name_singular'),
                         (u'Nazwa encji (liczba mnoga):', '_entity_name_plural'),
+                        ('Opis encji: ', '_description_edit_text'),
                         ('Atrybuty: ', '_attributes_list', '_add_attribute_button', '_edit_attribute_button', '_remove_attribute_button'),
+                        '_is_strong_checkbox',
                         '_save_entity_button']
 
         self.populate()
@@ -193,6 +198,8 @@ class EntityEditor(pyforms.BaseWidget):
         self._attributes_list.clear()
         self._entity_name_singular.value = self.entity.name_singular
         self._entity_name_plural.value = self.entity.name_plural
+        self._description_edit_text.value = self.entity.description
+        self._is_strong_checkbox.value = self.entity.is_strong
         for attribute in self.entity.attributes:
             self._attributes_list += [attribute.name]
 
@@ -217,12 +224,13 @@ class EntityEditor(pyforms.BaseWidget):
         # TODO fix program crash when attributes_list is empty
         self.entity.name_singular = self._entity_name_singular.value
         self.entity.name_plural = self._entity_name_plural.value
-        self.parent._populate()
-        self.close()
+        self.entity.description = self._description_edit_text.value
+        self.entity.is_strong = self._is_strong_checkbox.value
 
         if self.erd.get_entity_by_name(self.entity.name_singular) is None:
             self.erd.entities.append(self.entity)
         self.parent._populate()
+        Saver.get_saver().save()
         self.close()
 
 class RelationshipEditor(pyforms.BaseWidget):

@@ -13,3 +13,4 @@ class Stage6(object):
         header = document.add_paragraph()
         header.add_run('6. Transakcje').font.size = Pt(Project.HEADER_SIZE)
         header.add_run().add_break()
+        document.add_page_break()

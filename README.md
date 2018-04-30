@@ -18,10 +18,11 @@ lub
 - W oknie które się pojawiło wpisz encje, związki i użytkowników korzystając z edytora
 - Po uzupełnieniu tych informacji możesz przstąpić do generowania kolejnych etapów projektu.
 Etapy:
-    1. Uzupełnij wszystkie puste pola i kliknij zapisz
-    2. Podobnie jak w etapie pierwszym
-    3. Dla każdej z wygenerowanych kategorii dodaj krótki opis, pamiętaj aby po każdej edycji opisu kliknąć przycisk zapisz po prawej stronie pola tekstowego. Po skończeniu kliknij duży przycisk zapisz, aby zapisać etap 3
+    1. Uzupełnij wszystkie puste pola i kliknij zapisz.
+    2. Podobnie jak w etapie pierwszym.
+    3. Nie ma konieczności dopisywania żadnych dodatkowych danych, kliknij zapisz aby dodać etap 3.
     4. Sprawdź każdą wygenerowaną regułę i popraw odmianę w ich tekście. Wskazane jest też dopisanie 2-3 własnych reguł do każdej kategorii.
-    5. Brak implementacji
-    6. Brak implementacji
-    7.
+    5. Brak implementacji.
+    6. Brak implementacji.
+    7. Nie ma konieczności dopisywania żadnych dodatkowych danych, kliknij zapisz aby dodać etap 7.
+    8.
