@@ -45,7 +45,8 @@ class Stage4Window(BaseWidget):
         self._rules_list.readonly = True
         self._entities_combo.parent = self
 
-        self.formset = ['_entities_combo', '_rules_list', ('_add_rule_button', '_fix_button', '_remove_rule_button'), '_save_button']
+        self.formset = ['Etap 4 - popraw odmianę w automatycznie wygenerowanych regułach i dopisz kilka własnych',
+                        ('Wyświetlam reguły dla kategorii: ', '_entities_combo'), '_rules_list', ('_add_rule_button', '_fix_button', '_remove_rule_button'), '_save_button']
 
         if not rules:
             self.populate_rules()

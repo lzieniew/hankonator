@@ -15,24 +15,11 @@ class Stage8Window(BaseWidget):
         self.erd = erd
         self.project = project
 
-        self._entities_relationships_list = ControlList()
         self._save_button = ControlButton('Zapisz')
 
         self._save_button.value = self.__save_action
-        self._entities_relationships_list.readonly = True
 
-        self.populate()
-
-        self.formset = ['_entities_relationships_list', '_save_button']
-
-
-    def populate(self):
-        self._entities_relationships_list += ['Encje:']
-        for entity in self.erd.entities:
-            self._entities_relationships_list += ['\t' + entity.name_singular]
-        self._entities_relationships_list += ['Związki:']
-        for relationship in self.erd.relationships:
-            self._entities_relationships_list += ['\t' + repr(relationship)]
+        self.formset = ['Etap 8 - wszystkie dane są już uzupełnione, wystarczy że naciścniesz zapisz', '_save_button']
 
     def __save_action(self):
         self.project.add_stage(Stage8(self.erd))

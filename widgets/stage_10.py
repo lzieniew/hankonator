@@ -6,7 +6,7 @@ from pyforms.gui.controls.ControlLabel import ControlLabel
 from pyforms.gui.controls.ControlList import ControlList
 
 from generation import Stage10
-from base import Saver, Attribute, Types, Entity
+from base import Saver, Attribute, Types, Entity, add_foreign_keys
 
 
 class Stage10Window(BaseWidget):
@@ -25,16 +25,7 @@ class Stage10Window(BaseWidget):
 
         self.formset = ['_editor', '_save_button']
 
-        self.add_foreign_keys()
-
-    def add_foreign_keys(self):
-        for entity in self.erd.entities:
-            relationships = self.erd.get_relationships_connected_with_entity(entity.name_singular)
-            for relationship in relationships:
-                if relationship.get_this_ends_multiplicity(entity.name_singular)[-1] == 'N':
-                    other_entity = self.erd.get_entity_by_name(relationship.get_other_entity_name(entity.name_singular))
-                    if other_entity.get_key() not in entity.foreign_keys:
-                        entity.foreign_keys.append(other_entity.get_key())
+        add_foreign_keys(self.erd)
 
 
     def __save_action(self):
@@ -87,7 +78,7 @@ class ForeignKeysEditor(BaseWidget):
 
         self._keys_list.readonly = True
 
-        self.formset = ['_entity_combo', '_keys_list', ('_add_fk_button', '_edit_fk_button', '_remove_fk_button')]
+        self.formset = ['Etap 10 - sprawdz automatycznie wygenerowane klucz obce i w razie potrzeby je popraw', ('Wyświetlam klucz obec dla encji: ', '_entity_combo'), '_keys_list', ('_add_fk_button', '_edit_fk_button', '_remove_fk_button')]
 
         self.populate()
 
