@@ -23,12 +23,13 @@ class Stage7Window(BaseWidget):
 
         self.populate()
 
-        self.formset = ['Etap 7, definicje encji i związków', '_entites_list', '_save_button']
+        self.formset = ['Etap 7, definicje encji i związków - sprawdz czy wszystkie encje i związki znajdują się na liście, w razie potrzeby popraw błędy w edytorze ERD',
+                        '_entities_relationships_list', '_save_button']
 
     def populate(self):
         self._entities_relationships_list += ['Encje:']
         for entity in self.erd.entities:
-            self._entites_list += ['\t' + repr(entity)]
+            self._entities_relationships_list += ['\t' + repr(entity)]
         self._entities_relationships_list += ['Związki:']
         for relationship in self.erd.relationships:
             self._entities_relationships_list += ['\t' + repr(relationship)]
