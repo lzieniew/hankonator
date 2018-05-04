@@ -4,6 +4,7 @@ from pyforms.controls import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
 from pyforms.gui.controls.ControlProgress import ControlProgress
 from generation import Project
+from widgets.stage_5 import Stage5Window
 from .initial_data_editor import InitialDataEditor
 
 from .stage_1 import Stage1Window
@@ -13,6 +14,7 @@ from .stage_4 import Stage4Window
 from .stage_6 import Stage6Window
 from .stage_7 import Stage7Window
 from .stage_8 import Stage8Window
+from .stage_9 import Stage9Window
 from .stage_10 import Stage10Window
 from .stage_11 import Stage11Window
 from .stage_12 import Stage12Window
@@ -136,7 +138,9 @@ class Menu(pyforms.BaseWidget):
 
     def __button_stage_5_action(self):
         self.populate_buttons()
-        pass
+        win = Stage5Window(self._project)
+        win.parent = self
+        self._panel.value = win
 
     def __button_stage_6_action(self):
         self.populate_buttons()
@@ -158,7 +162,9 @@ class Menu(pyforms.BaseWidget):
 
     def __button_stage_9_action(self):
         self.populate_buttons()
-        pass
+        win = Stage9Window(self.erd, self._project)
+        win.parent = self
+        self._panel.value = win
 
     def __button_stage_10_action(self):
         self.populate_buttons()

@@ -1,4 +1,4 @@
-from docx.shared import Pt
+from docx.shared import Pt, Inches
 
 
 from generation import Project
@@ -23,14 +23,14 @@ class Stage3:
             entity_paragraph.paragraph_format.keep_together = True
             entity_paragraph.keep_together = True
             entity_paragraph.add_run('KAT/' + '{0:03}'.format(entity.id) + ' ' + entity.name_singular).font.size = Pt(16)
-            entity_paragraph.add_run().add_break()
-            entity_paragraph.add_run('\tOpis: ').bold = True
+            entity_paragraph = document.add_paragraph()
+            entity_paragraph.add_run('Opis: ').bold = True
             entity_paragraph.add_run(entity.description)
             entity_paragraph.add_run().add_break()
-            entity_paragraph.add_run('\tAtrybuty:').bold = True
+            entity_paragraph.add_run('Atrybuty:').bold = True
             entity_paragraph.add_run().add_break()
             for attribute in entity.attributes:
-                entity_paragraph.add_run('\t\t' + str(attribute.name) + ' - ' + attribute.description)
+                entity_paragraph.add_run('\t' + str(attribute.name) + ' - ' + attribute.description)
                 entity_paragraph.add_run().add_break()
         document.add_page_break()
 

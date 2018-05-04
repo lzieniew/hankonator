@@ -15,7 +15,7 @@ class Stage6Window(BaseWidget):
         super(Stage6Window, self).__init__()
         self.set_margin(20)
 
-        self._label = ControlLabel('Nie masz tutaj nic do roboty, kliknij zapisz')
+        self._label = ControlLabel('Generowanie etapu 6 nie zostało jeszcze zaimplementowane - w projekcie znajdzie się tylko nagłówek z tytułem etapu')
         self._save_button = ControlButton('Zapisz')
 
         self._save_button.value = self.__save_action

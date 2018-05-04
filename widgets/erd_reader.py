@@ -106,7 +106,6 @@ class ErdReader(pyforms.BaseWidget):
             self.erd.remove_relationship(index)
         self._populate()
 
-
 class AttributeEditor(pyforms.BaseWidget):
     def __init__(self, attributes, attribute=None):
         super(AttributeEditor, self).__init__()
@@ -120,7 +119,7 @@ class AttributeEditor(pyforms.BaseWidget):
         self._description_edit_text = ControlText('Opis')
         self._is_key_checkbox = ControlCheckBox('Czy kluczowy')
         self._is_obligatory_checkbox = ControlCheckBox(u'Atrybut obligatoryjny (brak zaznaczenia - opcjonalny)')
-        self._is_unique_checkbox = ControlCheckBox('Unikalny')
+        self._is_unique_checkbox = IsUniqueCheckBox(self._is_key_checkbox)
         self._save_attribute_button = ControlButton('Zapisz')
 
         self._save_attribute_button.value = self.__save_attribute_action
@@ -159,6 +158,18 @@ class AttributeEditor(pyforms.BaseWidget):
         self.parent.populate()
         Saver.get_saver().save()
         self.close()
+
+
+class IsUniqueCheckBox(ControlCheckBox):
+
+    def __init__(self, is_key_checkbox):
+        super(IsUniqueCheckBox, self).__init__('Unikalny')
+        self.is_key_checkbox = is_key_checkbox
+
+    def changed_event(self):
+        if self.value:
+            self.is_key_checkbox.value = True
+        return super().changed_event()
 
 
 class EntityEditor(pyforms.BaseWidget):
@@ -237,6 +248,7 @@ class EntityEditor(pyforms.BaseWidget):
         self.parent._populate()
         Saver.get_saver().save()
         self.close()
+
 
 class RelationshipEditor(pyforms.BaseWidget):
 

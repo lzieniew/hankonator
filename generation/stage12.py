@@ -38,13 +38,13 @@ class Stage12(object):
         attributes_all = []
         for entity in self.erd.entities:
             for attribute in entity.attributes:
-                attributes_all.append( (attribute, entity) )
+                attributes_all.append( (attribute, entity))
+            for attribute in entity.foreign_keys:
+                attributes_all.append((attribute, entity))
 
         attributes_all.sort(key=lambda x: x[0].name)
 
-
         table = document.add_table(rows=len(attributes_all)+1, cols=3)
-
 
         hdr_row = table.rows[0].cells
         hdr_row[0].paragraphs[0].add_run('Nazwa atrybutu').bold = True
@@ -58,3 +58,4 @@ class Stage12(object):
             row[1].text = attribute[0].type.short_name
             row[2].text = attribute[1].name_plural
             row_counter += 1
+        document.add_page_break()

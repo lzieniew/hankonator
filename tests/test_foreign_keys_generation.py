@@ -14,7 +14,7 @@ def get_erd():
                                                  'Treść pytania, np. Co oznacza skrót FIFO?'),
                                        Attribute('Odpowiedź', Types.STRING, False,
                                                  '(ang. First in, First out) żądania są przetwarzane sekwencyjnie wg kolejki.')])
-    e3 = Entity('Uczestnik', 'Uczestnicy', [Attribute('IdU', Types.INT, False),
+    e3 = Entity('Uczestnik', 'Uczestnicy', [Attribute('IdU', Types.INT, True),
                                             Attribute('NrAlbumu', Types.INT, False,
                                                       'Unikalny identyfikator Uczestnika nadawany automatycznie przez system, np. 3. '),
                                             Attribute('Nazwisko', Types.STRING, False,
@@ -63,7 +63,7 @@ def get_erd():
     return erd
 
 def has_foreign_key(entity, name):
-    filtered = list(filter(lambda attr: attr.name == name, entity.foreign_keys))
+    filtered = list(filter(lambda attr: attr is not None and attr.name == name, entity.foreign_keys))
     assert filtered
 
 def test_creation():
@@ -92,7 +92,7 @@ def test_foreign_keys_values():
     has_foreign_key(uczestnik, 'IdK')
 
     # pytanie na arkuszu
-    pna = erd.entities[7]
+    pna = erd.entities[6]
     has_foreign_key(pna, 'IdA')
     has_foreign_key(pna, 'IdP')
 
@@ -101,8 +101,13 @@ def test_foreign_keys_values():
     assert not pytanie.foreign_keys
 
     # konkurs nic
-    uczestnik = erd.entities[]
+    konkurs = erd.entities[3]
+    assert not konkurs.foreign_keys
 
     # organizator - nic
+    organizator = erd.entities[4]
+    assert not organizator.foreign_keys
 
     # sprawdzający - nic
+    sprawdzajacy = erd.entities[5]
+    assert not sprawdzajacy.foreign_keys
