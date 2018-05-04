@@ -85,6 +85,8 @@ class TransactionEditor(BaseWidget):
         self._name_edit_text = ControlText('Nazwa transakcji')
         self._entity_combo = ControlCombo()
         self._type_combo = TypeCombo(self._entity_combo)
+        self._description_edit_text = ControlText('Opis transakcji')
+        self._conditions_edit_text = ControlText('Uwarunkowania transakcji')
         self._save_button = ControlButton('Zapisz transakcję')
         self._save_button.value = self.__save_action
 
@@ -98,7 +100,7 @@ class TransactionEditor(BaseWidget):
 
         self._entity_combo.setVisible(False)
 
-        self.formset = ['_name_edit_text', '_type_combo', '_entity_combo', '_save_button']
+        self.formset = ['_name_edit_text', '_type_combo', '_entity_combo', '_description_edit_text', '_conditions_edit_text', '_save_button']
 
         if transaction is not None:
             self.transaction = transaction
@@ -116,6 +118,8 @@ class TransactionEditor(BaseWidget):
         self.transaction.name = self._name_edit_text.value
         self.transaction.type = self._type_combo.value
         self.transaction.entity = self._entity_combo.value
+        self.transaction.description = self._description_edit_text.value
+        self.transaction.conditions = self._conditions_edit_text.value
         if self.transaction not in self.transactions:
             self.transactions.append(self.transaction)
         self.parent.populate()

@@ -36,13 +36,13 @@ class Stage12(object):
         dictionary_paragraph.add_run().add_break()
 
         attributes_all = []
-        for entity in self.erd.entities:
+        for entity in sorted(self.erd.entities, key=lambda e: e.name_singular):
             for attribute in entity.attributes:
-                attributes_all.append( (attribute, entity))
+                attributes_all.append((attribute, entity))
             for attribute in entity.foreign_keys:
                 attributes_all.append((attribute, entity))
 
-        attributes_all.sort(key=lambda x: x[0].name)
+        attributes_all.sort(key=lambda x: (x[0].name, self.erd.get_attributes_entity(x[0]).name_singular))
 
         table = document.add_table(rows=len(attributes_all)+1, cols=3)
 

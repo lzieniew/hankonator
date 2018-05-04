@@ -4,6 +4,7 @@ from pyforms.controls import ControlButton
 from pyforms.gui.controls.ControlEmptyWidget import ControlEmptyWidget
 from pyforms.gui.controls.ControlProgress import ControlProgress
 from generation import Project
+from widgets.stage_13 import Stage13Window
 from widgets.stage_5 import Stage5Window
 from .initial_data_editor import InitialDataEditor
 
@@ -19,7 +20,7 @@ from .stage_10 import Stage10Window
 from .stage_11 import Stage11Window
 from .stage_12 import Stage12Window
 
-from base import Erd, Entity, Attribute, Relationship, Types, Saver
+from base import Erd, Entity, Attribute, Relationship, Types, Saver, Transaction
 
 
 class Menu(pyforms.BaseWidget):
@@ -186,7 +187,9 @@ class Menu(pyforms.BaseWidget):
 
     def __button_stage_13_action(self):
         self.populate_buttons()
-        pass
+        win = Stage13Window(self._project)
+        win.parent = self
+        self._panel.value = win
 
     def __button_initial_data_action(self):
         self.populate_buttons()
@@ -266,6 +269,8 @@ class Menu(pyforms.BaseWidget):
         r7 = Relationship('Sprawdza', left_entity='Sprawdzający', left_quantity='0,1', right_entity='Arkusz', right_quantity='0,N')
 
         self.erd.relationships = [r1, r2, r3, r4, r5, r6, r7]
+
+        t1 = Transaction()
 
     # TODO change the example, so it doesn't have any N-N relationships
     def DEBUG_FUNCTION(self):

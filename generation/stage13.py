@@ -15,4 +15,4 @@ class Stage13:
         header.add_run('13. Ograniczenia dziedzinowe').font.size = Pt(Project.HEADER_SIZE)
         document.add_page_break()
 
-        print('Etap 5 wygenerowany')
+        print('Etap 13 wygenerowany')

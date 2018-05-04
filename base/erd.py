@@ -77,6 +77,13 @@ class Erd(object):
                         result.append(relationship)
         return result
 
+    def get_attributes_entity(self, attribute):
+        for entity in self.entities:
+            for attr in entity.attributes + entity.foreign_keys:
+                if attr is attribute:
+                    return entity
+        return None
+
 
 class Entity(object):
 
