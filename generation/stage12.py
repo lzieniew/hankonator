@@ -29,7 +29,7 @@ class Stage12(object):
             entity.build_argument_list(schema_paragraph)
             schema_paragraph.add_run().add_break()
 
-        schema_paragraph.add_run().add_break()
+        document.add_page_break()
 
         dictionary_paragraph = document.add_paragraph()
         dictionary_paragraph.add_run('12.2 Słownik atrybutów').font.size = Pt(Project.SECONDAR_HEADER_SIZE)

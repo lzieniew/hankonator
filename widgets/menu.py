@@ -201,6 +201,8 @@ class Menu(pyforms.BaseWidget):
         # preparations
         self.prepare_entities()
         self.prepare_rules()
+        self.prepare_relationships()
+        self.prepare_transactions()
 
         self._project.generate()
 
@@ -237,6 +239,13 @@ class Menu(pyforms.BaseWidget):
             counter += 1
         self.erd.relationships.sort(key=lambda rel: rel.id)
 
+    def prepare_transactions(self):
+        counter = 1
+        for transaction in self.transactions:
+            transaction.id = counter
+            counter += 1
+        self.transactions.sort(key=lambda tra: tra.id)
+
 
     def DEBUG_ACTUALL_PROJECT(self):
         e1 = Entity('Arkusz', 'Arkusze', [Attribute('IdA', Types.INT, True, 'Unikalny identyfikator Arkusza nadawany automatycznie przez system, np. 1. '),
@@ -269,8 +278,6 @@ class Menu(pyforms.BaseWidget):
         r7 = Relationship('Sprawdza', left_entity='Sprawdzający', left_quantity='0,1', right_entity='Arkusz', right_quantity='0,N')
 
         self.erd.relationships = [r1, r2, r3, r4, r5, r6, r7]
-
-        t1 = Transaction()
 
     # TODO change the example, so it doesn't have any N-N relationships
     def DEBUG_FUNCTION(self):

@@ -105,7 +105,7 @@ class TransactionEditor(BaseWidget):
         if transaction is not None:
             self.transaction = transaction
         else:
-            self.transaction = Transaction('')
+            self.transaction = Transaction('', '', '')
 
         self.populate()
 
