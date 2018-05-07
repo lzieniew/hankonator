@@ -214,7 +214,7 @@ class Menu(pyforms.BaseWidget):
             print(e)
 
     def __menu_load_project_action(self):
-        self.DEBUG_ACTUALL_PROJECT()
+        self.DEBUG_FUNCTION()
 
     # preparation functions, called right before generation, to assure proper order and numeration
 
