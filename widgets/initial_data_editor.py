@@ -36,7 +36,7 @@ class InitialDataEditor(BaseWidget):
 
         self.formset = ['_label',
                         ('_erd_button', '_users_button',
-                         '_transactions_button',
+                         # '_transactions_button',
                          # perspectives editor commented out for now
 
                          # '_perspectives_button'

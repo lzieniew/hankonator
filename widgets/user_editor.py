@@ -65,7 +65,7 @@ class UserEditor(BaseWidget):
         if user is not None:
             self.user = user
         else:
-            self.user = User('')
+            self.user = User('', '')
 
         self._name_edit_text = ControlText('Nazwa użytkownika')
         self._save_button = ControlButton('Zapisz')
