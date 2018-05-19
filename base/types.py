@@ -22,9 +22,13 @@ class StringType(Type):
 
 class Types(object):
 
-    INT = Type('Liczba naturalna', 'Int')
-    INT_POSITIVE = Type('Liczba naturalna dodatnia', 'Int+')
-    INT_NEGATIVE = Type('Liczba naturalna ujemna', 'Int-')
+    INT = Type('Liczba całkowita', 'Int')
+    INT_POSITIVE = Type('Liczba naturalna', 'Int+')
+    INT_NEGATIVE = Type('Liczba całkowita ujemna', 'Int-')
     DATE = Type('Data', 'Date')
     STRING = Type('Łańcuch znaków', 'String', length=1024)
     BOOL = Type('Wartość logiczna', 'Bool')
+    REAL = Type('Liczba rzeczywista', 'Float')
+    REAL_POSITIVE = Type('Liczba rzeczywista', 'Float+')
+    REAL_NEGATIVE = Type('Liczba rzeczywista ujemna', 'Float-')
+    REAL_0_1 = Type('Liczba rzeczywista w zakresie od 0 do 1', 'R[0,1]')
