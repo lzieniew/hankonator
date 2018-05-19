@@ -14,6 +14,8 @@ from pyforms.gui.controls.ControlCombo import ControlCombo
 
 from base import Entity, Attribute, Relationship, Types
 
+from .popup import Popup
+
 
 class ErdReader(pyforms.BaseWidget):
 
@@ -85,6 +87,7 @@ class ErdReader(pyforms.BaseWidget):
         for index in indexes:
             self.erd.remove_entity(index)
         self._populate()
+        Saver.get_saver().save()
 
     def __add_relationship_action(self):
         relationship_editor_win = RelationshipEditor(self.erd)
@@ -105,6 +108,8 @@ class ErdReader(pyforms.BaseWidget):
         for index in indexes:
             self.erd.remove_relationship(index)
         self._populate()
+        Saver.get_saver().save()
+
 
 class AttributeEditor(pyforms.BaseWidget):
     def __init__(self, attributes, attribute=None):
@@ -224,11 +229,19 @@ class EntityEditor(pyforms.BaseWidget):
             self._attributes_list += [attribute.name]
 
     def __add_attribute_button_action(self):
+        self.entity.name_singular = self._entity_name_singular.value
+        self.entity.name_plural = self._entity_name_plural.value
+        self.entity.description = self._description_edit_text.value
+        self.entity.is_strong = self._is_strong_checkbox.value
         editor = AttributeEditor(self.entity.attributes)
         editor.parent = self
         editor.show()
 
     def __edit_attribute_button_action(self):
+        self.entity.name_singular = self._entity_name_singular.value
+        self.entity.name_plural = self._entity_name_plural.value
+        self.entity.description = self._description_edit_text.value
+        self.entity.is_strong = self._is_strong_checkbox.value
         if self._attributes_list.selected_row_index is not None:
             win = AttributeEditor(self.entity.attributes, self.entity.attributes[self._attributes_list.selected_row_index])
             win.parent = self
@@ -242,16 +255,20 @@ class EntityEditor(pyforms.BaseWidget):
 
     def __save_entity_button_action(self):
         # TODO fix program crash when attributes_list is empty
-        self.entity.name_singular = self._entity_name_singular.value
-        self.entity.name_plural = self._entity_name_plural.value
-        self.entity.description = self._description_edit_text.value
-        self.entity.is_strong = self._is_strong_checkbox.value
+        if self._entity_name_plural.value == '' or self._entity_name_plural.value == '':
+            popup = Popup('Nazwy encji nie mogą być puste')
+            popup.show()
+        else:
+            self.entity.name_singular = self._entity_name_singular.value
+            self.entity.name_plural = self._entity_name_plural.value
+            self.entity.description = self._description_edit_text.value
+            self.entity.is_strong = self._is_strong_checkbox.value
 
-        if self.erd.get_entity_by_name(self.entity.name_singular) is None:
-            self.erd.entities.append(self.entity)
-        self.parent._populate()
-        Saver.get_saver().save()
-        self.close()
+            if self.erd.get_entity_by_name(self.entity.name_singular) is None:
+                self.erd.entities.append(self.entity)
+            self.parent._populate()
+            Saver.get_saver().save()
+            self.close()
 
 
 class RelationshipEditor(pyforms.BaseWidget):
