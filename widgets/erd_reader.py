@@ -155,18 +155,22 @@ class AttributeEditor(pyforms.BaseWidget):
             self.attribute = Attribute('', '')
 
     def __save_attribute_action(self):
-        self.attribute.name = self._name_edit_text.value
-        self.attribute.type = self._type_combo.value
-        self.attribute.description = self._description_edit_text.value
-        self.attribute.is_key = self._is_key_checkbox.value
-        self.attribute.is_obligatory = self._is_obligatory_checkbox.value
-        self.attribute.unique = self._is_unique_checkbox.value or self._is_key_checkbox.value
+        if self._name_edit_text.value == '':
+            popup = Popup('Nazwa atrybutu nie może być pusta')
+            popup.show()
+        else:
+            self.attribute.name = self._name_edit_text.value
+            self.attribute.type = self._type_combo.value
+            self.attribute.description = self._description_edit_text.value
+            self.attribute.is_key = self._is_key_checkbox.value
+            self.attribute.is_obligatory = self._is_obligatory_checkbox.value
+            self.attribute.unique = self._is_unique_checkbox.value or self._is_key_checkbox.value
 
-        if self.attribute not in self.attributes:
-            self.attributes.append(self.attribute)
-        self.parent.populate()
-        Saver.get_saver().save()
-        self.close()
+            if self.attribute not in self.attributes:
+                self.attributes.append(self.attribute)
+            self.parent.populate()
+            Saver.get_saver().save()
+            self.close()
 
 
 class IsUniqueCheckBox(ControlCheckBox):
@@ -313,14 +317,18 @@ class RelationshipEditor(pyforms.BaseWidget):
         self._right_multiplicity_combo.value = self.relationship.right_quantity
 
     def __save_relationship_action(self):
-        self.relationship.name = self._relationship_name_edit_text.value
-        self.relationship.left_entity = self._left_entity_combo.value
-        self.relationship.left_quantity = self._left_multiplicity_combo.value
-        self.relationship.right_entity = self._right_entity_combo.value
-        self.relationship.right_quantity = self._right_multiplicity_combo.value
+        if self._relationship_name_edit_text.value == '':
+            popup = Popup('Nazwa związku nie może być pusta')
+            popup.show()
+        else:
+            self.relationship.name = self._relationship_name_edit_text.value
+            self.relationship.left_entity = self._left_entity_combo.value
+            self.relationship.left_quantity = self._left_multiplicity_combo.value
+            self.relationship.right_entity = self._right_entity_combo.value
+            self.relationship.right_quantity = self._right_multiplicity_combo.value
 
-        if self.relationship not in self.erd.relationships:
-            self.erd.relationships.append(self.relationship)
-        self.parent._populate()
-        Saver.get_saver().save()
-        self.close()
+            if self.relationship not in self.erd.relationships:
+                self.erd.relationships.append(self.relationship)
+            self.parent._populate()
+            Saver.get_saver().save()
+            self.close()
