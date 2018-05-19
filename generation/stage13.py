@@ -12,7 +12,7 @@ class Stage13:
     def build(self, document):
 
         header = document.add_paragraph()
-        header.add_run('13. Ograniczenia dziedzinowe').font.size = Pt(Project.HEADER_SIZE)
+        header.add_run('13. Użytkownicy i perspektywy').font.size = Pt(Project.HEADER_SIZE)
         document.add_page_break()
 
         print('Etap 13 wygenerowany')

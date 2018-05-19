@@ -8,7 +8,7 @@ from generation import Project
 
 class Stage11(object):
 
-    TABLE_FONT_SIZE = 6
+    TABLE_FONT_SIZE = 8
     EXAMPLES_COUNT = 4
 
     def __init__(self, erd):
